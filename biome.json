@@ -6,7 +6,19 @@
     "useIgnoreFile": true
   },
   "linter": {
-    "enabled": true
+    "enabled": true,
+    "rules": {
+      "correctness": {
+        "noUnusedImports": {
+          "level": "warn",
+          "fix": "none"
+        },
+        "noUnusedVariables": {
+          "level": "warn",
+          "fix": "none"
+        }
+      }
+    }
   },
   "formatter": {
     "enabled": true,
@@ -18,18 +30,12 @@
   },
   "overrides": [
     {
-      "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
+      "include": ["**/*.astro"],
       "linter": {
         "rules": {
           "correctness": {
-            "noUnusedImports": {
-              "level": "warn",
-              "fix": "none"
-            },
-            "noUnusedVariables": {
-              "level": "warn",
-              "fix": "none"
-            }
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
           }
         }
       }

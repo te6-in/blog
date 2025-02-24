@@ -1,0 +1,3 @@
+[submodule "contents"]
+	path = contents
+	url = git@github.com:te6-in/blog-contents.git
