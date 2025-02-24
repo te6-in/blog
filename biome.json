@@ -15,5 +15,24 @@
   },
   "organizeImports": {
     "enabled": true
-  }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": {
+              "level": "warn",
+              "fix": "none"
+            },
+            "noUnusedVariables": {
+              "level": "warn",
+              "fix": "none"
+            }
+          }
+        }
+      }
+    }
+  ]
 }
