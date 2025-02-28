@@ -1,0 +1,22 @@
+---
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("snippets");
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<head>
+  <!-- Move this to layout -->
+  <meta charset="utf-8" />
+</head>
+<div>
+  <Content />
+</div>
