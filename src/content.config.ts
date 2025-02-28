@@ -20,11 +20,12 @@ const posts = defineCollection({
       title: z.string(),
       description: z.string(),
       coverImage: image().optional(),
-      tags: z.array(z.string()).optional(),
+      tags: z.array(z.string()).min(1),
       publishedAt: z.date(),
       updatedAt: z.date().optional(),
-      featured: z.boolean().optional(),
-      amoo: z.boolean().optional(),
+      authors: z.array(reference("authors")).min(1),
+      featured: z.literal(true).optional(),
+      amoo: z.literal(true).optional(),
     }),
 });
 
@@ -35,9 +36,10 @@ const snippets = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()).min(1),
     publishedAt: z.date(),
     updatedAt: z.date().optional(),
+    authors: z.array(reference("authors")).min(1),
   }),
 });
 
@@ -48,20 +50,18 @@ const series = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    posts: z
-      .array(
-        z.union([
-          z.object({
-            type: z.literal("post"),
-            slug: reference("posts"),
-          }),
-          z.object({
-            type: z.literal("snippet"),
-            slug: reference("snippets"),
-          }),
-        ]),
-      )
-      .min(1),
+    entries: z.array(
+      z.union([
+        z.object({
+          type: z.literal("post"),
+          slug: reference("posts"),
+        }),
+        z.object({
+          type: z.literal("snippet"),
+          slug: reference("snippets"),
+        }),
+      ]),
+    ),
   }),
 });
 
