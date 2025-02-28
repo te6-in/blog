@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import Foo from "../../components/Foo.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("snippets");
@@ -18,5 +19,12 @@ const { Content } = await render(post);
   <meta charset="utf-8" />
 </head>
 <div>
-  <Content />
+  <Content components={{
+    Callout: Foo,
+    Link: Foo,
+    AppleMusic: Foo,
+    Twitter: Foo,
+    YouTube: Foo,
+    ImageGrid: Foo
+  }} />
 </div>

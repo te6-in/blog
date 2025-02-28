@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import { uniqBy } from "es-toolkit";
+import { slug } from "github-slugger";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  const snippets = await getCollection("snippets");
+
+  const tags = [
+    ...posts.flatMap((post) => post.data.tags),
+    ...snippets.flatMap((snippet) => snippet.data.tags),
+  ];
+
+  const tagsWithSlugs = tags.map((tag) => ({ name: tag, slug: slug(tag) }));
+
+  const uniqueTagsWithSlugs = uniqBy(tagsWithSlugs, ({ slug }) => slug);
+
+  return uniqueTagsWithSlugs.map(({ name, slug }) => ({
+    params: { slug },
+    props: { name },
+  }));
+}
+
+const { name } = Astro.props;
+---
+<head>
+  <!-- Move this to layout -->
+  <meta charset="utf-8" />
+</head>
+<div>
+	{name}
+</div>
