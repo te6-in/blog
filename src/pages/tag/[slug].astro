@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { uniqBy } from "es-toolkit";
 import { slug } from "github-slugger";
+import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -24,10 +25,8 @@ export async function getStaticPaths() {
 
 const { name } = Astro.props;
 ---
-<head>
-  <!-- Move this to layout -->
-  <meta charset="utf-8" />
-</head>
-<div>
-	{name}
-</div>
+<Layout>  
+  <div>
+    {name}
+  </div>
+</Layout>

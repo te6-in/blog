@@ -1497,6 +1497,7 @@ __metadata:
     astro: "npm:^5.3.0"
     es-toolkit: "npm:^1.32.0"
     github-slugger: "npm:^2.0.0"
+    lucide-astro: "npm:^0.473.0"
     tailwindcss: "npm:^4.0.9"
   languageName: unknown
   linkType: soft
@@ -2947,6 +2948,15 @@ __metadata:
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
   checksum: 10c0/ebd04fbca961e6c1d6c0af3799adcc966a1babe798f685bb84e6599266599cd95d94630b10262f5424539bc4640107e8a33aa28585374abf561d30d16f4b39fb
+  languageName: node
+  linkType: hard
+
+"lucide-astro@npm:^0.473.0":
+  version: 0.473.0
+  resolution: "lucide-astro@npm:0.473.0"
+  peerDependencies:
+    astro: ">=2.7.1"
+  checksum: 10c0/5ce4a4c098de18921b91f7101bc36e1d276be79a11caa876e97ae3acacb327100980e602f23bf3ecddd4d1193e8a9590cdfe2125e5d46577a1b454885a64512b
   languageName: node
   linkType: hard
 
