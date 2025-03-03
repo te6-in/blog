@@ -19,7 +19,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/internal-helpers@npm:0.6.0":
+"@astrojs/internal-helpers@npm:0.6.0, @astrojs/internal-helpers@npm:^0.6.0":
   version: 0.6.0
   resolution: "@astrojs/internal-helpers@npm:0.6.0"
   checksum: 10c0/fd6d57a5b7df8f32aaae50ca2cf08566b56a610b23d5afac32cacbf7ee88a02c3f16850e6ea7773774d9a04067a37b4c8979febd38aac3d83b6a48206087bd53
@@ -1488,6 +1488,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "blog@workspace:."
   dependencies:
+    "@astrojs/internal-helpers": "npm:^0.6.0"
     "@astrojs/mdx": "npm:^4.1.0"
     "@astrojs/sitemap": "npm:^3.2.1"
     "@biomejs/biome": "npm:^1.9.4"

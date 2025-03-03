@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Prose from "../../components/Prose.astro";
 import Foo from "../../components/mdx/Foo.astro";
+import Image from "../../components/mdx/Image.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -24,7 +25,8 @@ const { Content } = await render(post);
       AppleMusic: Foo,
       Twitter: Foo,
       YouTube: Foo,
-      ImageGrid: Foo
+      ImageGrid: Foo,
+      img: Image
     }} />
   </Prose>
 </Layout>

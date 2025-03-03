@@ -10,6 +10,7 @@
     "check": "biome check --fix"
   },
   "dependencies": {
+    "@astrojs/internal-helpers": "^0.6.0",
     "@astrojs/mdx": "^4.1.0",
     "@astrojs/sitemap": "^3.2.1",
     "@tailwindcss/vite": "^4.0.9",

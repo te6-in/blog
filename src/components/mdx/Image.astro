@@ -1,0 +1,22 @@
+---
+import { getImage } from "astro:assets";
+import { getCollection } from "astro:content";
+import { removeQueryString } from "@astrojs/internal-helpers/path";
+
+interface Props {
+  src: string | ImageMetadata;
+  alt: string;
+  title?: string;
+}
+
+const image = await getImage({ src: Astro.props.src });
+
+const decodedSrc = decodeURIComponent(image.src);
+
+const fileName = removeQueryString(decodedSrc).split("/").pop();
+if (!fileName) throw new Error(`Local image file name not found. src: ${decodedSrc}`);
+
+const alt =
+  Astro.props.alt || (await getCollection("altTexts")).find(({ id }) => id === fileName)?.data;
+---
+<img src={image.src} alt={alt} title={Astro.props.title} />
