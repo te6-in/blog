@@ -16,7 +16,11 @@ const decodedSrc = decodeURIComponent(image.src);
 const fileName = removeQueryString(decodedSrc).split("/").pop();
 if (!fileName) throw new Error(`Local image file name not found. src: ${decodedSrc}`);
 
+const [assetId] = fileName.split(".");
+
 const alt =
-  Astro.props.alt || (await getCollection("altTexts")).find(({ id }) => id === fileName)?.data;
+  Astro.props.alt || (await getCollection("altTexts")).find(({ id }) => id === assetId)?.data;
+
+if (!alt) throw new Error(`Alt text not found. assetId: ${assetId}`);
 ---
 <img src={image.src} alt={alt} title={Astro.props.title} />
