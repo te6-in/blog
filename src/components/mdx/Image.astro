@@ -1,16 +1,13 @@
 ---
-import { getImage } from "astro:assets";
+// biome-ignore lint/style/useImportType: limited support of biome for astro files
+import { Image as AstroImage, getImage } from "astro:assets";
 import { getCollection } from "astro:content";
 import { removeQueryString } from "@astrojs/internal-helpers/path";
+import type { ComponentProps } from "astro/types";
 
-interface Props {
-  src: string | ImageMetadata;
-  alt: string;
-  title?: string;
-}
+type Props = ComponentProps<typeof AstroImage>;
 
 const image = await getImage({ src: Astro.props.src });
-
 const decodedSrc = decodeURIComponent(image.src);
 
 const fileName = removeQueryString(decodedSrc).split("/").pop();
@@ -23,4 +20,4 @@ const alt =
 
 if (!alt) throw new Error(`Alt text not found. assetId: ${assetId}`);
 ---
-<img src={image.src} alt={alt} title={Astro.props.title} />
+<AstroImage {...Astro.props} alt={alt} />
