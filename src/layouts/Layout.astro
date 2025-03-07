@@ -10,6 +10,45 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
-		<slot />
+	 	<header class="fixed top-0 w-full flex justify-between h-header-height z-10">
+			<div class="sidebar-shown:absolute top-0 start-0 sidebar-shown:w-sidebar-width stretch:w-content-stretch-x-start stretch:ps-sidebar-stretch-x h-full">
+				<div class="size-full flex items-center px-sidebar-padding-x bg-header-bg sidebar-shown:bg-transparent">Foobar</div>
+			</div>
+			<div class="sidebar-shown:ms-sidebar-width stretch:ms-content-stretch-x-start grow flex items-center bg-header-bg">
+				contents
+			</div>
+		</header>
+		<aside class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 pt-header-height w-sidebar-width bg-sidebar-bg transition-[inset] overflow-y-auto overflow-x-hidden stretch:ps-sidebar-stretch-x stretch:w-content-stretch-x-start overscroll-y-none">
+			<div class="bg-inherit h-header-height sticky -top-header-height -mt-header-height w-sidebar-width px-6">
+				<div class="border-b size-full" />
+			</div>
+			<div class="flex flex-col gap-4 w-sidebar-width px-sidebar-padding-x py-4">
+				<div>Consectetur eu id ut occaecat minim esse excepteur eu proident do cillum adipisicing.</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+				<div>Examples</div>
+			</div>
+		</aside>
+		<div class="sidebar-shown:ps-sidebar-width stretch:ps-content-stretch-x-start pt-header-height transition-[padding] flex flex-col justify-between min-h-screen stretch:pe-sidebar-stretch-x">
+			<main class="m-4">
+				<slot />
+			</main>
+			<footer>
+				foobar
+			</footer>
+		</div>
 	</body>
 </html>
