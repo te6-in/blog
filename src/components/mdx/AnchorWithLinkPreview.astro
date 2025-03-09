@@ -12,7 +12,7 @@ type Props = HTMLAttributes<"a">;
 const { href } = Astro.props;
 if (!href) throw new Error("href is required");
 
-const { url, type, entry } = await getAnchor(href);
+const { url, type, detail } = await getAnchor(href);
 
 const props: Props = {
   href: url.href,
@@ -22,16 +22,26 @@ const props: Props = {
   }),
 };
 
-const variant: ComponentProps<typeof Anchor>["variant"] = type === "hash" ? type : "new-tab";
+const variant: ComponentProps<typeof Anchor>["variant"] = (() => {
+  switch (type) {
+    case "external":
+      return "new-tab";
+    case "hash":
+      return "hash";
+    case "post":
+      return "article";
+    case "snippet":
+      return "code";
+  }
+})();
 
-async function getAnchor(href: string | URL): Promise<
+async function getAnchor(
+  href: string | URL,
+): Promise<
   { url: URL } & (
-    | { type: "external" | "hash"; entry?: never }
-    | ({ type: "internal" } & {
-        entry?:
-          | { type: "post"; detail: InferEntrySchema<"post"> }
-          | { type: "snippet"; detail: InferEntrySchema<"snippet"> };
-      })
+    | { type: "external" | "hash"; detail?: never }
+    | { type: "post"; detail: InferEntrySchema<"post"> }
+    | { type: "snippet"; detail: InferEntrySchema<"snippet"> }
   )
 > {
   if (typeof href === "string" && href.startsWith("#")) {
@@ -52,51 +62,51 @@ async function getAnchor(href: string | URL): Promise<
 
   const [_, type, slug] = url.pathname.split("/");
 
-  if (type !== "post" && type !== "snippet") return { url, type: "internal" };
+  if (type !== "post" && type !== "snippet") return { url, type: "external" };
 
   const entry = await getEntry(type, slug);
-  if (!entry) return { url, type: "internal" };
+  if (!entry) return { url, type: "external" };
 
   switch (type) {
     case "post": {
       if (entry.collection !== "post") throw new Error("Invalid entry type");
 
-      return { url, type: "internal", entry: { type, detail: entry.data } };
+      return { url, type, detail: entry.data };
     }
     case "snippet": {
       if (entry.collection !== "snippet") throw new Error("Invalid entry type");
 
-      return { url, type: "internal", entry: { type, detail: entry.data } };
+      return { url, type, detail: entry.data };
     }
   }
 }
 ---
 {
-  entry && (
-    <Tooltip {...entry.detail} client:load>
+  detail && (
+    <Tooltip {...detail} client:load>
       <Fragment slot="trigger">
         {/* @ts-expect-error */}
         <Anchor variant={variant} {...props}><slot /></Anchor>
       </Fragment>
       <div class="flex flex-col gap-3 p-4 pb-3.5">
-        {entry.type === "post" && entry.detail.coverImage && (
-          <Image src={entry.detail.coverImage} class="rounded" />
+        {type === "post" && detail.coverImage && (
+          <Image src={detail.coverImage} class="rounded" />
         )}
         <div class="flex flex-col gap-1.5">
-          <div class="text-lg leading-snug text-neutral-900 font-bold text-balance">{entry.detail.title}</div>
-          {entry.type === "post" && entry.detail.description && (
-            <div class="text-neutral-500 text-sm leading-snug text-pretty">{entry.detail.description}</div>
+          <div class="text-lg leading-snug text-neutral-900 font-bold text-balance">{detail.title}</div>
+          {type === "post" && detail.description && (
+            <div class="text-neutral-500 text-sm leading-snug text-pretty">{detail.description}</div>
           )}
         </div>
       </div>
       <div class="w-full border-t border-neutral-200 text-xs px-4 py-1.5 flex justify-between">
-        <span class="text-neutral-600 font-medium">이 블로그의 글</span>
+        <span class="text-neutral-600 font-medium">이 블로그의 {type === "post" && "글"}{type === "snippet" && "코드 조각"}</span>
         <span class="text-neutral-400">새 탭에서 열립니다.</span>
       </div>
     </Tooltip>
   )
 }{
-  !entry && (
+  !detail && (
     // @ts-expect-error
     <Anchor variant={variant} {...props}><slot /></Anchor>
   )
