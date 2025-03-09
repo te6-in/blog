@@ -36,6 +36,8 @@
   --color-sidebar-bg: var(--color-neutral-100);
   --color-header-bg: var(--color-neutral-100);
 
+  --color-body-bg: var(--color-white);
+
   /* breakpoints */
   --breakpoint-sidebar-shown: 40rem; /* sm */
   --breakpoint-stretch: 80rem; /* xl */

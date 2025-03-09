@@ -1,0 +1,62 @@
+---
+import {
+  CircleCheckBig,
+  Info,
+  MessageCircleQuestion,
+  OctagonAlert,
+  TriangleAlert,
+} from "lucide-astro";
+
+interface Props {
+  variant: "info" | "question" | "warning" | "danger" | "success";
+}
+
+const { variant } = Astro.props;
+
+const { icon: Icon, ariaLabel } = (() => {
+  switch (Astro.props.variant) {
+    case "info":
+      return { icon: Info, ariaLabel: "정보" };
+    case "question":
+      return { icon: MessageCircleQuestion, ariaLabel: "질문" };
+    case "warning":
+      return { icon: TriangleAlert, ariaLabel: "경고" };
+    case "danger":
+      return { icon: OctagonAlert, ariaLabel: "위험" };
+    case "success":
+      return { icon: CircleCheckBig, ariaLabel: "성공" };
+    default:
+      throw new Error("Invalid Callout variant");
+  }
+})();
+---
+
+<div
+  class:list={[
+    "flex flex-col sm:flex-row gap-4 sm:gap-2 p-5 my-4 rounded-lg border",
+    {
+      "bg-sky-50 border-sky-300 prose-strong:text-sky-600": variant === "info",
+      "bg-violet-50 border-violet-300 prose-strong:text-violet-600": variant === "question",
+      "bg-amber-50 border-amber-300 prose-strong:text-amber-600": variant === "warning",
+      "bg-red-50 border-red-300 prose-strong:text-red-600": variant === "danger",
+      "bg-lime-50 border-lime-300 prose-strong:text-lime-600": variant === "success",
+    },
+  ]}
+>
+  <Icon
+    class:list={[
+      "flex-none sm:m-0.5",
+      {
+        "text-sky-500": variant === "info",
+        "text-violet-500": variant === "question",
+        "text-amber-500": variant === "warning",
+        "text-red-500": variant === "danger",
+        "text-lime-500": variant === "success",
+      },
+    ]}
+    aria-label={ariaLabel}
+  />
+  <div class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>:is(p,ul,ol)]:my-[0.75em] sm:[&>ul,ol]:ps-0 sm:prose-li:ps-0">
+    <slot />
+  </div>
+</div>
