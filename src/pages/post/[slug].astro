@@ -1,12 +1,13 @@
 ---
 import { getCollection, render } from "astro:content";
 import Prose from "../../components/Prose.astro";
+import AnchorWithLinkPreview from "../../components/mdx/AnchorWithLinkPreview.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Image from "../../components/mdx/Image.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+  const posts = await getCollection("post");
 
   return posts.map((post) => ({
     params: { slug: post.id },
@@ -18,15 +19,19 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 <Layout>
+  {post.data.coverImage && <Image src={post.data.coverImage} />}
   <Prose>
-    <Content components={{
-      Callout: Foo,
-      Link: Foo,
-      AppleMusic: Foo,
-      Twitter: Foo,
-      YouTube: Foo,
-      ImageGrid: Foo,
-      img: Image
-    }} />
+    <Content
+      components={{
+        Callout: Foo,
+        Link: Foo,
+        AppleMusic: Foo,
+        Twitter: Foo,
+        YouTube: Foo,
+        ImageGrid: Foo,
+        img: Image,
+        a: AnchorWithLinkPreview,
+      }}
+    />
   </Prose>
 </Layout>

@@ -5,8 +5,8 @@ import { slug } from "github-slugger";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  const snippets = await getCollection("snippets");
+  const posts = await getCollection("post");
+  const snippets = await getCollection("snippet");
 
   const tags = [
     ...posts.flatMap((post) => post.data.tags),

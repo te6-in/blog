@@ -1,8 +1,30 @@
 ---
+import { keyBy, mapValues } from "es-toolkit";
 import "../styles/global.css";
+
+const builtDate = new Date();
+
+const formatter = Intl.DateTimeFormat("ko-KR", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false,
+  timeZoneName: "short",
+});
+
+const { year, month, day, hour, minute, second, timeZoneName } = mapValues(
+  keyBy(formatter.formatToParts(builtDate), (part) => part.type),
+  (part) => part.value,
+);
+
+// iso with timezone
+const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZoneName}`;
 ---
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="motion-safe:scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +34,15 @@ import "../styles/global.css";
 	<body>
 	 	<header class="fixed top-0 w-full flex justify-between h-header-height z-10">
 			<div class="sidebar-shown:absolute top-0 start-0 sidebar-shown:w-sidebar-width stretch:w-content-stretch-x-start stretch:ps-sidebar-stretch-x h-full">
-				<div class="size-full flex items-center px-sidebar-padding-x bg-header-bg sidebar-shown:bg-transparent">Foobar</div>
+				<div class="size-full flex items-center px-sidebar-padding-x bg-header-bg sidebar-shown:bg-transparent text-lg gap-2">
+					<a href="https://te6.in/" target="_blank" class="font-medium text-neutral-600">
+						te6.in
+					</a>
+					<div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300" />
+					<a href="/" class="font-bold text-neutral-800">
+						Blog
+					</a>
+				</div>
 			</div>
 			<div class="sidebar-shown:ms-sidebar-width stretch:ms-content-stretch-x-start grow flex items-center bg-header-bg">
 				contents
@@ -47,7 +77,7 @@ import "../styles/global.css";
 				<slot />
 			</main>
 			<footer>
-				foobar
+				마지막 업데이트: {formattedDate}
 			</footer>
 		</div>
 	</body>

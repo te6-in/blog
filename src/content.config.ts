@@ -10,7 +10,7 @@ const contentsPath =
     : // on production: git submodule로 연결된 리모트의 contents를 사용
       join(import.meta.dirname, "../contents/contents"); // XXX
 
-const posts = defineCollection({
+const post = defineCollection({
   loader: glob({
     pattern: "*.mdx",
     base: join(contentsPath, "posts"),
@@ -23,13 +23,13 @@ const posts = defineCollection({
       tags: z.array(z.string()).min(1),
       publishedAt: z.date(),
       updatedAt: z.date().optional(),
-      authors: z.array(reference("authors")).min(1),
+      authors: z.array(reference("author")).min(1),
       featured: z.literal(true).optional(),
       amoo: z.literal(true).optional(),
     }),
 });
 
-const snippets = defineCollection({
+const snippet = defineCollection({
   loader: glob({
     pattern: "*.mdx",
     base: join(contentsPath, "snippets"),
@@ -39,7 +39,7 @@ const snippets = defineCollection({
     tags: z.array(z.string()).min(1),
     publishedAt: z.date(),
     updatedAt: z.date().optional(),
-    authors: z.array(reference("authors")).min(1),
+    authors: z.array(reference("author")).min(1),
   }),
 });
 
@@ -54,18 +54,18 @@ const series = defineCollection({
       z.union([
         z.object({
           type: z.literal("post"),
-          slug: reference("posts"),
+          slug: reference("post"),
         }),
         z.object({
           type: z.literal("snippet"),
-          slug: reference("snippets"),
+          slug: reference("snippet"),
         }),
       ]),
     ),
   }),
 });
 
-const authors = defineCollection({
+const author = defineCollection({
   loader: glob({
     pattern: "*.json",
     base: join(contentsPath, "authors"),
@@ -86,16 +86,16 @@ const socialMedia = defineCollection({
   }),
 });
 
-const altTexts = defineCollection({
+const altText = defineCollection({
   loader: file(join(contentsPath, "alt-texts.json")),
   schema: z.string(),
 });
 
 export const collections = {
-  posts,
-  snippets,
+  post,
+  snippet,
   series,
-  authors,
+  author,
   socialMedia,
-  altTexts,
+  altText,
 };

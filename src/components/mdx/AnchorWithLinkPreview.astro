@@ -1,0 +1,95 @@
+---
+import { getEntry } from "astro:content";
+import type { InferEntrySchema } from "astro:content";
+import type { ComponentProps, HTMLAttributes } from "astro/types";
+// biome-ignore lint/style/useImportType: <explanation>
+import Anchor from "./Anchor.astro";
+import Image from "./Image.astro";
+import { LinkPreview } from "./LinkPreview";
+
+type Props = HTMLAttributes<"a">;
+
+const { href } = Astro.props;
+if (!href) throw new Error("href is required");
+
+const { url, type, entry } = await getAnchor(href);
+
+const props: Props = {
+  href: url.href,
+  ...(type !== "hash" && {
+    target: "_blank",
+    rel: "noopener noreferrer",
+  }),
+};
+
+const variant: ComponentProps<typeof Anchor>["variant"] = type === "hash" ? type : "new-tab";
+
+async function getAnchor(href: string | URL): Promise<
+  { url: URL } & (
+    | { type: "external" | "hash"; entry?: never }
+    | ({ type: "internal" } & {
+        entry?:
+          | { type: "post"; detail: InferEntrySchema<"post"> }
+          | { type: "snippet"; detail: InferEntrySchema<"snippet"> };
+      })
+  )
+> {
+  if (typeof href === "string" && href.startsWith("#")) {
+    const url = new URL(Astro.url.pathname, Astro.url.origin);
+    url.hash = href;
+
+    return { url, type: "hash" };
+  }
+
+  const isRelative = typeof href === "string" && href.startsWith("/");
+  const url = new URL(href, isRelative ? Astro.url.origin : undefined);
+
+  if (url.origin !== Astro.url.origin) {
+    url.searchParams.set("ref", Astro.url.hostname);
+
+    return { url, type: "external" };
+  }
+
+  const [_, type, slug] = url.pathname.split("/");
+
+  if (type !== "post" && type !== "snippet") return { url, type: "internal" };
+
+  const entry = await getEntry(type, slug);
+  if (!entry) return { url, type: "internal" };
+
+  switch (type) {
+    case "post": {
+      if (entry.collection !== "post") throw new Error("Invalid entry type");
+
+      return { url, type: "internal", entry: { type, detail: entry.data } };
+    }
+    case "snippet": {
+      if (entry.collection !== "snippet") throw new Error("Invalid entry type");
+
+      return { url, type: "internal", entry: { type, detail: entry.data } };
+    }
+  }
+}
+---
+{
+  entry && (
+    <LinkPreview {...entry.detail} client:load>
+      <Fragment slot="trigger">
+        {/* @ts-expect-error */}
+        <Anchor variant={variant} {...props}><slot /></Anchor>
+      </Fragment>
+      {entry.type === "post" && entry.detail.coverImage && (
+        <Image src={entry.detail.coverImage} />
+      )}
+      <div>{entry.detail.title}</div>
+      {entry.type === "post" && entry.detail.description && (
+        <div>{entry.detail.description}</div>
+      )}
+    </LinkPreview>
+  )
+}{
+  !entry && (
+    // @ts-expect-error
+    <Anchor variant={variant} {...props}><slot /></Anchor>
+  )
+}

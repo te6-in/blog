@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { ExternalLink, Hash } from "lucide-astro";
+
+interface Props extends HTMLAttributes<"a"> {
+  variant: "new-tab" | "hash";
+}
+
+const { variant, ...props } = Astro.props;
+---
+<a {...props} class="no-underline text-pretty supports-[text-wrap:pretty]:inline-block supports-[text-wrap:pretty]:[baseline-source:first]">
+  <span class="underline"><slot /></span>
+  <span class="inline-block -mb-0.5 text-neutral-500 me-0.5 -ms-0.5">
+    {variant === "new-tab" && <ExternalLink size={18} />}
+    {variant === "hash" && <Hash size={18} />}
+  </span>
+</a>

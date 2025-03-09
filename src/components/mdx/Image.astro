@@ -5,17 +5,19 @@ import { getCollection } from "astro:content";
 import { removeQueryString } from "@astrojs/internal-helpers/path";
 import type { ComponentProps } from "astro/types";
 
-type Props = ComponentProps<typeof AstroImage>;
+type Props = Omit<ComponentProps<typeof AstroImage>, "alt"> &
+  Partial<Pick<ComponentProps<typeof AstroImage>, "alt">>;
 
-const image = await getImage({ src: Astro.props.src });
-const decodedSrc = decodeURIComponent(image.src);
+const { src: __src, alt: __alt } = Astro.props;
+
+const { src } = await getImage({ src: __src });
+const decodedSrc = decodeURIComponent(src);
 
 const fileName = removeQueryString(decodedSrc).split("/").pop();
 
 const alt =
-  Astro.props.alt ||
-  (await getCollection("altTexts")).find(({ id }) => id === fileName?.split(".")[0])?.data;
+  __alt || (await getCollection("altText")).find(({ id }) => id === fileName?.split(".")[0])?.data;
 
 if (!alt) throw new Error(`Alt text not found or empty. src: ${decodedSrc}`);
 ---
-<AstroImage {...Astro.props} alt={alt} />
+<AstroImage {...Astro.props as ComponentProps<typeof AstroImage>} alt={alt} />

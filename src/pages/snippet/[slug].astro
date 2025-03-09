@@ -5,7 +5,7 @@ import Foo from "../../components/mdx/Foo.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("snippets");
+  const posts = await getCollection("snippet");
 
   return posts.map((post) => ({
     params: { slug: post.id },
