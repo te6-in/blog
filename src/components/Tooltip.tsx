@@ -14,11 +14,11 @@ import {
 import { type PropsWithChildren, type ReactElement, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
-export interface LinkPreviewProps extends PropsWithChildren {
+export interface TooltipProps extends PropsWithChildren {
   trigger?: ReactElement;
 }
 
-export function LinkPreview({ trigger, children }: LinkPreviewProps) {
+export function Tooltip({ trigger, children }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const isMotionSafe = useMediaQuery("(prefers-reduced-motion: no-preference)");
@@ -78,11 +78,10 @@ export function LinkPreview({ trigger, children }: LinkPreviewProps) {
         {trigger}
       </span>
       {isMounted && (
-        <div style={floatingStyles} ref={refs.setFloating}>
+        <div {...getFloatingProps()} style={floatingStyles} ref={refs.setFloating}>
           <div
-            {...getFloatingProps()}
             style={styles}
-            className="not-prose bg-white border border-neutral-200 w-96 p-4 rounded-lg shadow"
+            className="not-prose bg-white border border-neutral-200 w-64 rounded-lg shadow-xl"
           >
             {children}
           </div>

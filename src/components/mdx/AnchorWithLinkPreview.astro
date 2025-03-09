@@ -2,10 +2,10 @@
 import { getEntry } from "astro:content";
 import type { InferEntrySchema } from "astro:content";
 import type { ComponentProps, HTMLAttributes } from "astro/types";
+import { Tooltip } from "../Tooltip";
 // biome-ignore lint/style/useImportType: <explanation>
 import Anchor from "./Anchor.astro";
 import Image from "./Image.astro";
-import { LinkPreview } from "./LinkPreview";
 
 type Props = HTMLAttributes<"a">;
 
@@ -73,19 +73,27 @@ async function getAnchor(href: string | URL): Promise<
 ---
 {
   entry && (
-    <LinkPreview {...entry.detail} client:load>
+    <Tooltip {...entry.detail} client:load>
       <Fragment slot="trigger">
         {/* @ts-expect-error */}
         <Anchor variant={variant} {...props}><slot /></Anchor>
       </Fragment>
-      {entry.type === "post" && entry.detail.coverImage && (
-        <Image src={entry.detail.coverImage} />
-      )}
-      <div>{entry.detail.title}</div>
-      {entry.type === "post" && entry.detail.description && (
-        <div>{entry.detail.description}</div>
-      )}
-    </LinkPreview>
+      <div class="flex flex-col gap-3 p-4 pb-3.5">
+        {entry.type === "post" && entry.detail.coverImage && (
+          <Image src={entry.detail.coverImage} class="rounded" />
+        )}
+        <div class="flex flex-col gap-1.5">
+          <div class="text-lg leading-snug text-neutral-900 font-bold text-balance">{entry.detail.title}</div>
+          {entry.type === "post" && entry.detail.description && (
+            <div class="text-neutral-500 text-sm leading-snug text-pretty">{entry.detail.description}</div>
+          )}
+        </div>
+      </div>
+      <div class="w-full border-t border-neutral-200 text-xs px-4 py-1.5 flex justify-between">
+        <span class="text-neutral-600 font-medium">이 블로그의 글</span>
+        <span class="text-neutral-400">새 탭에서 열립니다.</span>
+      </div>
+    </Tooltip>
   )
 }{
   !entry && (
