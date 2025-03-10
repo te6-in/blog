@@ -3,7 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "yarn@4.6.0",
-  "workspaces": ["app"],
+  "workspaces": [
+    "app"
+  ],
   "scripts": {
     "dev": "turbo watch dev",
     "build": "turbo build",
@@ -12,5 +14,12 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "turbo": "^2.4.4"
+  },
+  "resolutions": {
+    "@astro-community/astro-embed-bluesky@npm:^0.1.0": "patch:@astro-community/astro-embed-bluesky@patch%3A@astro-community/astro-embed-bluesky@npm%253A0.1.3%23~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch%3A%3Aversion=0.1.3&hash=2b36b1#~/.yarn/patches/@astro-community-astro-embed-bluesky-patch-696341f2bd.patch",
+    "@astro-community/astro-embed-bluesky@npm:^0.1.3": "patch:@astro-community/astro-embed-bluesky@patch%3A@astro-community/astro-embed-bluesky@npm%253A0.1.3%23~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch%3A%3Aversion=0.1.3&hash=2b36b1#~/.yarn/patches/@astro-community-astro-embed-bluesky-patch-696341f2bd.patch",
+    "@astro-community/astro-embed-baseline-status@npm:^0.1.0": "patch:@astro-community/astro-embed-baseline-status@npm%3A0.1.2#~/.yarn/patches/@astro-community-astro-embed-baseline-status-npm-0.1.2-f6736bbac1.patch",
+    "@astro-community/astro-embed-link-preview@npm:^0.2.2": "patch:@astro-community/astro-embed-link-preview@npm%3A0.2.2#~/.yarn/patches/@astro-community-astro-embed-link-preview-npm-0.2.2-3d5f5e62c5.patch",
+    "@astro-community/astro-embed-link-preview@npm:^0.2.0": "patch:@astro-community/astro-embed-link-preview@npm%3A0.2.2#~/.yarn/patches/@astro-community-astro-embed-link-preview-npm-0.2.2-3d5f5e62c5.patch"
   }
 }

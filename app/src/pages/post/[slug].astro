@@ -1,8 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
+import { BaselineStatus } from "astro-embed";
 import Prose from "../../components/Prose.astro";
-import AnchorWithLinkPreview from "../../components/mdx/AnchorWithLinkPreview.astro";
-import BaselineStatus from "../../components/mdx/BaselineStatus.astro";
+import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip.astro";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
@@ -39,7 +39,7 @@ const { Content } = await render(post);
         BaselineStatus,
         ImageGrid: Foo,
         img: Image,
-        a: AnchorWithLinkPreview,
+        a: AnchorWithLinkPreviewTooltip,
         hr: Hr,
       }}
     />

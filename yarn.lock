@@ -15,7 +15,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astro-community/astro-embed-baseline-status@npm:^0.1.0":
+"@astro-community/astro-embed-baseline-status@npm:0.1.2":
   version: 0.1.2
   resolution: "@astro-community/astro-embed-baseline-status@npm:0.1.2"
   dependencies:
@@ -26,7 +26,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astro-community/astro-embed-bluesky@npm:^0.1.0, @astro-community/astro-embed-bluesky@npm:^0.1.3":
+"@astro-community/astro-embed-baseline-status@patch:@astro-community/astro-embed-baseline-status@npm%3A0.1.2#~/.yarn/patches/@astro-community-astro-embed-baseline-status-npm-0.1.2-f6736bbac1.patch":
+  version: 0.1.2
+  resolution: "@astro-community/astro-embed-baseline-status@patch:@astro-community/astro-embed-baseline-status@npm%3A0.1.2#~/.yarn/patches/@astro-community-astro-embed-baseline-status-npm-0.1.2-f6736bbac1.patch::version=0.1.2&hash=35552d"
+  dependencies:
+    "@astro-community/astro-embed-utils": "npm:^0.1.0"
+  peerDependencies:
+    astro: ^4.0.0-beta || ^5.0.0-beta
+  checksum: 10c0/ca5f460ecacbfc0e5003bf1caeaaadf40e6ba6ea2453c11945b93531f913bc39b2928c028e68d2ab36e1aaa95361b20ecc11b00b3d961ff1418052d37c4e60a5
+  languageName: node
+  linkType: hard
+
+"@astro-community/astro-embed-bluesky@npm:0.1.3":
   version: 0.1.3
   resolution: "@astro-community/astro-embed-bluesky@npm:0.1.3"
   dependencies:
@@ -35,6 +46,30 @@ __metadata:
   peerDependencies:
     astro: ^4.0.0 || ^5.0.0-beta.0
   checksum: 10c0/386fc2e39d337095dff1392cf1472218302fde6595378d3a14240ebff5e375ee59d8b60c03e3e9e1edf95ff2254e6fe219a8af1e8cd29221d616cd4bf68e15ce
+  languageName: node
+  linkType: hard
+
+"@astro-community/astro-embed-bluesky@patch:@astro-community/astro-embed-bluesky@npm%3A0.1.3#~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch::version=0.1.3&hash=2b36b1":
+  version: 0.1.3
+  resolution: "@astro-community/astro-embed-bluesky@patch:@astro-community/astro-embed-bluesky@npm%3A0.1.3#~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch::version=0.1.3&hash=2b36b1"
+  dependencies:
+    "@atproto/api": "npm:^0.13.14"
+    ts-pattern: "npm:^5.5.0"
+  peerDependencies:
+    astro: ^4.0.0 || ^5.0.0-beta.0
+  checksum: 10c0/28cfa059373af61b6d5e741936cafba738da5eb1cea66167dab708b59946b71d69eb1076437203e2f6c12956f51846bf46ab459d9a80040a0186dd807275ecfe
+  languageName: node
+  linkType: hard
+
+"@astro-community/astro-embed-bluesky@patch:@astro-community/astro-embed-bluesky@patch%3A@astro-community/astro-embed-bluesky@npm%253A0.1.3%23~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch%3A%3Aversion=0.1.3&hash=2b36b1#~/.yarn/patches/@astro-community-astro-embed-bluesky-patch-696341f2bd.patch":
+  version: 0.1.3
+  resolution: "@astro-community/astro-embed-bluesky@patch:@astro-community/astro-embed-bluesky@patch%3A@astro-community/astro-embed-bluesky@npm%253A0.1.3%23~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch%3A%3Aversion=0.1.3&hash=2b36b1#~/.yarn/patches/@astro-community-astro-embed-bluesky-patch-696341f2bd.patch::version=0.1.3&hash=21b110"
+  dependencies:
+    "@atproto/api": "npm:^0.13.14"
+    ts-pattern: "npm:^5.5.0"
+  peerDependencies:
+    astro: ^4.0.0 || ^5.0.0-beta.0
+  checksum: 10c0/6f9e922694e75abcad3701a9ffe44bc9840e0aca30b2e80028f5cf2df19a8b022af4957e828121352d5af538621a008ecca20aca7642c520520196f4f8e3036f
   languageName: node
   linkType: hard
 
@@ -56,12 +91,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astro-community/astro-embed-link-preview@npm:^0.2.0, @astro-community/astro-embed-link-preview@npm:^0.2.2":
+"@astro-community/astro-embed-link-preview@npm:0.2.2":
   version: 0.2.2
   resolution: "@astro-community/astro-embed-link-preview@npm:0.2.2"
   dependencies:
     "@astro-community/astro-embed-utils": "npm:^0.1.1"
   checksum: 10c0/2d1f48f13929f160fa42bfd97d5dd9ae82503754c9a38549e91ec1ae2bfb51c914d32cd150287500c7c8618c08c2a640d1780a90e817885fddd10cadadb8363f
+  languageName: node
+  linkType: hard
+
+"@astro-community/astro-embed-link-preview@patch:@astro-community/astro-embed-link-preview@npm%3A0.2.2#~/.yarn/patches/@astro-community-astro-embed-link-preview-npm-0.2.2-3d5f5e62c5.patch":
+  version: 0.2.2
+  resolution: "@astro-community/astro-embed-link-preview@patch:@astro-community/astro-embed-link-preview@npm%3A0.2.2#~/.yarn/patches/@astro-community-astro-embed-link-preview-npm-0.2.2-3d5f5e62c5.patch::version=0.2.2&hash=22b8c3"
+  dependencies:
+    "@astro-community/astro-embed-utils": "npm:^0.1.1"
+  checksum: 10c0/ccb474a0b488abd2ae43ae7811dd525620ecf3e3c4a675f623750eef64a46fe5e8f20ff2779475cc107960f0491ae38dc6dfc96aa61921d7cd8c6724ec44b2e2
   languageName: node
   linkType: hard
 

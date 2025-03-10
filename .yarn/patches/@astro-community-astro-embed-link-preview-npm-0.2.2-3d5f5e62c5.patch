@@ -1,0 +1,52 @@
+diff --git a/LinkPreview.astro b/LinkPreview.astro
+index 869f761d4d430916d4c2bcae53c4b63f5a9a8e6d..be5a922eab1b0fa9986628dfbc551d865956cc86 100644
+--- a/LinkPreview.astro
++++ b/LinkPreview.astro
+@@ -1,14 +1,15 @@
+ ---
+ import { parseOpenGraph } from './lib';
++import type { HTMLAttributes } from 'astro/types';
+ 
+-export interface Props {
++export interface Props extends Omit<HTMLAttributes<"a">, "href"> {
+ 	/** URL to fetch Open Graph data. */
+ 	id: string;
+ 	/** Hide any image or video even if set in the OpenGraph data. */
+ 	hideMedia?: boolean;
+ }
+ 
+-const { id, hideMedia = false } = Astro.props;
++const { id, hideMedia = false, ...anchorProps } = Astro.props;
+ 
+ const meta = await parseOpenGraph(id);
+ const domain = meta?.url ? new URL(meta.url).hostname.replace('www.', '') : '';
+@@ -28,7 +29,7 @@ const domain = meta?.url ? new URL(meta.url).hostname.replace('www.', '') : '';
+ 		>
+ 			<div class="link-preview__content">
+ 				<header>
+-					<a class="link-preview__title" href={id}>
++					<a {...anchorProps} class="link-preview__title" href={id}>
+ 						{meta.title}
+ 					</a>{' '}
+ 					{domain && <small class="link-preview__domain">{domain}</small>}
+@@ -50,7 +51,7 @@ const domain = meta?.url ? new URL(meta.url).hostname.replace('www.', '') : '';
+ 		</article>
+ 	) : (
+ 		<div class="link-preview link-preview--no-metadata">
+-			<a href={id}>{id}</a>
++			<a {...anchorProps} href={id}>{id}</a>
+ 		</div>
+ 	)
+ }
+diff --git a/package.json b/package.json
+index 74deb97a4f84c565e11bd85cf082c1e5abb99e4b..e788f206835e719547f1d4ed7185d25fd33ed55a 100644
+--- a/package.json
++++ b/package.json
+@@ -32,5 +32,6 @@
+   "homepage": "https://astro-embed.netlify.app/components/link-preview/",
+   "dependencies": {
+     "@astro-community/astro-embed-utils": "^0.1.1"
+-  }
++  },
++  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+ }

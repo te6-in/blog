@@ -13,14 +13,6 @@ if (!href) throw new Error("href is required");
 
 const { url, type, detail } = await getAnchor({ href, astroURL: Astro.url });
 
-const props: Props = {
-  href: url.href,
-  ...(type !== "hash" && {
-    target: "_blank",
-    rel: "noopener noreferrer",
-  }),
-};
-
 const variant: ComponentProps<typeof Anchor>["variant"] = (() => {
   switch (type) {
     case "external":
@@ -33,13 +25,21 @@ const variant: ComponentProps<typeof Anchor>["variant"] = (() => {
       return "code";
   }
 })();
+
+const anchorProps: ComponentProps<typeof Anchor> = {
+  variant,
+  href: url.href,
+  ...(type !== "hash" && {
+    target: "_blank",
+    rel: "noopener noreferrer",
+  }),
+};
 ---
 {
   detail && (
     <Tooltip {...detail} client:load>
       <Fragment slot="trigger">
-        {/* @ts-expect-error */}
-        <Anchor variant={variant} {...props}><slot /></Anchor>
+        <Anchor {...anchorProps}><slot /></Anchor>
       </Fragment>
       <div class="flex flex-col gap-3 p-4 pb-3.5">
         {type === "post" && detail.coverImage && (
@@ -60,7 +60,6 @@ const variant: ComponentProps<typeof Anchor>["variant"] = (() => {
   )
 }{
   !detail && (
-    // @ts-expect-error
-    <Anchor variant={variant} {...props}><slot /></Anchor>
+    <Anchor {...anchorProps}><slot /></Anchor>
   )
 }

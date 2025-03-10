@@ -1,0 +1,14 @@
+diff --git a/BaselineStatus.astro b/BaselineStatus.astro
+index d4576800bf6e12f71fe8e51e729ce78e73fb1036..24336a26419fd4268101abb25bd8cb31b9942bfc 100644
+--- a/BaselineStatus.astro
++++ b/BaselineStatus.astro
+@@ -134,7 +134,8 @@ const year =
+ 						<p>
+ 							<a
+ 								href={`https://webstatus.dev/features/${feature.feature_id}`}
+-								target="_top"
++								target="_blank"
++								rel="noopener noreferrer"
+ 								part="link"
+ 								set:text={`${feature.name} on Web Platform Status`}
+ 							/>
