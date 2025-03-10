@@ -30,7 +30,10 @@ export function Tooltip({ trigger, children }: TooltipProps) {
     whileElementsMounted: autoUpdate,
     middleware: [
       inline(),
-      offset({ mainAxis: 8 }),
+      offset({
+        mainAxis: 8,
+        crossAxis: -8,
+      }),
       shift({ padding: 8 }),
       flip({
         padding: {
@@ -51,13 +54,27 @@ export function Tooltip({ trigger, children }: TooltipProps) {
   const role = useRole(context, { role: "tooltip" });
 
   const { isMounted, styles } = useTransitionStyles(context, {
+    // 250 is the default
+    // duration: 250,
     initial: {
+      boxShadow: "none",
       opacity: 0,
-      ...(isMotionSafe && { transform: "scale(0.95)" }),
+      ...(isMotionSafe && { transform: "scale(0.9)" }),
     },
+    open: ({ side }) => ({
+      boxShadow: {
+        top: "0 -8px 25px -5px rgb(0 0 0 / 0.15), 0 -2px 10px -6px rgb(0 0 0 / 0.15)",
+        bottom: "0 8px 25px -5px rgb(0 0 0 / 0.15), 0 2px 10px -6px rgb(0 0 0 / 0.15)",
+        left: "-8px 0 25px -5px rgb(0 0 0 / 0.15), -2px 0 10px -6px rgb(0 0 0 / 0.15)",
+        right: "8px 0 25px -5px rgb(0 0 0 / 0.15), 2px 0 10px -6px rgb(0 0 0 / 0.15)",
+      }[side],
+      opacity: 1,
+      ...(isMotionSafe && { transform: "scale(1)" }),
+    }),
     close: {
+      boxShadow: "none",
       opacity: 0,
-      ...(isMotionSafe && { transform: "scale(0.95)" }),
+      ...(isMotionSafe && { transform: "scale(0.9)" }),
     },
     common: ({ side }) => ({
       transformOrigin: {
@@ -66,7 +83,6 @@ export function Tooltip({ trigger, children }: TooltipProps) {
         left: "right",
         right: "left",
       }[side],
-      transitionProperty: "transform, opacity",
     }),
   });
 
@@ -78,10 +94,15 @@ export function Tooltip({ trigger, children }: TooltipProps) {
         {trigger}
       </span>
       {isMounted && (
-        <div {...getFloatingProps()} style={floatingStyles} ref={refs.setFloating}>
+        <div
+          {...getFloatingProps()}
+          style={floatingStyles}
+          className="transition-transform"
+          ref={refs.setFloating}
+        >
           <div
             style={styles}
-            className="not-prose bg-white border border-neutral-200 w-64 rounded-lg shadow-xl"
+            className="not-prose bg-white border border-neutral-200 w-64 rounded-lg transition-all"
           >
             {children}
           </div>
