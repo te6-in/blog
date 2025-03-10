@@ -15,11 +15,3 @@ const { url, ...props } = Astro.props;
   <BlueskyPost id={url} {...props} />
   <!-- TODO: max-width 손보기 -->
 </div>
-<script>
-  const anchors = document.querySelectorAll<HTMLAnchorElement>(".bluesky-post-container a");
-
-  for (const anchor of anchors) {
-    anchor.target = "_blank";
-    anchor.rel = "noopener noreferrer";
-  }
-</script>

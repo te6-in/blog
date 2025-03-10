@@ -8,6 +8,7 @@ import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
 import Image from "../../components/mdx/Image.astro";
+import Link from "../../components/mdx/Link.astro";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -30,7 +31,7 @@ const { Content } = await render(post);
     <Content
       components={{
         Callout,
-        Link: Foo,
+        Link,
         AppleMusic: Foo,
         Twitter,
         YouTube,

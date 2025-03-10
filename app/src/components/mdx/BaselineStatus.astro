@@ -6,6 +6,7 @@ import type { ComponentProps } from "astro/types";
 interface Props extends ComponentProps<typeof Baseline> {}
 ---
 <Baseline {...Astro.props} />
+<!-- FIXME: 클라이언트로 갈 필요가 없음 -->
 <script>
   const container = document.querySelector<HTMLDivElement>(".baseline-status");
 

@@ -1,0 +1,19 @@
+---
+// biome-ignore lint/style/useImportType: <explanation>
+import { LinkPreview } from "astro-embed";
+import type { ComponentProps } from "astro/types";
+import { getAnchor } from "./get-anchor";
+
+interface Props extends Omit<ComponentProps<typeof LinkPreview>, "id"> {
+  href: ComponentProps<typeof LinkPreview>["id"];
+}
+
+const { href, ...props } = Astro.props;
+
+const { url, type, detail } = await getAnchor({ href, astroURL: Astro.url });
+---
+<LinkPreview id={url.href} {...props} />
+<!-- FIXME: 클라이언트로 갈 필요가 없음 -->
+<script>
+  // TODO: type 따라 새 탭에서 열어줌
+</script>
