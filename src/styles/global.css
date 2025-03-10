@@ -43,6 +43,9 @@
   --breakpoint-stretch: 80rem; /* xl */
 
   /* spacings */
+  --spacing-mdx-component-margin-y: 1.25em;
+
+  /* layout */
   --spacing-sidebar-width: calc(var(--spacing) * 68);
   --spacing-sidebar-padding-x: calc(var(--spacing) * 8);
   --spacing-sidebar-stretch-x: calc((100% - var(--breakpoint-stretch)) / 2);

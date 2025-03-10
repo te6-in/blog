@@ -2,10 +2,14 @@
 import { getCollection, render } from "astro:content";
 import Prose from "../../components/Prose.astro";
 import AnchorWithLinkPreview from "../../components/mdx/AnchorWithLinkPreview.astro";
+import BaselineStatus from "../../components/mdx/BaselineStatus.astro";
+import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
 import Image from "../../components/mdx/Image.astro";
+import Twitter from "../../components/mdx/Twitter.astro";
+import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -28,8 +32,10 @@ const { Content } = await render(post);
         Callout,
         Link: Foo,
         AppleMusic: Foo,
-        Twitter: Foo,
-        YouTube: Foo,
+        Twitter,
+        YouTube,
+        Bluesky,
+        BaselineStatus,
         ImageGrid: Foo,
         img: Image,
         a: AnchorWithLinkPreview,

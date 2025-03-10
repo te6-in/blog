@@ -97,7 +97,7 @@ export function Tooltip({ trigger, children }: TooltipProps) {
         <div
           {...getFloatingProps()}
           style={floatingStyles}
-          className="transition-transform"
+          className="transition-transform pointer-events-none"
           ref={refs.setFloating}
         >
           <div

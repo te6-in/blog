@@ -1,0 +1,25 @@
+---
+// biome-ignore lint/style/useImportType: <explanation>
+import { BlueskyPost } from "astro-embed";
+import type { ComponentProps } from "astro/types";
+
+interface Props extends Omit<ComponentProps<typeof BlueskyPost>, "id"> {
+  url: ComponentProps<typeof BlueskyPost>["id"];
+}
+
+const { url, ...props } = Astro.props;
+---
+<div
+  class="my-mdx-component-margin-y not-prose [&_img.bluesky-logo]:max-w-none [&_img.bluesky-logo]:[--bluesky-icon-size-lg:1.25rem] [&_a.logo-link]:mt-1"
+>
+  <BlueskyPost id={url} {...props} />
+  <!-- TODO: max-width 손보기 -->
+</div>
+<script>
+  const anchors = document.querySelectorAll<HTMLAnchorElement>(".bluesky-post-container a");
+
+  for (const anchor of anchors) {
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+  }
+</script>
