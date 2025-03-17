@@ -110,7 +110,7 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
   type === "post" && (
     <LinkCard href={href} metadata={metadata} target="_blank">
       {internalImage && (
-        <Image slot="media" class={IMAGE_CLASS} src={internalImage} />
+        <Image class={IMAGE_CLASS} src={internalImage} />
       )}
     </LinkCard>
   )
@@ -124,7 +124,7 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
   type === "external" && (
     <LinkCard href={href} metadata={metadata} target="_blank">
       {externalImage && (
-        <img slot="media" class={IMAGE_CLASS} {...externalImage} />
+        <img class={IMAGE_CLASS} {...externalImage} />
       )}
     </LinkCard>
   )
