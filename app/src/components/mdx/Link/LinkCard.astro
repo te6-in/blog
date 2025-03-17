@@ -1,0 +1,72 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { ExternalLink } from "lucide-astro";
+
+interface Props extends Omit<HTMLAttributes<"a">, "href"> {
+  href: NonNullable<HTMLAttributes<"a">["href"]>;
+  metadata: {
+    title: string;
+    description?: string;
+    siteName?: string;
+    hasImage?: boolean;
+  };
+}
+
+const domain = Astro.props.href
+  ? new URL(Astro.props.href).hostname.replace("www.", "")
+  : "";
+
+const {
+  metadata: { title, description, siteName, hasImage },
+  ...props
+} = Astro.props;
+---
+<a
+  {...props}
+  class="not-prose w-full flex flex-col bg-white shadow-xs engaged:shadow-sm rounded-lg overflow-hidden border border-neutral-200 engaged:border-neutral-300 transition-all group clickable my-mdx-component-margin-y"
+  ><div class="flex flex-row gap-4 p-4 pb-3.5 items-start">
+    {
+      hasImage && (
+        <div class="flex-none w-2/5 max-w-40 rounded overflow-hidden media-border after:rounded">
+          <slot name="media" />
+        </div>
+      )
+    }<div class="flex justify-between grow gap-2">
+      <div class="flex flex-col gap-1.5">
+        <div
+          class="text-xl leading-snug text-neutral-900 font-bold text-balance"
+        >
+          {title}
+        </div>
+        {
+          description && (
+            <div class="text-neutral-500 text-sm leading-snug text-pretty line-clamp-2">
+              {description}
+            </div>
+          )
+        }
+      </div>
+      <ExternalLink class="text-neutral-400 flex-none m-1 me-0" size={18} />
+    </div>
+  </div>
+  <div
+    class="px-4 py-2 text-neutral-400 border-t border-neutral-200 group-engaged:border-neutral-300 transition-colors text-xs flex justify-between flex-wrap gap-1"
+  >
+    <span>
+      <span class="text-neutral-600 font-medium">{siteName ?? domain}</span>
+      {
+        siteName && siteName !== domain && (
+          <>
+            <span class="w-[0.125em] inline-block"> </span>
+            <span>{domain}</span>
+          </>
+        )
+      }
+    </span>
+    {
+      props.target === "_blank" && (
+        <span class="ms-auto">새 탭에서 열립니다.</span>
+      )
+    }
+  </div>
+</a>

@@ -6,7 +6,14 @@ import.meta.glob;
 export async function getAnchor({
   href,
   astroURL,
-}: { href: string | URL; astroURL: URL }): Promise<
+  options,
+}: {
+  href: string | URL;
+  astroURL: URL;
+  options?: {
+    noRef?: boolean;
+  };
+}): Promise<
   { url: URL } & (
     | { type: "external" | "hash"; detail?: never }
     | { type: "post"; detail: InferEntrySchema<"post"> }
@@ -23,7 +30,7 @@ export async function getAnchor({
   const isRelative = typeof href === "string" && href.startsWith("/");
   const url = new URL(href, isRelative ? astroURL.origin : undefined);
 
-  if (url.origin !== astroURL.origin) {
+  if ((!options || options.noRef !== true) && url.origin !== astroURL.origin) {
     url.searchParams.set("ref", astroURL.hostname);
 
     return { url, type: "external" };

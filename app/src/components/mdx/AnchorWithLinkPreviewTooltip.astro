@@ -1,5 +1,6 @@
 ---
 import type { ComponentProps, HTMLAttributes } from "astro/types";
+import { ExternalLink } from "lucide-astro";
 import { Tooltip } from "../Tooltip";
 // biome-ignore lint/style/useImportType: <explanation>
 import Anchor from "./Anchor.astro";
@@ -43,18 +44,21 @@ const anchorProps: ComponentProps<typeof Anchor> = {
       </Fragment>
       <div class="flex flex-col gap-3 p-4 pb-3.5">
         {type === "post" && detail.coverImage && (
-          <Image src={detail.coverImage} class="rounded" />
+          <Image src={detail.coverImage} class="rounded outline-1 -outline-offset-1 outline-black/5" />
         )}
-        <div class="flex flex-col gap-1.5">
-          <div class="text-lg leading-snug text-neutral-900 font-bold text-balance">{detail.title}</div>
-          {type === "post" && detail.description && (
-            <div class="text-neutral-500 text-sm leading-snug text-pretty">{detail.description}</div>
-          )}
+        <div class="flex justify-between gap-2">
+          <div class="flex flex-col gap-1.5">
+            <div class="text-lg leading-snug text-neutral-900 font-bold text-balance">{detail.title}</div>
+            {type === "post" && detail.description && (
+              <div class="text-neutral-500 text-sm leading-snug text-pretty">{detail.description}</div>
+            )}
+          </div>
+          <ExternalLink class="text-neutral-400 flex-none m-0.5 me-0" size={18} />
         </div>
       </div>
       <div class="w-full border-t border-neutral-200 text-xs px-4 py-1.5 flex justify-between">
         <span class="text-neutral-600 font-medium">이 블로그의 {type === "post" && "글"}{type === "snippet" && "코드 조각"}</span>
-        <span class="text-neutral-400">새 탭에서 열립니다.</span>
+        {anchorProps.target === "_blank" && <span class="text-neutral-400">새 탭에서 열립니다.</span>}
       </div>
     </Tooltip>
   )

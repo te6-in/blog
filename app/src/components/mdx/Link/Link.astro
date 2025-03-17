@@ -1,0 +1,131 @@
+---
+/**
+ * from astro-embed-link-preview
+ * https://github.com/delucis/astro-embed/blob/e5fa7e3018506eff78db1399bf9827c2af5b27ac/packages/astro-embed-link-preview/README.md
+ */
+
+import { getAnchor } from "../get-anchor";
+import { parseOpenGraph } from "./lib";
+import { match } from "ts-pattern";
+import LinkCard from "./LinkCard.astro";
+import type { ComponentProps } from "astro/types";
+import Image from "../Image.astro";
+import type { InferEntrySchema } from "astro:content";
+
+export interface Props {
+  /** URL to fetch Open Graph data. */
+  href: string;
+  /** Hide any image or video even if set in the OpenGraph data. */
+  hideMedia?: boolean;
+  /** If true, the link will not have ?ref={site} appended to it. */
+  noRef?: boolean;
+}
+
+const { href: __href, hideMedia = false, noRef = false } = Astro.props;
+
+const { type, url, detail } = await getAnchor({
+  href: __href,
+  astroURL: Astro.url,
+  options: {
+    noRef,
+  },
+});
+
+const { href, metadata, internalImage, externalImage } = await match(type)
+  .returnType<
+    Promise<
+      ComponentProps<typeof LinkCard> &
+        (
+          | {
+              internalImage?: InferEntrySchema<"post">["coverImage"]; // XXX
+              externalImage?: never;
+            }
+          | {
+              internalImage?: never;
+              externalImage?: { src: string; alt?: string };
+            }
+        )
+    >
+  >()
+  .with("post", async () => {
+    if (type !== "post") throw new Error(""); // unreachable. for type safety
+    if (!detail) throw new Error(`No Link metadata found for ${__href}`);
+
+    const { title, description, coverImage } = detail;
+
+    return {
+      href: url.href,
+      metadata: {
+        title,
+        description,
+        siteName: "이 블로그의 글",
+        hasImage: hideMedia ? false : !!coverImage,
+      },
+      internalImage: coverImage,
+    };
+  })
+  .with("snippet", async () => {
+    if (type !== "snippet") throw new Error(""); // unreachable. for type safety
+    if (!detail) throw new Error(`No Link metadata found for ${__href}`);
+
+    return {
+      href: url.href,
+      metadata: {
+        title: detail.title,
+        siteName: "이 블로그의 코드 조각",
+        hasImage: false,
+      },
+    };
+  })
+  .with("hash", async () => {
+    throw new Error("Do not use Link with internal hash links");
+  })
+  .with("external", async () => {
+    const meta = await parseOpenGraph(url.href);
+    if (!meta) throw new Error(`No Link metadata found for ${url.href}`);
+    if (!meta.title) throw new Error(`No title found for ${url.href}`);
+
+    return {
+      href: meta.url,
+      metadata: {
+        title: meta.title,
+        description: meta.description ?? undefined,
+        siteName: meta.siteName ?? undefined,
+        hasImage: hideMedia ? false : !!meta.image,
+      },
+      ...(meta.image && {
+        externalImage: {
+          src: meta.image,
+          alt: meta.imageAlt ?? undefined,
+        },
+      }),
+    };
+  })
+  .exhaustive();
+
+const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
+---
+
+{
+  type === "post" && (
+    <LinkCard href={href} metadata={metadata} target="_blank">
+      {internalImage && (
+        <Image slot="media" class={IMAGE_CLASS} src={internalImage} />
+      )}
+    </LinkCard>
+  )
+}
+{
+  type === "snippet" && (
+    <LinkCard href={href} metadata={metadata} target="_blank" />
+  )
+}
+{
+  type === "external" && (
+    <LinkCard href={href} metadata={metadata} target="_blank">
+      {externalImage && (
+        <img slot="media" class={IMAGE_CLASS} {...externalImage} />
+      )}
+    </LinkCard>
+  )
+}

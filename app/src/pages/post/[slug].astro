@@ -8,7 +8,7 @@ import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
 import Image from "../../components/mdx/Image.astro";
-import Link from "../../components/mdx/Link.astro";
+import Link from "../../components/mdx/Link";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -25,6 +25,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
+
 <Layout>
   {post.data.coverImage && <Image src={post.data.coverImage} />}
   <Prose>

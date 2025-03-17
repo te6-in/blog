@@ -1,7 +1,16 @@
 ---
 import { getCollection, render } from "astro:content";
+import { BaselineStatus } from "astro-embed";
 import Prose from "../../components/Prose.astro";
+import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip.astro";
+import Bluesky from "../../components/mdx/Bluesky.astro";
+import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
+import Hr from "../../components/mdx/Hr.astro";
+import Image from "../../components/mdx/Image.astro";
+import Link from "../../components/mdx/Link";
+import Twitter from "../../components/mdx/Twitter.astro";
+import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -19,12 +28,17 @@ const { Content } = await render(post);
 <Layout>  
   <Prose>
     <Content components={{
-      Callout: Foo,
-      Link: Foo,
-      AppleMusic: Foo,
-      Twitter: Foo,
-      YouTube: Foo,
-      ImageGrid: Foo
+        Callout,
+        Link,
+        AppleMusic: Foo,
+        Twitter,
+        YouTube,
+        Bluesky,
+        BaselineStatus,
+        ImageGrid: Foo,
+        img: Image,
+        a: AnchorWithLinkPreviewTooltip,
+        hr: Hr,
     }} />
   </Prose>
 </Layout>
