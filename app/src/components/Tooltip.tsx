@@ -36,14 +36,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
         crossAxis: -8,
       }),
       shift({ padding: 8 }),
-      flip({
-        padding: {
-          top: 72, // 64 + 8
-          left: 8,
-          right: 8,
-          bottom: 8,
-        },
-      }),
+      flip({ padding: 8 }),
     ],
   });
 

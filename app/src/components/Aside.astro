@@ -13,10 +13,8 @@ interface Props extends HTMLAttributes<"aside"> {}
 >
   <div class="flex flex-col gap-2 w-[inherit] px-aside-padding-x py-4">
     <CollapsibleAsideItem client:load>
-      <Fragment slot="icon">
-        <Newspaper />
-      </Fragment>
-      <Fragment slot="title"> 글 </Fragment>
+      <Newspaper slot="icon" />
+      <Fragment slot="title">글</Fragment>
       <Fragment slot="panel">
         <div>alien-bean-pasta</div>
         <div>wild-irish-burrito</div>
@@ -25,7 +23,7 @@ interface Props extends HTMLAttributes<"aside"> {}
     </CollapsibleAsideItem>
     <LinkAsideItem href="/posts">
       <AlarmClock slot="icon" />
-      <Fragment slot="title"> foobar </Fragment>
+      <Fragment slot="title">foobar</Fragment>
     </LinkAsideItem>
   </div>
 </aside>

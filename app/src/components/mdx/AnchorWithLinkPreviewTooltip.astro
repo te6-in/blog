@@ -39,9 +39,9 @@ const anchorProps: ComponentProps<typeof Anchor> = {
 {
   detail && (
     <Tooltip {...detail} client:load>
-      <Fragment slot="trigger">
-        <Anchor {...anchorProps}><slot /></Anchor>
-      </Fragment>
+      <Anchor slot="trigger" {...anchorProps}>
+        <slot />
+      </Anchor>
       <div class="flex flex-col gap-3 p-4 pb-3.5" slot="popup">
         {type === "post" && detail.coverImage && (
           <Image src={detail.coverImage} class="rounded outline-1 -outline-offset-1 outline-black/5" />
