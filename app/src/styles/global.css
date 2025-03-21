@@ -54,10 +54,8 @@
   --color-accent-900: var(--color-blue-900);
   --color-accent-950: var(--color-blue-950);
 
-  --color-sidebar-bg: var(--color-neutral-100);
-  --color-header-bg: var(--color-neutral-100);
-
-  --color-body-bg: var(--color-white);
+  --color-content-card-bg: var(--color-white);
+  --color-body-bg: var(--color-gray-100);
 
   /* breakpoints */
   --breakpoint-sidebar-shown: 40rem; /* sm */
@@ -71,9 +69,9 @@
   /* layout */
   --spacing-sidebar-width: calc(var(--spacing) * 68);
   --spacing-sidebar-padding-x: calc(var(--spacing) * 8);
-  --spacing-sidebar-stretch-x: calc((100% - var(--breakpoint-stretch)) / 2);
+  --spacing-sidebar-stretch-x: calc((100vw - var(--breakpoint-stretch)) / 2);
 
-  --spacing-header-height: calc(var(--spacing) * 16);
+  --spacing-marginal-height: calc(var(--spacing) * 16);
 
   --spacing-content-stretch-x-start: calc(
     var(--spacing-sidebar-width) +

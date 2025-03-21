@@ -1,6 +1,7 @@
 ---
 import { keyBy, mapValues } from "es-toolkit";
 import "../styles/global.css";
+import { Collapsible } from "../components/Collapsible";
 
 const builtDate = new Date();
 
@@ -32,9 +33,9 @@ const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${time
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body class="bg-body-bg">
-	 	<header class="fixed top-0 w-full flex justify-between h-header-height z-10">
+	 	<header class="fixed top-0 w-full flex justify-between h-marginal-height z-10">
 			<div class="sidebar-shown:absolute top-0 start-0 sidebar-shown:w-sidebar-width stretch:w-content-stretch-x-start stretch:ps-sidebar-stretch-x h-full">
-				<div class="size-full flex items-center px-sidebar-padding-x bg-header-bg sidebar-shown:bg-transparent transition-colors text-lg gap-2">
+				<div class="size-full flex items-center px-sidebar-padding-x sidebar-shown:bg-transparent transition-colors text-lg gap-2">
 					<a href="https://te6.in/" target="_blank" class="font-medium text-neutral-600">
 						te6.in
 					</a>
@@ -44,15 +45,17 @@ const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${time
 					</a>
 				</div>
 			</div>
-			<div class="sidebar-shown:ms-sidebar-width stretch:ms-content-stretch-x-start grow flex items-center bg-header-bg ">
-				contents
+			<div class="sidebar-shown:ms-sidebar-width stretch:ms-content-stretch-x-start grow flex items-center justify-between px-4 stretch:me-sidebar-stretch-x">
+				<div>contents</div>
+				<div>contents</div>
 			</div>
 		</header>
-		<aside class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 pt-header-height w-sidebar-width bg-sidebar-bg transition-[inset] overflow-y-auto overflow-x-hidden stretch:ps-sidebar-stretch-x stretch:w-content-stretch-x-start overscroll-y-none">
-			<div class="bg-inherit h-header-height sticky -top-header-height -mt-header-height w-sidebar-width px-6">
-				<div class="border-b size-full" />
+		<aside class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 pt-marginal-height w-sidebar-width transition-[inset] overflow-y-auto overflow-x-hidden stretch:ps-sidebar-stretch-x stretch:w-content-stretch-x-start overscroll-y-none">
+			<div class="bg-inherit h-marginal-height sticky -top-marginal-height -mt-marginal-height w-sidebar-width px-6">
+				<div class="border-neutral-400 border-b bg-body-bg size-full" />
 			</div>
 			<div class="flex flex-col gap-4 w-sidebar-width px-sidebar-padding-x py-4">
+				<Collapsible client:load />
 				<div>Consectetur eu id ut occaecat minim esse excepteur eu proident do cillum adipisicing.</div>
 				<div>Examples</div>
 				<div>Examples</div>
@@ -72,13 +75,20 @@ const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${time
 				<div>Examples</div>
 			</div>
 		</aside>
-		<div class="sidebar-shown:ps-sidebar-width stretch:ps-content-stretch-x-start pt-header-height transition-[padding] flex flex-col justify-between min-h-screen stretch:pe-sidebar-stretch-x">
-			<main class="m-4">
-				<slot />
-			</main>
-			<footer>
-				마지막 업데이트: {formattedDate}
-			</footer>
+		<div class="sidebar-shown:ps-sidebar-width stretch:ps-content-stretch-x-start py-marginal-height min-h-screen stretch:pe-sidebar-stretch-x flex flex-col">
+			<div
+			class="flex flex-col grow sidebar-shown:px-2 transition-[padding]"
+			>
+				<main class="border-neutral-200 border-y sidebar-shown:border shadow-md bg-content-card-bg rounded-xl z-10 p-4 min-h-[calc(100vh-var(--spacing-marginal-height)+var(--radius-xl))]">
+					<slot />
+				</main>
+				<footer class="fixed start-0 sidebar-shown:start-sidebar-width stretch:start-content-stretch-x-start px-4 end-0 stretch:end-sidebar-stretch-x bottom-0 h-marginal-height flex items-center justify-between">
+					<div>마지막 업데이트: {formattedDate}</div>
+					<div>
+						foobar
+						</div>
+				</footer>
+			</div>
 		</div>
 	</body>
 </html>
