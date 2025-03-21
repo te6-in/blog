@@ -4,13 +4,14 @@
  * https://github.com/delucis/astro-embed/blob/e5fa7e3018506eff78db1399bf9827c2af5b27ac/packages/astro-embed-link-preview/README.md
  */
 
-import { getAnchor } from "../get-anchor";
-import { parseOpenGraph } from "./lib";
-import { match } from "ts-pattern";
-import LinkCard from "./LinkCard.astro";
-import type { ComponentProps } from "astro/types";
-import Image from "../Image.astro";
 import type { InferEntrySchema } from "astro:content";
+import type { ComponentProps } from "astro/types";
+import { match } from "ts-pattern";
+import Image from "../Image.astro";
+import { getAnchor } from "../get-anchor";
+// biome-ignore lint/style/useImportType: <explanation>
+import LinkCard from "./LinkCard.astro";
+import { parseOpenGraph } from "./lib";
 
 export interface Props {
   /** URL to fetch Open Graph data. */
@@ -124,7 +125,7 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
   type === "external" && (
     <LinkCard href={href} metadata={metadata} target="_blank">
       {externalImage && (
-        <img class={IMAGE_CLASS} {...externalImage} />
+        <img class:list={[IMAGE_CLASS, "bg-neutral-200 motion-safe:animate-pulse"]} {...externalImage} onload={`this.classList.remove("motion-safe:animate-pulse")`} />
       )}
     </LinkCard>
   )
