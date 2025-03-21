@@ -1,29 +1,11 @@
 ---
-import { keyBy, mapValues } from "es-toolkit";
+import Aside from "../components/Aside.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Main from "../components/Main.astro";
 import "../styles/global.css";
-import { Collapsible } from "../components/Collapsible";
-
-const builtDate = new Date();
-
-const formatter = Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-  timeZoneName: "short",
-});
-
-const { year, month, day, hour, minute, second, timeZoneName } = mapValues(
-  keyBy(formatter.formatToParts(builtDate), (part) => part.type),
-  (part) => part.value,
-);
-
-// iso with timezone
-const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZoneName}`;
 ---
+
 <!doctype html>
 <html lang="ko">
   <head>
@@ -33,72 +15,11 @@ const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${time
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="bg-body-bg motion-safe:scroll-smooth">
-    <header class="contents">
-      <div
-        class="fixed start-0 top-0 z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
-      >
-        <div
-          class="-mx-2 p-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-marginal-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
-        >
-          <a
-            href="https://te6.in/"
-            target="_blank"
-            class="font-medium text-neutral-600"
-          >
-            te6.in
-          </a>
-          <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
-          <a href="/" class="font-bold text-neutral-800">Blog</a>
-        </div>
-      </div>
-    </header>
-    <div
-      class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-marginal-height flex items-center justify-between px-4 -z-10"
-    >
-      <div>contents</div>
-      <div>contents</div>
-    </div>
-  </body>
-  <aside
-    class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 stretch:ms-sidebar-stretch-x pt-marginal-height w-sidebar-width transition-[inset] overflow-y-auto overflow-x-hidden overscroll-y-none"
-  >
-    <div class="flex flex-col gap-4 w-[inherit] px-sidebar-padding-x py-4">
-      <Collapsible client:load />
-      <div>
-        Consectetur eu id ut occaecat minim esse excepteur eu proident do cillum
-        adipisicing.
-      </div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-      <div>Examples</div>
-    </div>
-  </aside>
-  <div
-    class="sidebar-shown:ps-sidebar-width stretch:mx-sidebar-stretch-x transition-[padding] my-marginal-height z-10"
-  >
-    <main
-      class="border-neutral-200 border-y sidebar-shown:border shadow-md bg-content-card-bg rounded-xl p-4 sidebar-shown:mx-2 min-h-[calc(100vh-var(--spacing-marginal-height)+var(--radius-xl))] transition-[margin]"
-    >
+    <Header />
+    <Aside />
+    <Main>
       <slot />
-    </main>
-  </div>
-  <footer
-    class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 h-marginal-height flex items-center justify-between px-4 -z-10"
-  >
-    <div>마지막 업데이트: {formattedDate}</div>
-    <div>foobar</div>
-  </footer>
+    </Main>
+    <Footer />
+  </body>
 </html>

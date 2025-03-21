@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {}
+---
+
+<div
+  {...Astro.props}
+  class="aside-shown:ps-aside-width stretch:mx-aside-stretch-x transition-[padding] my-marginal-height z-10"
+>
+  <main
+    class="border-neutral-200 border-y aside-shown:border shadow-md bg-content-card-bg rounded-xl p-4 aside-shown:mx-2 min-h-[calc(100vh-var(--spacing-marginal-height)+var(--radius-xl))] transition-[margin]"
+  >
+    <slot />
+  </main>
+</div>

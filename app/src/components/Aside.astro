@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { AlarmClock, Newspaper } from "lucide-astro";
+import { CollapsibleAsideItem } from "./CollapsibleAsideItem";
+import LinkAsideItem from "./LinkAsideItem.astro";
+
+interface Props extends HTMLAttributes<"aside"> {}
+---
+
+<aside
+  {...Astro.props}
+  class="fixed inset-y-0 -start-aside-width aside-shown:start-0 stretch:ms-aside-stretch-x pt-marginal-height transition-[inset] w-aside-width overflow-y-auto overflow-x-hidden overscroll-y-none"
+>
+  <div class="flex flex-col gap-2 w-[inherit] px-aside-padding-x py-4">
+    <CollapsibleAsideItem client:load>
+      <Fragment slot="icon">
+        <Newspaper />
+      </Fragment>
+      <Fragment slot="title"> 글 </Fragment>
+      <Fragment slot="panel">
+        <div>alien-bean-pasta</div>
+        <div>wild-irish-burrito</div>
+        <div>horse-battery-staple</div>
+      </Fragment>
+    </CollapsibleAsideItem>
+    <LinkAsideItem href="/posts">
+      <AlarmClock slot="icon" />
+      <Fragment slot="title"> foobar </Fragment>
+    </LinkAsideItem>
+  </div>
+</aside>

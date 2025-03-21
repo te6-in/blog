@@ -42,7 +42,7 @@ const anchorProps: ComponentProps<typeof Anchor> = {
       <Fragment slot="trigger">
         <Anchor {...anchorProps}><slot /></Anchor>
       </Fragment>
-      <div class="flex flex-col gap-3 p-4 pb-3.5">
+      <div class="flex flex-col gap-3 p-4 pb-3.5" slot="popup">
         {type === "post" && detail.coverImage && (
           <Image src={detail.coverImage} class="rounded outline-1 -outline-offset-1 outline-black/5" />
         )}

@@ -11,14 +11,15 @@ import {
   useRole,
   useTransitionStyles,
 } from "@floating-ui/react";
-import { type PropsWithChildren, type ReactElement, useState } from "react";
+import { type ReactElement, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
-export interface TooltipProps extends PropsWithChildren {
+export interface TooltipProps {
   trigger?: ReactElement;
+  popup?: ReactElement;
 }
 
-export function Tooltip({ trigger, children }: TooltipProps) {
+export function Tooltip({ trigger, popup }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const isMotionSafe = useMediaQuery("(prefers-reduced-motion: no-preference)");
@@ -104,7 +105,7 @@ export function Tooltip({ trigger, children }: TooltipProps) {
             style={styles}
             className="not-prose bg-white border border-neutral-200 w-64 rounded-lg transition-all"
           >
-            {children}
+            {popup}
           </div>
         </div>
       )}
