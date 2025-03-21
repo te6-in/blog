@@ -25,70 +25,80 @@ const { year, month, day, hour, minute, second, timeZoneName } = mapValues(
 const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZoneName}`;
 ---
 <!doctype html>
-<html lang="ko" class="motion-safe:scroll-smooth">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-	</head>
-	<body class="bg-body-bg">
-	 	<header class="fixed top-0 w-full flex justify-between h-marginal-height z-10">
-			<div class="sidebar-shown:absolute top-0 start-0 sidebar-shown:w-sidebar-width stretch:w-content-stretch-x-start stretch:ps-sidebar-stretch-x h-full">
-				<div class="size-full flex items-center px-sidebar-padding-x sidebar-shown:bg-transparent transition-colors text-lg gap-2">
-					<a href="https://te6.in/" target="_blank" class="font-medium text-neutral-600">
-						te6.in
-					</a>
-					<div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300" />
-					<a href="/" class="font-bold text-neutral-800">
-						Blog
-					</a>
-				</div>
-			</div>
-			<div class="sidebar-shown:ms-sidebar-width stretch:ms-content-stretch-x-start grow flex items-center justify-between px-4 stretch:me-sidebar-stretch-x">
-				<div>contents</div>
-				<div>contents</div>
-			</div>
-		</header>
-		<aside class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 pt-marginal-height w-sidebar-width transition-[inset] overflow-y-auto overflow-x-hidden stretch:ps-sidebar-stretch-x stretch:w-content-stretch-x-start overscroll-y-none">
-			<div class="bg-inherit h-marginal-height sticky -top-marginal-height -mt-marginal-height w-sidebar-width px-6">
-				<div class="border-neutral-400 border-b bg-body-bg size-full" />
-			</div>
-			<div class="flex flex-col gap-4 w-sidebar-width px-sidebar-padding-x py-4">
-				<Collapsible client:load />
-				<div>Consectetur eu id ut occaecat minim esse excepteur eu proident do cillum adipisicing.</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-				<div>Examples</div>
-			</div>
-		</aside>
-		<div class="sidebar-shown:ps-sidebar-width stretch:ps-content-stretch-x-start py-marginal-height min-h-screen stretch:pe-sidebar-stretch-x flex flex-col">
-			<div
-			class="flex flex-col grow sidebar-shown:px-2 transition-[padding]"
-			>
-				<main class="border-neutral-200 border-y sidebar-shown:border shadow-md bg-content-card-bg rounded-xl z-10 p-4 min-h-[calc(100vh-var(--spacing-marginal-height)+var(--radius-xl))]">
-					<slot />
-				</main>
-				<footer class="fixed start-0 sidebar-shown:start-sidebar-width stretch:start-content-stretch-x-start px-4 end-0 stretch:end-sidebar-stretch-x bottom-0 h-marginal-height flex items-center justify-between">
-					<div>마지막 업데이트: {formattedDate}</div>
-					<div>
-						foobar
-						</div>
-				</footer>
-			</div>
-		</div>
-	</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="bg-body-bg motion-safe:scroll-smooth">
+    <header class="contents">
+      <div
+        class="fixed start-0 top-0 z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
+      >
+        <div
+          class="-mx-2 p-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-marginal-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
+        >
+          <a
+            href="https://te6.in/"
+            target="_blank"
+            class="font-medium text-neutral-600"
+          >
+            te6.in
+          </a>
+          <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
+          <a href="/" class="font-bold text-neutral-800">Blog</a>
+        </div>
+      </div>
+    </header>
+    <div
+      class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-marginal-height flex items-center justify-between px-4 -z-10"
+    >
+      <div>contents</div>
+      <div>contents</div>
+    </div>
+  </body>
+  <aside
+    class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 stretch:ms-sidebar-stretch-x pt-marginal-height w-sidebar-width transition-[inset] overflow-y-auto overflow-x-hidden overscroll-y-none"
+  >
+    <div class="flex flex-col gap-4 w-[inherit] px-sidebar-padding-x py-4">
+      <Collapsible client:load />
+      <div>
+        Consectetur eu id ut occaecat minim esse excepteur eu proident do cillum
+        adipisicing.
+      </div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+      <div>Examples</div>
+    </div>
+  </aside>
+  <div
+    class="sidebar-shown:ps-sidebar-width stretch:mx-sidebar-stretch-x transition-[padding] my-marginal-height z-10"
+  >
+    <main
+      class="border-neutral-200 border-y sidebar-shown:border shadow-md bg-content-card-bg rounded-xl p-4 sidebar-shown:mx-2 min-h-[calc(100vh-var(--spacing-marginal-height)+var(--radius-xl))] transition-[margin]"
+    >
+      <slot />
+    </main>
+  </div>
+  <footer
+    class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 h-marginal-height flex items-center justify-between px-4 -z-10"
+  >
+    <div>마지막 업데이트: {formattedDate}</div>
+    <div>foobar</div>
+  </footer>
 </html>

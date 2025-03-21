@@ -3,7 +3,7 @@
 
 *:not(path) {
   /* outline: 1px solid red; */
-  /* transition-duration: 1s; */
+  /* --default-transition-duration: 1s; */
 }
 
 @layer utilities {
@@ -67,14 +67,10 @@
   --spacing-mdx-component-margin-y: 1.25em;
 
   /* layout */
+  --spacing-sidebar-hidden-title-width: calc(var(--spacing) * 36);
   --spacing-sidebar-width: calc(var(--spacing) * 68);
   --spacing-sidebar-padding-x: calc(var(--spacing) * 8);
   --spacing-sidebar-stretch-x: calc((100vw - var(--breakpoint-stretch)) / 2);
 
   --spacing-marginal-height: calc(var(--spacing) * 16);
-
-  --spacing-content-stretch-x-start: calc(
-    var(--spacing-sidebar-width) +
-    var(--spacing-sidebar-stretch-x)
-  );
 }
