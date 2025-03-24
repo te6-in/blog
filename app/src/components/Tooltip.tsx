@@ -4,6 +4,7 @@ import {
   inline,
   offset,
   shift,
+  useDismiss,
   useFloating,
   useFocus,
   useHover,
@@ -44,6 +45,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
     delay: { open: 250, close: 0 },
   });
   const focus = useFocus(context);
+  const dismiss = useDismiss(context);
 
   const role = useRole(context, { role: "tooltip" });
 
@@ -80,7 +82,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
     }),
   });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, role]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
 
   return (
     <>
