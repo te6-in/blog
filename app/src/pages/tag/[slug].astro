@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getTags } from "../../lib/contents";
 
 export async function getStaticPaths() {
-  const tags = await getTags();
+  const tags = await getTags({});
 
   return tags.map(({ name, slug }) => ({
     params: { slug },

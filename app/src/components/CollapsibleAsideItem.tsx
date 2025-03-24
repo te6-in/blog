@@ -5,9 +5,9 @@ import { type PropsWithChildren, type ReactElement, useEffect, useState } from "
 const CLASSNAMES = {
   root: "flex flex-col -mx-2 group justify-start",
   triggerRoot:
-    "flex items-center justify-between gap-1 rounded-lg engaged:bg-neutral-200 p-2 transition-colors z-10 cursor-pointer text-neutral-700",
+    "flex items-center justify-between gap-1 rounded-lg p-2 engaged:bg-black/5 backdrop-blur-none engaged:backdrop-blur-sm transition-all z-10 cursor-pointer text-neutral-700 sticky top-2",
   triggerContent: "flex items-center gap-2",
-  triggerIcon: "transition-transform",
+  triggerChevron: "transition-transform flex-none",
   triggerTitle: "font-semibold",
 };
 
@@ -35,7 +35,7 @@ export function CollapsibleAsideItem({
             {triggerIcon}
             <span className={CLASSNAMES.triggerTitle}>{triggerTitle}</span>
           </div>
-          <ChevronRight size={18} className={`${CLASSNAMES.triggerIcon} group-open:rotate-90`} />
+          <ChevronRight size={18} className={`${CLASSNAMES.triggerChevron} group-open:rotate-90`} />
         </summary>
         <PanelContent>{panelContent}</PanelContent>
       </details>
@@ -49,7 +49,10 @@ export function CollapsibleAsideItem({
           {triggerIcon}
           <span className={CLASSNAMES.triggerTitle}>{triggerTitle}</span>
         </div>
-        <ChevronRight size={18} className={`${CLASSNAMES.triggerIcon} group-data-open:rotate-90`} />
+        <ChevronRight
+          size={18}
+          className={`${CLASSNAMES.triggerChevron} group-data-open:rotate-90`}
+        />
       </BaseCollapsible.Trigger>
       <BaseCollapsible.Panel
         hiddenUntilFound
@@ -62,5 +65,10 @@ export function CollapsibleAsideItem({
 }
 
 function PanelContent({ children }: PropsWithChildren) {
-  return <div className="flex flex-wrap gap-1 p-2">{children}</div>;
+  return (
+    <div className="flex gap-3 mt-1">
+      <div className="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none" />
+      <div className="flex flex-wrap gap-2 py-1.5">{children}</div>
+    </div>
+  );
 }

@@ -2,20 +2,38 @@ import { getCollection } from "astro:content";
 import { uniqBy } from "es-toolkit";
 import { slug } from "github-slugger";
 
-export async function getTags() {
+interface GetTagsParams {
+  sortBy?: "name" | "count";
+}
+
+export async function getTags({ sortBy = "name" }: GetTagsParams) {
   const posts = await getCollection("post");
   const snippets = await getCollection("snippet");
 
-  const tags = [
+  const tagsFound = [
     ...posts.flatMap((post) => post.data.tags),
     ...snippets.flatMap((snippet) => snippet.data.tags),
   ];
 
-  const tagsWithSlugs = tags.map((tag) => ({ name: tag, slug: slug(tag) }));
+  const tags = tagsFound.map((tag) => ({
+    name: tag,
+    slug: slug(tag),
+    count: tagsFound.filter((t) => t === tag).length,
+  }));
 
-  const uniqueTagsWithSlugs = uniqBy(tagsWithSlugs, ({ slug }) => slug);
+  const uniqueTags = uniqBy(tags, ({ slug }) => slug);
 
-  const sortedTagsWithSlugs = uniqueTagsWithSlugs.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedTags = uniqueTags.sort((a, b) => {
+    switch (sortBy) {
+      case "name":
+        return a.name.localeCompare(b.name);
+      case "count": {
+        if (a.count === b.count) return a.name.localeCompare(b.name);
 
-  return sortedTagsWithSlugs;
+        return b.count - a.count;
+      }
+    }
+  });
+
+  return sortedTags;
 }
