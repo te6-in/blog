@@ -5,15 +5,9 @@ import { getTags } from "../lib/contents";
 import { CollapsibleAsideItem } from "./CollapsibleAsideItem";
 import LinkAsideItem from "./LinkAsideItem.astro";
 
-interface Props {
-  tags?: {
-    defaultOpen?: boolean;
-    selectedTag?: string;
-  };
-}
+const tagParam = Astro.url.pathname.startsWith("/tag/") ? Astro.params.slug : null;
 
 const tags = await getTags({ sortBy: "count" });
-const { props } = Astro;
 ---
 
 <aside
@@ -29,7 +23,7 @@ const { props } = Astro;
       <FileCode2 slot="icon" />
       <Fragment slot="title">코드 조각</Fragment>
     </LinkAsideItem>
-    <CollapsibleAsideItem client:load defaultOpen={props.tags?.defaultOpen}>
+    <CollapsibleAsideItem client:load defaultOpen={!!tagParam}>
       <Tags slot="triggerIcon" />
       <Fragment slot="triggerTitle">태그</Fragment>
       <Fragment slot="panelContent">
@@ -39,15 +33,29 @@ const { props } = Astro;
               to="/tag/[slug]"
               params={{ slug }}
               class:list={[
-                "flex gap-0.5 font-medium items-baseline text-sm text-neutral-500 bg-neutral-200 engaged:bg-neutral-300 px-1.5 py-1 rounded-md border border-neutral-300",
+                "flex gap-[0.5ch] font-medium items-baseline text-sm px-1.5 py-1 rounded-md border transition-colors",
                 {
-                  "bg-primary-500 text-primary-100":
-                    props.tags?.selectedTag === slug,
+                  "bg-primary-200 text-primary-700 border-primary-300 engaged:bg-primary-300":
+                    tagParam === slug,
                 },
+                {
+                  "bg-neutral-200 text-neutral-700 border-neutral-300 engaged:bg-neutral-300":
+                    tagParam !== slug,
+                }
               ]}
             >
               <span>{name}</span>
-              <span class="text-xs text-neutral-400">{count}</span>
+              <span class:list={[
+                "text-xs",
+                {
+                  "text-primary-500":
+                    tagParam === slug,
+                },
+                {
+                  "text-neutral-400":
+                    tagParam !== slug,
+                }
+              ]}>{count}</span>
             </Link>
           ))
         }

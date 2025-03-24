@@ -1,17 +1,10 @@
 ---
 import type { ComponentProps } from "astro/types";
-// biome-ignore lint/style/useImportType: <explanation>
 import Aside from "../components/Aside.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Main from "../components/Main.astro";
 import "../styles/global.css";
-
-interface Props {
-  asideProps?: ComponentProps<typeof Aside>;
-}
-
-const { asideProps } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,7 +17,7 @@ const { asideProps } = Astro.props;
   </head>
   <body class="bg-body-bg motion-safe:scroll-smooth">
     <Header />
-    <Aside {...asideProps} />
+    <Aside />
     <Main>
       <slot />
     </Main>
