@@ -1,10 +1,8 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-
-interface Props extends HTMLAttributes<"header"> {}
+import Link from "astro-typesafe-routes/link";
 ---
 
-<header {...Astro.props}>
+<header>
   <div
     class="fixed start-0 top-0 -z-10 w-aside-hidden-title-width aside-shown:w-aside-width px-4 aside-shown:px-aside-padding-x stretch:ms-aside-stretch-x transition-[inset,width,padding]"
   >
@@ -19,7 +17,7 @@ interface Props extends HTMLAttributes<"header"> {}
         te6.in
       </a>
       <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
-      <a href="/" class="font-bold text-neutral-800 p-1">Blog</a>
+      <Link to="/" class="font-bold text-neutral-800 p-1">Blog</L>
     </div>
   </div>
   <div

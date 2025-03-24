@@ -1,8 +1,5 @@
 ---
-import type { HTMLAttributes } from "astro/types";
 import { keyBy, mapValues } from "es-toolkit";
-
-interface Props extends HTMLAttributes<"div"> {}
 
 const builtDate = new Date();
 
@@ -25,4 +22,4 @@ const { year, month, day, hour, minute, second, timeZoneName } = mapValues(
 // iso with timezone
 const formattedDate = `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZoneName}`;
 ---
-<div {...Astro.props}>마지막 업데이트: {formattedDate}</div>
+<div>마지막 업데이트: {formattedDate}</div>

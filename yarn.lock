@@ -2398,6 +2398,7 @@ __metadata:
     "@types/react-dom": "npm:^19.0.4"
     astro: "npm:^5.3.0"
     astro-embed: "npm:^0.9.0"
+    astro-typesafe-routes: "npm:^4.2.2"
     es-toolkit: "npm:^1.32.0"
     github-slugger: "npm:^2.0.0"
     lucide-astro: "npm:^0.473.0"
@@ -2482,6 +2483,25 @@ __metadata:
   peerDependencies:
     astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta
   checksum: 10c0/dee37f4026883538ab3869a56fdf02a933b8742ec0c5df16edc6981a7a1fede6f787bb3082eecd08939dd3ac50ba3a0bdc0792da737cfbd1701252678190ee88
+  languageName: node
+  linkType: hard
+
+"astro-typesafe-routes@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "astro-typesafe-routes@npm:4.2.2"
+  dependencies:
+    fast-glob: "npm:^3.3.2"
+    semver: "npm:^7.6.3"
+  peerDependencies:
+    astro: ">=4.14.0 <6.0.0"
+    react: ^18.0.0 || ^19.0.0
+    typescript: ^5.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10c0/0ce45bbe9a600805c7a844bdf75ec2f53c64cb9bd2138112c8e63072eab4ffd3b89615391eaa3b254285c3d810c2b163389012f49f0d0d8d9f3f458196f12c5b
   languageName: node
   linkType: hard
 
@@ -2599,6 +2619,7 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:^1.9.4"
     turbo: "npm:^2.4.4"
+    typescript: "npm:^5.8.2"
   languageName: unknown
   linkType: soft
 
@@ -3484,7 +3505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.3.3":
+"fast-glob@npm:^3.3.2, fast-glob@npm:^3.3.3":
   version: 3.3.3
   resolution: "fast-glob@npm:3.3.3"
   dependencies:
@@ -6587,6 +6608,26 @@ __metadata:
   version: 4.35.0
   resolution: "type-fest@npm:4.35.0"
   checksum: 10c0/7032a8a940c33d45947a4ff0f74e3aa43b6fd8bb4745b32bba8e61ee47c0dd088cacd102f8377e9e889362e1ae8e0292b64a4c0698c1e42fd297bf6f8899d220
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^5.8.2":
+  version: 5.8.2
+  resolution: "typescript@npm:5.8.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/5c4f6fbf1c6389b6928fe7b8fcd5dc73bb2d58cd4e3883f1d774ed5bd83b151cbac6b7ecf11723de56d4676daeba8713894b1e9af56174f2f9780ae7848ec3c6
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^5.8.2#optional!builtin<compat/typescript>":
+  version: 5.8.2
+  resolution: "typescript@patch:typescript@npm%3A5.8.2#optional!builtin<compat/typescript>::version=5.8.2&hash=5786d5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/5448a08e595cc558ab321e49d4cac64fb43d1fa106584f6ff9a8d8e592111b373a995a1d5c7f3046211c8a37201eb6d0f1566f15cdb7a62a5e3be01d087848e2
   languageName: node
   linkType: hard
 

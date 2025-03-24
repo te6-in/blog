@@ -1,29 +1,52 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-import { AlarmClock, Newspaper } from "lucide-astro";
+import Link from "astro-typesafe-routes/link";
+import { FileCode2, Newspaper, Tags } from "lucide-astro";
+import { getTags } from "../lib/contents";
 import { CollapsibleAsideItem } from "./CollapsibleAsideItem";
 import LinkAsideItem from "./LinkAsideItem.astro";
 
-interface Props extends HTMLAttributes<"aside"> {}
+interface Props {
+  tags?: {
+    defaultOpen?: boolean;
+    selectedTag?: string;
+  };
+}
+
+const tags = await getTags();
+const { props } = Astro;
 ---
 
 <aside
-  {...Astro.props}
   class="fixed inset-y-0 -start-aside-width aside-shown:start-0 stretch:ms-aside-stretch-x pt-marginal-height transition-[inset] w-aside-width overflow-y-auto overflow-x-hidden overscroll-y-none"
 >
   <div class="flex flex-col gap-2 w-[inherit] px-aside-padding-x py-4">
-    <CollapsibleAsideItem client:load>
+    <LinkAsideItem to="/posts">
       <Newspaper slot="icon" />
       <Fragment slot="title">글</Fragment>
-      <Fragment slot="panel">
-        <div>alien-bean-pasta</div>
-        <div>wild-irish-burrito</div>
-        <div>horse-battery-staple</div>
+    </LinkAsideItem>
+    <LinkAsideItem to="/snippets">
+      <FileCode2 slot="icon" />
+      <Fragment slot="title">코드 조각</Fragment>
+    </LinkAsideItem>
+    <CollapsibleAsideItem client:load defaultOpen={props.tags?.defaultOpen}>
+      <Tags slot="triggerIcon" />
+      <Fragment slot="triggerTitle">태그</Fragment>
+      <Fragment slot="panelContent">
+        {
+          tags.map(({ name, slug }) => (
+            <Link
+              to="/tag/[slug]"
+              params={{ slug }}
+              class:list={[
+                "text-sm text-neutral-500 bg-neutral-100 hover:bg-neutral-200",
+                { "bg-neutral-300": props.tags?.selectedTag === slug },
+              ]}
+            >
+              {name}
+            </Link>
+          ))
+        }
       </Fragment>
     </CollapsibleAsideItem>
-    <LinkAsideItem href="/posts">
-      <AlarmClock slot="icon" />
-      <Fragment slot="title">foobar</Fragment>
-    </LinkAsideItem>
   </div>
 </aside>

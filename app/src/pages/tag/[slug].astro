@@ -1,31 +1,19 @@
 ---
-import { getCollection } from "astro:content";
-import { uniqBy } from "es-toolkit";
-import { slug } from "github-slugger";
 import Layout from "../../layouts/Layout.astro";
+import { getTags } from "../../lib/contents";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("post");
-  const snippets = await getCollection("snippet");
+  const tags = await getTags();
 
-  const tags = [
-    ...posts.flatMap((post) => post.data.tags),
-    ...snippets.flatMap((snippet) => snippet.data.tags),
-  ];
-
-  const tagsWithSlugs = tags.map((tag) => ({ name: tag, slug: slug(tag) }));
-
-  const uniqueTagsWithSlugs = uniqBy(tagsWithSlugs, ({ slug }) => slug);
-
-  return uniqueTagsWithSlugs.map(({ name, slug }) => ({
+  return tags.map(({ name, slug }) => ({
     params: { slug },
-    props: { name },
+    props: { name, slug },
   }));
 }
 
-const { name } = Astro.props;
+const { name, slug } = Astro.props;
 ---
-<Layout>  
+<Layout asideProps={{ tags: { defaultOpen: true, selectedTag: slug } }}>
   <div>
     {name}
   </div>

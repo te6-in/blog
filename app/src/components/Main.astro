@@ -1,11 +1,4 @@
----
-import type { HTMLAttributes } from "astro/types";
-
-interface Props extends HTMLAttributes<"div"> {}
----
-
 <div
-  {...Astro.props}
   class="aside-shown:ps-aside-width stretch:mx-aside-stretch-x transition-[padding] my-marginal-height z-10"
 >
   <main

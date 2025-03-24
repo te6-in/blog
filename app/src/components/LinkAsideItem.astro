@@ -1,11 +1,12 @@
 ---
+import Link from "astro-typesafe-routes/link";
+import type { Route, RouteOptions } from "astro-typesafe-routes/path";
 import type { HTMLAttributes } from "astro/types";
-import { ChevronRight } from "lucide-astro";
 
-interface Props extends HTMLAttributes<"a"> {}
+type Props<T extends Route> = Omit<HTMLAttributes<"a">, "href"> & RouteOptions<T>;
 ---
 
-<a
+<Link
   {...Astro.props}
   class="flex items-center justify-between gap-1 rounded-lg hover:bg-neutral-200 -mx-2 p-2 transition-colors text-neutral-700"
   >
@@ -15,4 +16,4 @@ interface Props extends HTMLAttributes<"a"> {}
       <slot name="title" />
     </span>
   </div>
-</a>
+</Link>
