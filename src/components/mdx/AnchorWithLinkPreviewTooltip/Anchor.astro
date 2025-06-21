@@ -8,14 +8,18 @@ interface Props extends HTMLAttributes<"a"> {
 
 const { variant, ...props } = Astro.props;
 ---
-<a {...props} class="no-underline text-pretty supports-[text-wrap:pretty]:inline-block supports-[text-wrap:pretty]:[baseline-source:first]">
-<!-- <a {...props} class="no-underline"> -->
+
+<a
+  {...props}
+  class="no-underline text-pretty supports-[text-wrap:pretty]:inline-block supports-[text-wrap:pretty]:[baseline-source:first]"
+>
+  <!-- <a {...props} class="no-underline"> -->
   <span class="underline"><slot /></span>
   <span class="inline-block -mb-0.5 text-neutral-500 me-0.5 -ms-0.5">
     <!-- <span class="inline-block -mb-0.5 text-neutral-500 me-0.5 -ms-0.5 select-none"> -->
-    {variant === "new-tab" && <ExternalLink size={18} />}
-    {variant === "hash" && <Hash size={18} />}
-    {variant === "article" && <Newspaper size={18} />}
-    {variant === "code" && <FileCode2 size={18} />}
+    {variant === "new-tab" && <ExternalLink size={15} />}
+    {variant === "hash" && <Hash size={15} />}
+    {variant === "article" && <Newspaper size={15} />}
+    {variant === "code" && <FileCode2 size={15} />}
   </span>
 </a>

@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import type { ComponentProps } from "astro/types";
+import ImageWithInferredAlt from "../ImageWithInferredAlt.astro";
+import { ArrowLeft, ArrowRight } from "lucide-astro";
+import Link from "astro-typesafe-routes/link";
+import { match } from "ts-pattern";
+
+interface Props {
+  direction: "previous" | "next";
+  type: "post" | "snippet";
+  title: string;
+  imageSrc?: ComponentProps<typeof Image>["src"];
+  slug: string;
+}
+
+const { direction, title, imageSrc, slug, type } = Astro.props;
+
+const classNames = match(!!imageSrc)
+  .with(true, () => ({
+    container: "inset-ring-2 inset-ring-neutral-300/50",
+    title: "text-white/95",
+    indicator: "text-white/75",
+  }))
+  .with(false, () => ({
+    container: "bg-neutral-50 inset-ring-2 inset-ring-neutral-200",
+    title: "text-neutral-800",
+    indicator: "text-neutral-500",
+  }))
+  .exhaustive();
+---
+
+<Link
+  to={`/${type}/[slug]`}
+  params={{ slug }}
+  class:list={[
+    "relative lg:aspect-cover-image overflow-hidden group shadow-md transition-all lg:engaged:-translate-y-1",
+    direction === "previous"
+      ? "rounded-t-2xl rounded-b-md lg:rounded-l-2xl lg:rounded-r-md"
+      : "rounded-b-2xl rounded-t-md lg:rounded-r-2xl lg:rounded-l-md",
+  ]}
+>
+  <div
+    class:list={[
+      "z-10 relative flex flex-col gap-4 justify-between size-full p-6",
+      classNames.container,
+      direction === "previous"
+        ? "rounded-t-2xl rounded-b-md lg:rounded-l-2xl lg:rounded-r-md"
+        : "rounded-b-2xl rounded-t-md lg:rounded-r-2xl lg:rounded-l-md",
+    ]}
+  >
+    <div class:list={["text-pretty text-xl font-semibold", classNames.title]}>
+      {title}
+    </div>
+    <div
+      class:list={[
+        "flex items-center gap-1 text-sm font-medium",
+        direction === "next" && "flex-row-reverse",
+        classNames.indicator,
+      ]}
+    >
+      {
+        direction === "previous" ? (
+          <ArrowLeft
+            class="transition-transform group-engaged:-translate-x-1"
+            size={20}
+          />
+        ) : (
+          <ArrowRight
+            class="transition-transform group-engaged:translate-x-1"
+            size={20}
+          />
+        )
+      }
+      <span>{direction === "next" ? "다음 글" : "이전 글"}</span>
+    </div>
+  </div>
+  {
+    imageSrc && (
+      <div class="absolute inset-0">
+        <ImageWithInferredAlt
+          src={imageSrc}
+          class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
+          onload="this.classList.remove('motion-safe:animate-pulse')"
+        />
+        <div class="bg-gradient-to-b from-black/90 to-black/65 inset-0 absolute contrast-more:backdrop-blur-sm transition-[backdrop-filter]" />
+      </div>
+    )
+  }
+</Link>

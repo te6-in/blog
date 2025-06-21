@@ -1,6 +1,5 @@
 ---
 import { match } from "ts-pattern";
-import { isConstructorDeclaration } from "typescript";
 
 interface Props {
   variant?: "flat" | "glass";
@@ -28,13 +27,13 @@ const classNames = match(variant)
   .exhaustive();
 ---
 
-<div class="grid grid-cols-[auto_1fr] gap-x-1 gap-y-0.5 text-sm ml-auto">
+<div class="grid grid-cols-[auto_1fr] gap-x-1.5 gap-y-0.5 text-sm ml-auto">
   {
     publishedAt && (
       <>
         <span class={classNames.description}>작성</span>
         <time
-          class:list={["whitespace-nowrap", classNames.label]}
+          class:list={["whitespace-nowrap text-end", classNames.label]}
           datetime={publishedAt.toISOString()}
         >
           {formatter.format(publishedAt)}
@@ -47,7 +46,7 @@ const classNames = match(variant)
       <>
         <span class={classNames.description}>수정</span>
         <time
-          class:list={["whitespace-nowrap", classNames.label]}
+          class:list={["whitespace-nowrap text-end", classNames.label]}
           datetime={updatedAt.toISOString()}
         >
           {formatter.format(updatedAt)}

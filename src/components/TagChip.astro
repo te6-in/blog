@@ -11,17 +11,17 @@ interface Props {
 
 const { variant = "flat", slug, name, count } = Astro.props;
 
-const classNames = match(variant)
-  .with("flat", () => ({
-    base: "border-neutral-300 bg-neutral-200 hover:bg-neutral-300 hover:text-neutral-900",
-    label: "text-neutral-800 group-hover:text-neutral-900",
-    count: "text-neutral-500 group-hover:text-neutral-600",
-  }))
-  .with("glass", () => ({
-    base: "border-neutral-500/30 bg-neutral-400/35 hover:bg-neutral-300/40 hover:text-white backdrop-blur shadow-sm",
-    label: "text-white/80 group-hover:text-white",
-    count: "text-white/50 group-hover:text-white/70",
-  }))
+const baseClassName = match(variant)
+  .with(
+    "flat",
+    () =>
+      "border-neutral-300 bg-neutral-200 engaged:bg-neutral-300 engaged:text-neutral-900 text-neutral-800 engaged:text-neutral-900"
+  )
+  .with(
+    "glass",
+    () =>
+      "border-neutral-500/30 bg-neutral-400/35 engaged:bg-neutral-300/40 engaged:text-white backdrop-blur shadow-sm text-white/80 engaged:text-white"
+  )
   .exhaustive();
 ---
 
@@ -30,18 +30,11 @@ const classNames = match(variant)
   params={{ slug }}
   class:list={[
     "inline-flex items-baseline gap-[0.5ch] transition-colors px-[0.6875rem] py-[0.3125rem] rounded-full border group whitespace-nowrap",
-    classNames.base,
+    baseClassName,
   ]}
 >
-  <span class:list={["text-sm transition-colors", classNames.label]}
-    >{name}</span
-  >
-  <span
-    class:list={[
-      "text-xs font-medium transition-colors select-none",
-      classNames.count,
-    ]}
-  >
+  <span class="text-sm">{name}</span>
+  <span class="text-xs font-medium select-none text-current/50">
     {count}
   </span>
 </Link>

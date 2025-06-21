@@ -17,8 +17,9 @@ import TagChip from "../../components/TagChip.astro";
 import AuthorChip from "../../components/AuthorChip.astro";
 import MetadataGrid from "../../components/MetadataGrid.astro";
 import Comments from "../../components/Comments.astro";
-import PostNavigation from "../../components/PostNavigation";
+import PrevNextNavigation from "../../components/PrevNextNavigation";
 import SeriesNavigation from "../../components/SeriesNavigation.astro";
+import ActionButtons from "../../components/ActionButtons.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -41,13 +42,13 @@ const variant = post.data.coverImage ? "glass" : "flat";
 
 <Layout>
   <div
-    class="overflow-hidden w-full relative sidebar-shown:rounded-lg transition-[border-radius]"
+    class="w-full relative rounded-lg transition-[border-radius] overflow-hidden"
   >
     <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
       <div class="flex flex-col gap-2">
         <h1
           class:list={[
-            "text-3xl font-semibold text-balance",
+            "text-3xl leading-11 font-semibold text-balance",
             variant === "glass" ? "text-white" : "text-neutral-800",
           ]}
         >
@@ -93,32 +94,58 @@ const variant = post.data.coverImage ? "glass" : "flat";
         <div class="absolute inset-0">
           <ImageWithInferredAlt
             src={post.data.coverImage}
-            class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none peer"
+            class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
             onload="this.classList.remove('motion-safe:animate-pulse')"
           />
-          <div class="bg-gradient-to-b from-black/90 to-black/65 inset-0 absolute" />
+          <div class="bg-gradient-to-b from-black/90 to-black/65 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
         </div>
       )
     }
   </div>
-  <Prose>
-    <Content
-      components={{
-        Callout,
-        Link: LinkPreviewCard,
-        AppleMusic: Foo,
-        Twitter,
-        YouTube,
-        Bluesky,
-        BaselineStatus,
-        ImageGrid: Foo,
-        img: ImageWithInferredAlt,
-        a: AnchorWithLinkPreviewTooltip,
-        hr: Hr,
-      }}
-    />
-  </Prose>
-  <SeriesNavigation />
-  <Comments />
-  <PostNavigation currentPostSlug={post.id} />
+  <div class="flex">
+    <div class="flex flex-col p-3">
+      <SeriesNavigation currentType={post.collection} currentSlug={post.id} />
+      <div class="flex flex-col p-5 gap-12">
+        <Prose>
+          <Content
+            components={{
+              Callout,
+              LinkPreviewCard,
+              AppleMusic: Foo,
+              Twitter,
+              YouTube,
+              Bluesky,
+              BaselineStatus,
+              ImageGrid: Foo,
+              img: ImageWithInferredAlt,
+              a: AnchorWithLinkPreviewTooltip,
+              hr: Hr,
+            }}
+          />
+        </Prose>
+        <Comments />
+        <PrevNextNavigation
+          navigateIn={post.collection}
+          currentSlug={post.id}
+        />
+      </div>
+    </div>
+    <div
+      class="flex flex-col justify-between items-end p-8 pt-3 w-64 flex-none"
+    >
+      <div class="sticky p-4 top-12 bg-red-300 opacity-0">
+        <h2 class="text-lg font-semibold">태그</h2>
+        <ul class="flex flex-wrap gap-2 mt-2">
+          {
+            tagsWithCount.map((tag) => (
+              <li>
+                <TagChip variant="flat" {...tag} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <ActionButtons class="sticky bottom-12" />
+    </div>
+  </div>
 </Layout>

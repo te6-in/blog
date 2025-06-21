@@ -1,0 +1,86 @@
+---
+import { MessageCircleMore, PartyPopper, Share } from "lucide-astro";
+
+interface Props {
+  class: string;
+}
+---
+
+<div class:list={["flex flex-col gap-2 items-end", Astro.props.class]}>
+  <button
+    aria-label="공유"
+    id="share-button"
+    class="p-3.5 bg-white border border-neutral-200 shadow rounded-full gap-1.5 items-center font-semibold transition-all engaged:bg-neutral-100 engaged:border-neutral-300 text-sm text-neutral-800 engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0"
+  >
+    <Share size={20} />
+  </button>
+  <a
+    href="#comments"
+    class="px-4 py-3.5 bg-white border border-neutral-200 shadow rounded-full flex gap-1.5 items-center font-semibold transition-colors engaged:bg-neutral-100 engaged:border-neutral-300 text-sm text-neutral-800 engaged:text-neutral-900"
+  >
+    <PartyPopper size={20} />
+    <span class="flex items-baseline gap-[0.5ch]">
+      <span>반응</span>
+      <span
+        id="reaction-count"
+        class="text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width]"
+      ></span>
+    </span>
+  </a>
+  <a
+    href="#comments"
+    class="px-4 py-3.5 bg-white border border-neutral-200 shadow rounded-full flex gap-1.5 items-center font-semibold transition-colors engaged:bg-neutral-100 engaged:border-neutral-300 text-sm text-neutral-800 engaged:text-neutral-900"
+  >
+    <MessageCircleMore size={20} />
+    <span class="flex items-baseline gap-[0.5ch]">
+      <span>댓글</span>
+      <span
+        id="comment-count"
+        class="text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width]"
+      ></span>
+    </span>
+  </a>
+</div>
+
+<script>
+  const reactionCountLabel = document.getElementById("reaction-count");
+  const commentCountLabel = document.getElementById("comment-count");
+  const shareButton = document.getElementById("share-button");
+
+  function handleGiscusMessage(event: MessageEvent) {
+    if (event.origin !== "https://giscus.app") return;
+    if (!(typeof event.data === "object" && event.data.giscus)) return;
+
+    const giscusDiscussionData = event.data.giscus.discussion;
+
+    const reactionCount = giscusDiscussionData?.reactionCount ?? 0;
+    const commentCount =
+      giscusDiscussionData?.totalCommentCount ??
+      0 + giscusDiscussionData?.totalReplyCount ??
+      0;
+
+    if (reactionCountLabel && reactionCount) {
+      reactionCountLabel.innerText = `${reactionCount}`;
+    }
+
+    if (commentCountLabel && commentCount) {
+      commentCountLabel.innerText = `${commentCount}`;
+    }
+  }
+
+  window.addEventListener("message", handleGiscusMessage);
+
+  if (!navigator.share) {
+    shareButton?.remove();
+  }
+
+  if (navigator.share) {
+    shareButton?.setAttribute("data-share-available", "");
+    shareButton?.addEventListener("click", async () => {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href,
+      });
+    });
+  }
+</script>

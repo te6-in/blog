@@ -68,7 +68,7 @@ function PanelContent({ children }: PropsWithChildren) {
   return (
     <div className="flex gap-3 mt-1">
       <div className="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none" />
-      <div className="flex flex-wrap gap-2 py-1.5">{children}</div>
+      <div className="flex flex-wrap gap-1.5 py-1.5">{children}</div>
     </div>
   );
 }

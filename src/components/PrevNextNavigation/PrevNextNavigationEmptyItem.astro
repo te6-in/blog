@@ -1,0 +1,18 @@
+---
+interface Props {
+  direction: "previous" | "next";
+}
+
+const { direction } = Astro.props;
+---
+
+<div
+  class:list={[
+    "lg:aspect-cover-image bg-neutral-100 text-neutral-500 text-balance text-sm font-semibold p-4 flex items-center justify-center text-center",
+    direction === "previous"
+      ? "rounded-t-2xl rounded-b-md lg:rounded-l-2xl lg:rounded-r-md"
+      : "rounded-b-2xl rounded-t-md lg:rounded-r-2xl lg:rounded-l-md",
+  ]}
+>
+  {direction === "previous" ? "첫 번째 글이에요." : "마지막 글이에요."}
+</div>

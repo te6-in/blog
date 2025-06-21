@@ -1,0 +1,76 @@
+---
+import Link from "astro-typesafe-routes/link";
+import type { DataEntryMap, InferEntrySchema } from "astro:content";
+import { getCollection, getEntries, getEntry } from "astro:content";
+import { BookMarked } from "lucide-astro";
+
+interface Props {
+  currentType: "post" | "snippet";
+  currentSlug: string;
+}
+
+const { currentType, currentSlug } = Astro.props;
+
+const allSeries = await getCollection("series");
+
+function resolveEntries(entries: InferEntrySchema<"series">["entries"]) {
+  return Promise.all(entries.map(({ slug }) => getEntry(slug)));
+}
+
+// XXX: this is run for every post
+const allSeriesWithResolvedEntries = await Promise.all(
+  allSeries.map(async (series) => ({
+    ...series,
+    resolvedEntries: await resolveEntries(series.data.entries),
+  }))
+);
+
+const seriesWithin = allSeriesWithResolvedEntries.filter(
+  ({ resolvedEntries }) =>
+    resolvedEntries.find(
+      ({ collection, id }) => collection === currentType && id === currentSlug
+    )
+);
+---
+
+<div class="flex flex-col gap-2">
+  {
+    seriesWithin.map(({ data: { title }, resolvedEntries }) => (
+      <nav class="rounded-lg bg-neutral-100 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-neutral-800 p-4 sidebar-shown:p-5.5 pb-0 sidebar-shown:pb-0 font-semibold transition-[padding]">
+          <BookMarked />
+          <div>{title}</div>
+        </div>
+        <span class="flex gap-2 p-3.5 pt-0">
+          <div class="w-0.5 rounded-full bg-neutral-200 ms-3 sidebar-shown:ms-4.5 flex-none transition-[margin]" />
+          <ol class="flex flex-col grow">
+            {resolvedEntries.map(
+              ({ id, collection, data: { title } }, index) => (
+                <li class="grow">
+                  <Link
+                    to={`/${collection}/[slug]`}
+                    params={{ slug: id }}
+                    class:list={[
+                      "flex items-baseline gap-[0.5ch] p-2.5 pl-3 rounded engaged:bg-neutral-200 transition-colors text-sm text-pretty w-full",
+                      currentType === collection && currentSlug === id
+                        ? "text-accent-600 font-semibold"
+                        : "text-neutral-800 font-medium",
+                    ]}
+                  >
+                    <span aria-hidden class="text-current/50">
+                      {index + 1}.
+                    </span>
+                    <span>{title}</span>
+                    {currentType === collection && currentSlug === id && (
+                      <span class="sr-only">지금 보고 있는 글</span>
+                    )}
+                  </Link>
+                </li>
+              )
+            )}
+          </ol>
+        </span>
+      </nav>
+    ))
+  }
+</div>

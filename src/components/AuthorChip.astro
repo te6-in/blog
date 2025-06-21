@@ -14,16 +14,12 @@ const { variant = "flat", id, avatar, name, url } = Astro.props;
 
 const classNames = match(variant)
   .with("flat", () => ({
-    base: "hover:bg-neutral-100",
+    base: "engaged:bg-neutral-100 text-neutral-700 engaged:text-neutral-800",
     image: "bg-neutral-200",
-    name: "text-neutral-700 group-hover:text-neutral-800",
-    id: "text-neutral-400 group-hover:text-neutral-500",
   }))
   .with("glass", () => ({
-    base: "hover:border-neutral-500/30 hover:bg-neutral-300/40 hover:backdrop-blur hover:shadow",
+    base: "engaged:border-neutral-500/30 engaged:bg-neutral-300/30 engaged:backdrop-blur engaged:shadow text-white/80 engaged:text-white",
     image: "bg-neutral-200/75 backdrop-blur",
-    name: "text-white/80 group-hover:text-white",
-    id: "text-white/50 group-hover:text-white/70",
   }))
   .exhaustive();
 ---
@@ -47,12 +43,10 @@ const classNames = match(variant)
       onload="this.classList.remove('motion-safe:animate-pulse')"
     />
     <span>
-      <span class:list={["transition-colors", classNames.name]}>
+      <span>
         {name}
       </span>
-      <span
-        class:list={["text-xs font-medium transition-colors", classNames.id]}
-      >
+      <span class="text-xs font-medium text-current/50">
         {id}
       </span>
     </span>
