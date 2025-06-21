@@ -6,6 +6,10 @@
   /* --default-transition-duration: 1s; */
 }
 
+body {
+  @apply break-keep;
+}
+
 @layer utilities {
   .clickable {
     @apply focus-visible:outline-[3px] outline-offset-[3px] outline-accent-500;
@@ -58,7 +62,7 @@
   --color-body-bg: var(--color-gray-100);
 
   /* breakpoints */
-  --breakpoint-aside-shown: 40rem; /* sm */
+  --breakpoint-sidebar-shown: 40rem; /* sm */
   --breakpoint-stretch: 80rem; /* xl */
 
   --default-transition-duration: 0.2s;
@@ -67,10 +71,12 @@
   --spacing-mdx-component-margin-y: 1.25em;
 
   /* layout */
-  --spacing-aside-hidden-title-width: calc(var(--spacing) * 36);
-  --spacing-aside-width: calc(var(--spacing) * 68);
-  --spacing-aside-padding-x: calc(var(--spacing) * 8);
-  --spacing-aside-stretch-x: calc((100vw - var(--breakpoint-stretch)) / 2);
+  --spacing-sidebar-hidden-title-width: calc(var(--spacing) * 36);
+  --spacing-sidebar-width: calc(var(--spacing) * 68);
+  --spacing-sidebar-padding-x: calc(var(--spacing) * 8);
+  --spacing-sidebar-stretch-x: calc((100vw - var(--breakpoint-stretch)) / 2);
 
   --spacing-marginal-height: calc(var(--spacing) * 16);
+
+  --aspect-cover-image: 16 / 10;
 }

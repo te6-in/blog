@@ -1,14 +1,14 @@
 ---
 import { getCollection, render } from "astro:content";
 import { BaselineStatus } from "astro-embed";
+import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
 import Prose from "../../components/Prose.astro";
-import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip.astro";
+import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
-import Image from "../../components/mdx/Image.astro";
-import Link from "../../components/mdx/Link";
+import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -25,20 +25,23 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-<Layout>  
+
+<Layout>
   <Prose>
-    <Content components={{
+    <Content
+      components={{
         Callout,
-        Link,
+        LinkPreviewCard,
         AppleMusic: Foo,
         Twitter,
         YouTube,
         Bluesky,
         BaselineStatus,
         ImageGrid: Foo,
-        img: Image,
+        img: ImageWithInferredAlt,
         a: AnchorWithLinkPreviewTooltip,
         hr: Hr,
-    }} />
+      }}
+    />
   </Prose>
 </Layout>

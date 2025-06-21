@@ -2,6 +2,27 @@ import { getCollection } from "astro:content";
 import { uniqBy } from "es-toolkit";
 import { slug } from "github-slugger";
 
+export async function getTag(name: string) {
+  const posts = await getCollection("post");
+  const snippets = await getCollection("snippet");
+  const tagsFound = [
+    ...posts.flatMap((post) => post.data.tags),
+    ...snippets.flatMap((snippet) => snippet.data.tags),
+  ];
+
+  const tag = tagsFound.find((tag) => name === tag);
+  if (!tag) throw new Error(`Tag not found: ${name}`);
+
+  const tagSlug = slug(tag);
+  const tagCount = tagsFound.filter((t) => t === tag).length;
+
+  return {
+    name: tag,
+    slug: tagSlug,
+    count: tagCount,
+  };
+}
+
 interface GetTagsParams {
   sortBy?: "name" | "count";
 }

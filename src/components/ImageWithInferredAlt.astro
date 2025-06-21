@@ -1,23 +1,28 @@
 ---
-// biome-ignore lint/style/useImportType: limited support of biome for astro files
-import { Image as AstroImage, getImage } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { getCollection } from "astro:content";
 import { removeQueryString } from "@astrojs/internal-helpers/path";
 import type { ComponentProps } from "astro/types";
 
-type Props = Omit<ComponentProps<typeof AstroImage>, "alt"> &
-  Partial<Pick<ComponentProps<typeof AstroImage>, "alt">>;
+type Props = Omit<ComponentProps<typeof Image>, "alt"> &
+  Partial<Pick<ComponentProps<typeof Image>, "alt">>;
 
 const { src: __src, alt: __alt } = Astro.props;
+
+if (__alt) {
+  throw new Error("Alt text should not be provided. It will be inferred.");
+}
 
 const { src } = await getImage({ src: __src });
 const decodedSrc = decodeURIComponent(src);
 
 const fileName = removeQueryString(decodedSrc).split("/").pop();
 
-const alt =
-  __alt || (await getCollection("altText")).find(({ id }) => id === fileName?.split(".")[0])?.data;
+const alt = (await getCollection("altText")).find(
+  ({ id }) => id === fileName?.split(".")[0]
+)?.data;
 
 if (!alt) throw new Error(`Alt text not found or empty. src: ${decodedSrc}`);
 ---
-<AstroImage {...Astro.props as ComponentProps<typeof AstroImage>} alt={alt} />
+
+<Image {...Astro.props as ComponentProps<typeof Image>} alt={alt} />

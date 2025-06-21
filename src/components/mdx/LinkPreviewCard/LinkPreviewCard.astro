@@ -7,10 +7,9 @@
 import type { InferEntrySchema } from "astro:content";
 import type { ComponentProps } from "astro/types";
 import { match } from "ts-pattern";
-import Image from "../Image.astro";
-import { getAnchor } from "../get-anchor";
-// biome-ignore lint/style/useImportType: <explanation>
-import LinkCard from "./LinkCard.astro";
+import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
+import { getAnchor } from "../AnchorWithLinkPreviewTooltip/get-anchor";
+import PreviewCard from "./PreviewCard.astro";
 import { parseOpenGraph } from "./lib";
 
 export interface Props {
@@ -35,7 +34,7 @@ const { type, url, detail } = await getAnchor({
 const { href, metadata, internalImage, externalImage } = await match(type)
   .returnType<
     Promise<
-      ComponentProps<typeof LinkCard> &
+      ComponentProps<typeof PreviewCard> &
         (
           | {
               internalImage?: InferEntrySchema<"post">["coverImage"]; // XXX
@@ -109,24 +108,28 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
 
 {
   type === "post" && (
-    <LinkCard href={href} metadata={metadata} target="_blank">
+    <PreviewCard href={href} metadata={metadata} target="_blank">
       {internalImage && (
-        <Image class={IMAGE_CLASS} src={internalImage} />
+        <ImageWithInferredAlt class={IMAGE_CLASS} src={internalImage} />
       )}
-    </LinkCard>
+    </PreviewCard>
   )
 }
 {
   type === "snippet" && (
-    <LinkCard href={href} metadata={metadata} target="_blank" />
+    <PreviewCard href={href} metadata={metadata} target="_blank" />
   )
 }
 {
   type === "external" && (
-    <LinkCard href={href} metadata={metadata} target="_blank">
+    <PreviewCard href={href} metadata={metadata} target="_blank">
       {externalImage && (
-        <img class:list={[IMAGE_CLASS, "bg-neutral-200 motion-safe:animate-pulse"]} {...externalImage} onload={`this.classList.remove("motion-safe:animate-pulse")`} />
+        <img
+          class:list={[IMAGE_CLASS, "bg-neutral-200 motion-safe:animate-pulse"]}
+          {...externalImage}
+          onload={`this.classList.remove("motion-safe:animate-pulse")`}
+        />
       )}
-    </LinkCard>
+    </PreviewCard>
   )
 }

@@ -1,17 +1,24 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntries, render } from "astro:content";
 import { BaselineStatus } from "astro-embed";
+import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
 import Prose from "../../components/Prose.astro";
-import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip.astro";
+import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
-import Image from "../../components/mdx/Image.astro";
-import Link from "../../components/mdx/Link";
+import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
+import { getTag } from "../../lib/contents";
+import TagChip from "../../components/TagChip.astro";
+import AuthorChip from "../../components/AuthorChip.astro";
+import MetadataGrid from "../../components/MetadataGrid.astro";
+import Comments from "../../components/Comments.astro";
+import PostNavigation from "../../components/PostNavigation";
+import SeriesNavigation from "../../components/SeriesNavigation.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -24,25 +31,94 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const tagsWithCount = await Promise.all(post.data.tags.map(getTag));
+
+const authors = await getEntries(post.data.authors);
+
+const variant = post.data.coverImage ? "glass" : "flat";
 ---
 
 <Layout>
-  {post.data.coverImage && <Image src={post.data.coverImage} />}
+  <div
+    class="overflow-hidden w-full relative sidebar-shown:rounded-lg transition-[border-radius]"
+  >
+    <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
+      <div class="flex flex-col gap-2">
+        <h1
+          class:list={[
+            "text-3xl font-semibold text-balance",
+            variant === "glass" ? "text-white" : "text-neutral-800",
+          ]}
+        >
+          {post.data.title}
+        </h1>
+        <p
+          class:list={[
+            "text-balance text-lg",
+            variant === "glass" ? "text-white/80" : "text-neutral-600",
+          ]}
+        >
+          {post.data.description}
+        </p>
+      </div>
+      <ul class="flex gap-1.5 flex-wrap">
+        {
+          tagsWithCount.map((tag) => (
+            <li>
+              <TagChip variant={variant} {...tag} />
+            </li>
+          ))
+        }
+      </ul>
+      <div class="flex items-end justify-between gap-4 flex-wrap">
+        <ul class="flex flex-wrap gap-3 translate-y-2.5">
+          {
+            authors.map(({ id, data }) => (
+              <li>
+                <AuthorChip variant={variant} id={id} {...data} />
+              </li>
+            ))
+          }
+        </ul>
+        <MetadataGrid
+          variant={variant}
+          publishedAt={post.data.publishedAt}
+          updatedAt={post.data.updatedAt}
+        />
+      </div>
+    </div>
+    {
+      post.data.coverImage && (
+        <div class="absolute inset-0">
+          <ImageWithInferredAlt
+            src={post.data.coverImage}
+            class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none peer"
+            onload="this.classList.remove('motion-safe:animate-pulse')"
+          />
+          <div class="bg-gradient-to-b from-black/90 to-black/65 inset-0 absolute" />
+        </div>
+      )
+    }
+  </div>
   <Prose>
     <Content
       components={{
         Callout,
-        Link,
+        Link: LinkPreviewCard,
         AppleMusic: Foo,
         Twitter,
         YouTube,
         Bluesky,
         BaselineStatus,
         ImageGrid: Foo,
-        img: Image,
+        img: ImageWithInferredAlt,
         a: AnchorWithLinkPreviewTooltip,
         hr: Hr,
       }}
     />
   </Prose>
+  <SeriesNavigation />
+  <Comments />
+  <PostNavigation currentPostSlug={post.id} />
 </Layout>

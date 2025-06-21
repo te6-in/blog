@@ -1,0 +1,60 @@
+---
+import { match } from "ts-pattern";
+import { Image } from "astro:assets";
+
+interface Props {
+  variant?: "flat" | "glass";
+  name: string;
+  id: string;
+  avatar: string;
+  url: string;
+}
+
+const { variant = "flat", id, avatar, name, url } = Astro.props;
+
+const classNames = match(variant)
+  .with("flat", () => ({
+    base: "hover:bg-neutral-100",
+    image: "bg-neutral-200",
+    name: "text-neutral-700 group-hover:text-neutral-800",
+    id: "text-neutral-400 group-hover:text-neutral-500",
+  }))
+  .with("glass", () => ({
+    base: "hover:border-neutral-500/30 hover:bg-neutral-300/40 hover:backdrop-blur hover:shadow",
+    image: "bg-neutral-200/75 backdrop-blur",
+    name: "text-white/80 group-hover:text-white",
+    id: "text-white/50 group-hover:text-white/70",
+  }))
+  .exhaustive();
+---
+
+<address>
+  <a
+    class:list={[
+      "inline-flex items-center gap-2 text-sm transition-all p-2 pr-3.5 not-italic rounded-full -m-2 border border-transparent group",
+      classNames.base,
+    ]}
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Image
+      src={avatar}
+      alt={``}
+      width={28}
+      height={28}
+      class:list={["rounded-full motion-safe:animate-pulse", classNames.image]}
+      onload="this.classList.remove('motion-safe:animate-pulse')"
+    />
+    <span>
+      <span class:list={["transition-colors", classNames.name]}>
+        {name}
+      </span>
+      <span
+        class:list={["text-xs font-medium transition-colors", classNames.id]}
+      >
+        {id}
+      </span>
+    </span>
+  </a>
+</address>

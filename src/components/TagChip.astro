@@ -1,0 +1,47 @@
+---
+import Link from "astro-typesafe-routes/link";
+import { match } from "ts-pattern";
+
+interface Props {
+  variant?: "flat" | "glass";
+  name: string;
+  slug: string;
+  count: number;
+}
+
+const { variant = "flat", slug, name, count } = Astro.props;
+
+const classNames = match(variant)
+  .with("flat", () => ({
+    base: "border-neutral-300 bg-neutral-200 hover:bg-neutral-300 hover:text-neutral-900",
+    label: "text-neutral-800 group-hover:text-neutral-900",
+    count: "text-neutral-500 group-hover:text-neutral-600",
+  }))
+  .with("glass", () => ({
+    base: "border-neutral-500/30 bg-neutral-400/35 hover:bg-neutral-300/40 hover:text-white backdrop-blur shadow-sm",
+    label: "text-white/80 group-hover:text-white",
+    count: "text-white/50 group-hover:text-white/70",
+  }))
+  .exhaustive();
+---
+
+<Link
+  to="/tag/[slug]"
+  params={{ slug }}
+  class:list={[
+    "inline-flex items-baseline gap-[0.5ch] transition-colors px-[0.6875rem] py-[0.3125rem] rounded-full border group whitespace-nowrap",
+    classNames.base,
+  ]}
+>
+  <span class:list={["text-sm transition-colors", classNames.label]}
+    >{name}</span
+  >
+  <span
+    class:list={[
+      "text-xs font-medium transition-colors select-none",
+      classNames.count,
+    ]}
+  >
+    {count}
+  </span>
+</Link>

@@ -7,9 +7,12 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "app/contents/**": true
+    "contents/**": true
   },
   "files.associations": {
     "**/*.css": "tailwindcss"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
   }
 }

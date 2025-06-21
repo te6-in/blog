@@ -1,10 +1,12 @@
 ---
-// biome-ignore lint/style/useImportType: <explanation>
 import { YouTube as YouTubeEmbed } from "astro-embed";
 import type { ComponentProps } from "astro/types";
 
 interface Props
-  extends Omit<ComponentProps<typeof YouTubeEmbed>, "posterQuality" | "playlabel" | "params"> {
+  extends Omit<
+    ComponentProps<typeof YouTubeEmbed>,
+    "posterQuality" | "playlabel" | "params"
+  > {
   startsAt?: number;
   endsAt?: number;
   isShorts?: boolean;
@@ -17,6 +19,7 @@ const params = new URLSearchParams({
   ...(endsAt && { end: `${endsAt}` }),
 }).toString();
 ---
+
 <YouTubeEmbed
   {...props}
   params={params}
@@ -24,6 +27,6 @@ const params = new URLSearchParams({
   playlabel="재생"
   class:list={[
     "rounded-lg", // TODO: image에도 동일한 radius 적용해야 하므로 variable로 빼기
-    { "aspect-[9/16] h-96": isShorts, },
+    { "aspect-[9/16] h-96": isShorts },
   ]}
 />

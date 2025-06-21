@@ -11,19 +11,19 @@ const CLASSNAMES = {
   triggerTitle: "font-semibold",
 };
 
-interface CollapsibleAsideItemProps extends PropsWithChildren {
+interface CollapsibleSidebarItemProps extends PropsWithChildren {
   triggerTitle?: ReactElement;
   triggerIcon?: ReactElement;
   panelContent?: ReactElement;
   defaultOpen?: boolean;
 }
 
-export function CollapsibleAsideItem({
+export function CollapsibleSidebarItem({
   triggerTitle,
   triggerIcon,
   panelContent,
   defaultOpen = false,
-}: CollapsibleAsideItemProps) {
+}: CollapsibleSidebarItemProps) {
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => setIsHydrated(true), []);
 

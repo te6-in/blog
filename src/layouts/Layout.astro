@@ -1,7 +1,6 @@
 ---
-import type { ComponentProps } from "astro/types";
-import Aside from "../components/Aside.astro";
-import Footer from "../components/Footer.astro";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import Header from "../components/Header.astro";
 import Main from "../components/Main.astro";
 import "../styles/global.css";
@@ -17,7 +16,7 @@ import "../styles/global.css";
   </head>
   <body class="bg-body-bg motion-safe:scroll-smooth">
     <Header />
-    <Aside />
+    <Sidebar />
     <Main>
       <slot />
     </Main>
