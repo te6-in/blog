@@ -26,7 +26,7 @@ const params = new URLSearchParams({
   posterQuality="max"
   playlabel="재생"
   class:list={[
-    "rounded-lg", // TODO: image에도 동일한 radius 적용해야 하므로 variable로 빼기
-    { "aspect-[9/16] h-96": isShorts },
+    "rounded-mdx-block max-h-[80vh] sidebar-shown:max-h-[60vh] mx-auto aspect-video",
+    isShorts && "aspect-[9/16]",
   ]}
 />

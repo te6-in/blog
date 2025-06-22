@@ -81,4 +81,6 @@ body {
   --spacing-marginal-height: calc(var(--spacing) * 16);
 
   --aspect-cover-image: 16 / 10;
+
+  --radius-mdx-block: var(--radius-xl);
 }

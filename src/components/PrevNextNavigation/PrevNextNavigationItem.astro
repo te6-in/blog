@@ -18,12 +18,12 @@ const { direction, title, imageSrc, slug, type } = Astro.props;
 
 const classNames = match(!!imageSrc)
   .with(true, () => ({
-    container: "inset-ring-2 inset-ring-neutral-300/40",
+    container: "inset-ring-1 inset-ring-neutral-100/50",
     title: "text-white/95",
     indicator: "text-white/75",
   }))
   .with(false, () => ({
-    container: "bg-neutral-50 inset-ring-2 inset-ring-neutral-200",
+    container: "bg-white inset-ring-1 inset-ring-neutral-200",
     title: "text-neutral-800",
     indicator: "text-neutral-500",
   }))
@@ -34,7 +34,7 @@ const classNames = match(!!imageSrc)
   to={`/${type}/[slug]`}
   params={{ slug }}
   class:list={[
-    "relative overflow-hidden group shadow-md transition-all toc-shown:engaged:-translate-y-1",
+    "relative overflow-hidden group shadow transition-all toc-shown:engaged:-translate-y-1",
     direction === "previous"
       ? "rounded-t-2xl rounded-b-md toc-shown:rounded-l-2xl toc-shown:rounded-r-md"
       : "rounded-b-2xl rounded-t-md toc-shown:rounded-r-2xl toc-shown:rounded-l-md",

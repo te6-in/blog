@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import PrevNextNavigationItem from "./PrevNextNavigationItem.astro";
 import Link from "astro-typesafe-routes/link";
-import { FileCode2, Newspaper } from "lucide-astro";
+import { ArrowUp, FileCode2, Newspaper } from "lucide-astro";
 import PrevNextNavigationEmptyItem from "./PrevNextNavigationEmptyItem.astro";
 
 interface Props {
@@ -63,26 +63,44 @@ const nextPost = posts[currentPostIndex + 1];
       )
     }
   </nav>
-  {
-    navigateIn === "post" && (
-      <Link
-        to="/posts"
-        class="flex gap-1.5 px-4 py-3.5 rounded-full bg-neutral-50 border border-neutral-200 items-center text-sm text-neutral-700 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-800"
-      >
-        <Newspaper class="flex-none" size={20} />
-        <span>모든 글 보기</span>
-      </Link>
-    )
-  }
-  {
-    navigateIn === "snippet" && (
-      <Link
-        to="/snippets"
-        class="flex gap-1.5 px-4 py-3.5 rounded-full bg-neutral-50 border border-neutral-200 items-center text-sm text-neutral-700 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-800"
-      >
-        <FileCode2 class="flex-none" size={20} />
-        <span>모든 코드 조각 보기</span>
-      </Link>
-    )
-  }
+  <div class="flex gap-2">
+    {
+      navigateIn === "post" && (
+        <Link
+          to="/posts"
+          class="flex gap-1.5 px-4 py-3.5 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900"
+        >
+          <Newspaper class="flex-none" size={20} />
+          <span>모든 글 보기</span>
+        </Link>
+      )
+    }
+    {
+      navigateIn === "snippet" && (
+        <Link
+          to="/snippets"
+          class="flex gap-1.5 px-4 py-3.5 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900"
+        >
+          <FileCode2 class="flex-none" size={20} />
+          <span>모든 코드 조각 보기</span>
+        </Link>
+      )
+    }
+    <button
+      aria-label="맨 위로 스크롤"
+      id="scroll-to-top-button"
+      type="button"
+      class="flex gap-1.5 p-3.5 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900 cursor-pointer"
+    >
+      <ArrowUp class="flex-none" size={20} />
+    </button>
+  </div>
 </div>
+
+<script>
+  document
+    .getElementById("scroll-to-top-button")
+    ?.addEventListener("click", () =>
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    );
+</script>

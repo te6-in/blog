@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntries, render } from "astro:content";
 import { BaselineStatus } from "astro-embed";
-import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
 import Prose from "../../components/Prose.astro";
 import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
 import Bluesky from "../../components/mdx/Bluesky.astro";
@@ -21,6 +20,8 @@ import PrevNextNavigation from "../../components/PrevNextNavigation";
 import SeriesNavigation from "../../components/SeriesNavigation.astro";
 import ActionButtons from "../../components/ActionButtons.astro";
 import TableOfContents from "../../components/TableOfContents";
+import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
+import AppleMusic from "../../components/mdx/AppleMusic.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -99,7 +100,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
             class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
             onload="this.classList.remove('motion-safe:animate-pulse')"
           />
-          <div class="bg-gradient-to-b from-black/90 to-black/65 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
+          <div class="bg-gradient-to-b from-black/85 to-black/60 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
         </div>
       )
     }
@@ -108,16 +109,18 @@ const variant = post.data.coverImage ? "glass" : "flat";
     class="toc-shown:flex toc-shown:flex-row-reverse gap-3.5 grid grid-cols-1"
   >
     <div
-      class="hidden toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-60 flex-none relative"
+      class="hidden toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-56 flex-none relative"
     >
       <aside
         class="sticky top-4 overflow-hidden w-full max-h-[calc(100vh-2rem)] toc-shown:block"
       >
         <TableOfContents headings={headings} class="h-full ps-0.5 pe-5 pb-50" />
       </aside>
-      <div class="sticky bottom-0 w-full pointer-events-none flex justify-end">
+      <div
+        class="sticky bottom-0 w-full h-64 pointer-events-none flex justify-end items-end"
+      >
         <div
-          class="absolute w-full bottom-0 bg-gradient-to-b from-transparent to-white h-64 pointer-events-none toc-shown:block"
+          class="absolute inset-0 bg-gradient-to-b from-transparent to-white h-64 pointer-events-none toc-shown:block"
         >
         </div>
         <ActionButtons
@@ -129,7 +132,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
       class="toc-shown:hidden sticky bottom-4 m-4 sidebar-shown:bottom-8 sidebar-shown:mb-8 row-start-1 row-end-1 col-start-1 col-end-1 self-end justify-self-end z-50 transition-[bottom,margin]"
     />
     <div
-      class="flex flex-col pb-19 sidebar-shown:pb-52 toc-shown:pb-12 gap-6 overflow-x-hidden row-start-1 row-end-1 col-start-1 col-end-1 transition-[padding]"
+      class="flex flex-col pb-19 sidebar-shown:pb-52 toc-shown:pb-12 sidebar-shown:gap-2 toc-shown:gap-6 overflow-x-hidden row-start-1 row-end-1 col-start-1 col-end-1 transition-[padding,gap]"
     >
       <SeriesNavigation currentType={post.collection} currentSlug={post.id} />
       <div class="flex flex-col px-4 toc-shown:ps-8 pt-4 gap-12">
@@ -138,7 +141,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
             components={{
               Callout,
               LinkPreviewCard,
-              AppleMusic: Foo,
+              AppleMusic,
               Twitter,
               YouTube,
               Bluesky,
