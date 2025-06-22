@@ -1,5 +1,5 @@
 ---
-import { MessageCircleMore, PartyPopper, Share } from "lucide-astro";
+import { Hash, MessageCircleMore, PartyPopper, Share } from "lucide-astro";
 
 interface Props {
   class: string;
@@ -8,25 +8,31 @@ interface Props {
 
 <div
   class:list={[
-    "inline-flex sidebar-shown:flex-col gap-1.5 sidebar-shown:gap-2 items-end pointer-events-none",
+    "inline-flex toc-shown:flex-col gap-1.5 sidebar-shown:gap-2 items-end pointer-events-none",
     Astro.props.class,
   ]}
 >
-  <button
-    aria-label="공유"
-    class:list={[
-      "share-button",
-      "p-2.5 sidebar-shown:p-3.5 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800",
-    ]}
-  >
-    <Share class="flex-none" size={20} />
-  </button>
-  <div
-    class="flex gap-1.5 sidebar-shown:gap-2 sidebar-shown:flex-col toc-shown:flex-row items-end"
-  >
+  <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
+    <button
+      aria-label="공유"
+      class:list={[
+        "share-button",
+        "p-2.5 sidebar-shown:p-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800",
+      ]}
+    >
+      <Share class="flex-none" size={20} />
+    </button>
+    <button
+      class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 border backdrop-blur-lg bg-white/65 border-neutral-200/65 rounded-full flex gap-1.5 items-center font-semibold transition-all text-sm pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 toc-shown:hidden cursor-pointer"
+    >
+      <Hash class="flex-none" size={20} />
+      <span class="flex items-baseline">목차</span>
+    </button>
+  </div>
+  <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
     <a
       href="#comments"
-      class="px-3 py-2.5 sidebar-shown:px-4 sidebar-shown:py-3.5 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
+      class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
     >
       <PartyPopper class="flex-none" size={20} />
       <span class="flex items-baseline">
@@ -40,7 +46,7 @@ interface Props {
     </a>
     <a
       href="#comments"
-      class="px-3 py-2.5 sidebar-shown:px-4 sidebar-shown:py-3.5 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
+      class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
     >
       <MessageCircleMore class="flex-none" size={20} />
       <span class="flex items-baseline">
