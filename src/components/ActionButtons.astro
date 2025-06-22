@@ -14,6 +14,7 @@ interface Props {
 >
   <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
     <button
+      type="button"
       aria-label="공유"
       class:list={[
         "share-button",
@@ -23,7 +24,13 @@ interface Props {
       <Share class="flex-none" size={20} />
     </button>
     <button
-      class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 border backdrop-blur-lg bg-white/65 border-neutral-200/65 rounded-full flex gap-1.5 items-center font-semibold transition-all text-sm pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 toc-shown:hidden cursor-pointer"
+      type="button"
+      aria-controls="toc-container"
+      aria-expanded="false"
+      class:list={[
+        "show-toc-overlay-button",
+        "px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 border backdrop-blur-lg bg-white/65 border-neutral-200/65 rounded-full flex gap-1.5 items-center font-semibold transition-all text-sm pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 toc-shown:hidden cursor-pointer",
+      ]}
     >
       <Hash class="flex-none" size={20} />
       <span class="flex items-baseline">목차</span>
@@ -71,6 +78,13 @@ interface Props {
   const shareButtons = Array.from(
     document.getElementsByClassName("share-button")
   );
+  const showTocOverlayButtons = Array.from(
+    document.getElementsByClassName("show-toc-overlay-button")
+  );
+  const hideTocOverlayButton = document.getElementById(
+    "hide-toc-overlay-button"
+  );
+  const tocContainer = document.getElementById("toc-container");
 
   function handleGiscusMessage(event: MessageEvent) {
     if (event.origin !== "https://giscus.app") return;
@@ -112,6 +126,24 @@ interface Props {
           title: document.title,
           url: window.location.href,
         });
+      });
+    });
+  }
+
+  if (tocContainer) {
+    showTocOverlayButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.getAttribute("aria-expanded") === "true") {
+          tocContainer.removeAttribute("data-showing-toc-overlay");
+          button.setAttribute("aria-expanded", "false");
+          hideTocOverlayButton?.setAttribute("aria-expanded", "false");
+
+          return;
+        }
+
+        button.setAttribute("aria-expanded", "true");
+        hideTocOverlayButton?.setAttribute("aria-expanded", "true");
+        tocContainer.setAttribute("data-showing-toc-overlay", "");
       });
     });
   }

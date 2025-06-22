@@ -65,7 +65,6 @@ const variant = post.data.coverImage ? "glass" : "flat";
           {post.data.description}
         </p>
       </div>
-      <span class="sr-only"> 태그 </span>
       <ul role="list" class="flex gap-1.5 flex-wrap">
         {
           tagsWithCount.map((tag) => (
@@ -112,9 +111,13 @@ const variant = post.data.coverImage ? "glass" : "flat";
       class="contents toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-56 flex-none relative"
     >
       <aside
-        class="sticky top-4 overflow-hidden w-full max-h-[calc(100vh-2rem)] hidden toc-shown:block"
+        id="toc-container"
+        class="hidden overflow-hidden data-showing-toc-overlay:bg-red-300 data-showing-toc-overlay:block data-showing-toc-overlay:fixed data-showing-toc-overlay:inset-y-0 data-showing-toc-overlay:end-0 data-showing-toc-overlay:z-50 toc-shown:sticky! toc-shown:top-4! toc-shown:inset-[unset]! toc-shown:w-full! toc-shown:max-h-[calc(100vh-2rem)]! toc-shown:block! toc-shown:bg-[unset] toc-shown:z-[unset]"
       >
-        <TableOfContents headings={headings} class="h-full ps-0.5 pe-5 pb-50" />
+        <TableOfContents
+          headings={headings}
+          class="h-full ps-0.5 pe-5 toc-shown:pb-50"
+        />
       </aside>
       <div
         class="sticky bottom-0 w-full h-64 pointer-events-none contents toc-shown:flex justify-end items-end"
@@ -124,7 +127,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
         >
         </div>
         <ActionButtons
-          class="sticky bottom-4 m-4 mt-0 pt-4 sidebar-shown:bottom-8 sidebar-shown:mb-8 row-start-1 row-end-1 col-start-1 col-end-1 self-end justify-self-end z-50 transition-[bottom,margin] toc-shown:sticky toc-shown:mb-12 toc-shown:me-8 toc-shown:inset-[unset]"
+          class="sticky bottom-4 m-4 mt-0 pt-4 sidebar-shown:bottom-8 sidebar-shown:mb-8 row-start-1 row-end-1 col-start-1 col-end-1 self-end justify-self-end z-40 transition-[bottom,margin] toc-shown:sticky toc-shown:mb-12 toc-shown:me-8 toc-shown:inset-[unset]"
         />
       </div>
     </div>

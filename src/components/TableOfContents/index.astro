@@ -3,6 +3,7 @@ import type { MarkdownHeading } from "astro";
 import NestedHeadingsList, {
   type NestedHeading,
 } from "./NestedHeadingsList.astro";
+import { X } from "lucide-astro";
 
 interface Props {
   class?: string;
@@ -42,9 +43,36 @@ const nestedHeadings = nestHeadings(Astro.props.headings);
   ]}
 >
   <div
-    class="sticky top-0 font-semibold bg-gradient-to-b from-white to-transparent px-2.5 py-2 text-neutral-900 pointer-events-none"
+    class="sticky top-0 font-semibold bg-gradient-to-b from-white to-transparent px-2.5 py-2 text-neutral-900 pointer-events-none flex items-center justify-between"
   >
-    목차
+    <div>목차</div>
+    <button
+      id="hide-toc-overlay-button"
+      aria-expanded="true"
+      aria-controls="toc-container"
+      aria-label="닫기"
+      type="button"
+      class="toc-shown:hidden p-1 rounded-md engaged:bg-black/5 pointer-events-auto"
+    >
+      <X />
+    </button>
   </div>
   <NestedHeadingsList nestedHeadings={nestedHeadings} />
 </nav>
+<script>
+  const hideTocOverlayButton = document.getElementById(
+    "hide-toc-overlay-button"
+  );
+  const showTocOverlayButtons = Array.from(
+    document.querySelectorAll(".show-toc-overlay-button")
+  );
+  const tocContainer = document.getElementById("toc-container");
+
+  hideTocOverlayButton?.addEventListener("click", () => {
+    tocContainer?.removeAttribute("data-showing-toc-overlay");
+    hideTocOverlayButton.setAttribute("aria-expanded", "false");
+    showTocOverlayButtons.forEach((button) =>
+      button.setAttribute("aria-expanded", "false")
+    );
+  });
+</script>
