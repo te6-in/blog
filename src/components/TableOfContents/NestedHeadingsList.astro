@@ -1,0 +1,45 @@
+---
+import type { MarkdownHeading } from "astro";
+
+export interface NestedHeading extends MarkdownHeading {
+  children: NestedHeading[];
+}
+
+interface Props {
+  nestedHeadings: NestedHeading[];
+}
+
+function getMarginClass(depth: number) {
+  switch (depth) {
+    case 1:
+      throw new Error("Depth 1 headings should not be used");
+    case 2:
+      return "ps-2.5";
+    case 3:
+      return "ps-5.5";
+    default:
+      return "ps-10";
+  }
+}
+---
+
+<ol role="list">
+  {
+    Astro.props.nestedHeadings.map(({ depth, slug, text, children }) => (
+      <li>
+        <a
+          class:list={[
+            "block py-[0.4375rem] pe-2.5 engaged:bg-neutral-100 transition-colors text-neutral-600 engaged:text-neutral-800 rounded-lg",
+            getMarginClass(depth),
+          ]}
+          href={`#${slug}`}
+        >
+          {text}
+        </a>
+        {depth < 3 && children.length > 0 && (
+          <Astro.self nestedHeadings={children} />
+        )}
+      </li>
+    ))
+  }
+</ol>

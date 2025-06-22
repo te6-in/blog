@@ -1,0 +1,50 @@
+---
+import type { MarkdownHeading } from "astro";
+import NestedHeadingsList, {
+  type NestedHeading,
+} from "./NestedHeadingsList.astro";
+
+interface Props {
+  class?: string;
+  headings: MarkdownHeading[];
+}
+
+function nestHeadings(headings: MarkdownHeading[]): NestedHeading[] {
+  const nested: NestedHeading[] = [];
+  const stack: NestedHeading[] = [];
+
+  for (const heading of headings) {
+    const newHeading: NestedHeading = { ...heading, children: [] };
+
+    while (stack.length && stack[stack.length - 1].depth >= heading.depth) {
+      stack.pop();
+    }
+
+    if (stack.length) {
+      stack[stack.length - 1].children.push(newHeading);
+    } else {
+      nested.push(newHeading);
+    }
+
+    stack.push(newHeading);
+  }
+
+  return nested;
+}
+
+const nestedHeadings = nestHeadings(Astro.props.headings);
+---
+
+<nav
+  class:list={[
+    "overflow-y-auto [scrollbar-color:var(--color-neutral-200)_transparent] flex flex-col text-sm",
+    Astro.props.class,
+  ]}
+>
+  <div
+    class="sticky top-0 font-semibold bg-gradient-to-b from-white to-transparent px-2.5 py-2 text-neutral-900 pointer-events-none"
+  >
+    목차
+  </div>
+  <NestedHeadingsList nestedHeadings={nestedHeadings} />
+</nav>

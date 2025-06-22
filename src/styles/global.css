@@ -64,6 +64,7 @@ body {
 
   /* breakpoints */
   --breakpoint-sidebar-shown: 40rem; /* sm */
+  --breakpoint-toc-shown: 64rem; /* lg */
   --breakpoint-stretch: 80rem; /* xl */
 
   --default-transition-duration: 0.2s;

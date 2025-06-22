@@ -20,6 +20,7 @@ import Comments from "../../components/Comments.astro";
 import PrevNextNavigation from "../../components/PrevNextNavigation";
 import SeriesNavigation from "../../components/SeriesNavigation.astro";
 import ActionButtons from "../../components/ActionButtons.astro";
+import TableOfContents from "../../components/TableOfContents";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -31,7 +32,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const tagsWithCount = await Promise.all(post.data.tags.map(getTag));
 
@@ -42,7 +43,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
 
 <Layout>
   <div
-    class="w-full relative rounded-lg transition-[border-radius] overflow-hidden"
+    class="w-full relative rounded-t-lg sidebar-shown:rounded-b-lg transition-[border-radius] overflow-hidden"
   >
     <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
       <div class="flex flex-col gap-2">
@@ -63,7 +64,8 @@ const variant = post.data.coverImage ? "glass" : "flat";
           {post.data.description}
         </p>
       </div>
-      <ul class="flex gap-1.5 flex-wrap">
+      <span class="sr-only"> 태그 </span>
+      <ul role="list" class="flex gap-1.5 flex-wrap">
         {
           tagsWithCount.map((tag) => (
             <li>
@@ -73,7 +75,7 @@ const variant = post.data.coverImage ? "glass" : "flat";
         }
       </ul>
       <div class="flex items-end justify-between gap-4 flex-wrap">
-        <ul class="flex flex-wrap gap-3 translate-y-2.5">
+        <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
           {
             authors.map(({ id, data }) => (
               <li>
@@ -102,10 +104,35 @@ const variant = post.data.coverImage ? "glass" : "flat";
       )
     }
   </div>
-  <div class="flex">
-    <div class="flex flex-col p-3">
+  <div
+    class="toc-shown:flex toc-shown:flex-row-reverse gap-3.5 grid grid-cols-1"
+  >
+    <div
+      class="hidden toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-60 flex-none relative"
+    >
+      <aside
+        class="sticky top-4 overflow-hidden w-full max-h-[calc(100vh-2rem)] toc-shown:block"
+      >
+        <TableOfContents headings={headings} class="h-full ps-0.5 pe-5 pb-50" />
+      </aside>
+      <div class="sticky bottom-0 w-full pointer-events-none flex justify-end">
+        <div
+          class="absolute w-full bottom-0 bg-gradient-to-b from-transparent to-white h-64 pointer-events-none toc-shown:block"
+        >
+        </div>
+        <ActionButtons
+          class="toc-shown:sticky toc-shown:mb-12 toc-shown:me-8 toc-shown:inset-[unset]"
+        />
+      </div>
+    </div>
+    <ActionButtons
+      class="toc-shown:hidden sticky bottom-4 m-4 sidebar-shown:bottom-8 sidebar-shown:mb-8 row-start-1 row-end-1 col-start-1 col-end-1 self-end justify-self-end z-50 transition-[bottom,margin]"
+    />
+    <div
+      class="flex flex-col pb-19 sidebar-shown:pb-52 toc-shown:pb-12 gap-6 overflow-x-hidden row-start-1 row-end-1 col-start-1 col-end-1 transition-[padding]"
+    >
       <SeriesNavigation currentType={post.collection} currentSlug={post.id} />
-      <div class="flex flex-col p-5 gap-12">
+      <div class="flex flex-col px-4 toc-shown:ps-8 pt-4 gap-12">
         <Prose>
           <Content
             components={{
@@ -129,23 +156,6 @@ const variant = post.data.coverImage ? "glass" : "flat";
           currentSlug={post.id}
         />
       </div>
-    </div>
-    <div
-      class="flex flex-col justify-between items-end p-8 pt-3 w-64 flex-none"
-    >
-      <div class="sticky p-4 top-12 bg-red-300 opacity-0">
-        <h2 class="text-lg font-semibold">태그</h2>
-        <ul class="flex flex-wrap gap-2 mt-2">
-          {
-            tagsWithCount.map((tag) => (
-              <li>
-                <TagChip variant="flat" {...tag} />
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-      <ActionButtons class="sticky bottom-12" />
     </div>
   </div>
 </Layout>

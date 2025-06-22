@@ -1,7 +1,7 @@
 ---
 import Link from "astro-typesafe-routes/link";
-import type { DataEntryMap, InferEntrySchema } from "astro:content";
-import { getCollection, getEntries, getEntry } from "astro:content";
+import type { InferEntrySchema } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import { BookMarked } from "lucide-astro";
 
 interface Props {
@@ -33,44 +33,46 @@ const seriesWithin = allSeriesWithResolvedEntries.filter(
 );
 ---
 
-<div class="flex flex-col gap-2">
-  {
-    seriesWithin.map(({ data: { title }, resolvedEntries }) => (
-      <nav class="rounded-lg bg-neutral-100 flex flex-col gap-3">
-        <div class="flex items-center gap-1.5 text-neutral-800 p-4 sidebar-shown:p-5.5 pb-0 sidebar-shown:pb-0 font-semibold transition-[padding]">
-          <BookMarked />
-          <div>{title}</div>
-        </div>
-        <span class="flex gap-2 p-3.5 pt-0">
-          <div class="w-0.5 rounded-full bg-neutral-200 ms-3 sidebar-shown:ms-4.5 flex-none transition-[margin]" />
-          <ol class="flex flex-col grow">
-            {resolvedEntries.map(
-              ({ id, collection, data: { title } }, index) => (
-                <li class="grow">
-                  <Link
-                    to={`/${collection}/[slug]`}
-                    params={{ slug: id }}
-                    class:list={[
-                      "flex items-baseline gap-[0.5ch] p-2.5 pl-3 rounded engaged:bg-neutral-200 transition-colors text-sm text-pretty w-full",
-                      currentType === collection && currentSlug === id
-                        ? "text-accent-600 font-semibold"
-                        : "text-neutral-800 font-medium",
-                    ]}
-                  >
-                    <span aria-hidden class="text-current/50">
-                      {index + 1}.
-                    </span>
-                    <span>{title}</span>
-                    {currentType === collection && currentSlug === id && (
-                      <span class="sr-only">지금 보고 있는 글</span>
-                    )}
-                  </Link>
-                </li>
-              )
-            )}
-          </ol>
-        </span>
-      </nav>
-    ))
-  }
-</div>
+{
+  seriesWithin.length > 0 && (
+    <div class="flex flex-col gap-2 p-4 sidebar-shown:p-0">
+      {seriesWithin.map(({ data: { title }, resolvedEntries }) => (
+        <nav class="rounded-lg flex flex-col gap-3 border border-neutral-200 shadow-xs">
+          <div class="flex items-start gap-1.5 text-neutral-800 p-5.5 pb-0 font-semibold transition-[padding]">
+            <BookMarked class="flex-none" />
+            <div class="">{title}</div>
+          </div>
+          <div class="flex gap-1.5 p-5.5 pt-0">
+            <div class="w-0.5 rounded-full bg-neutral-200 ms-[0.6875rem] flex-none transition-[margin]" />
+            <ol role="list" class="flex flex-col grow">
+              {resolvedEntries.map(
+                ({ id, collection, data: { title } }, index) => (
+                  <li class="grow">
+                    <Link
+                      to={`/${collection}/[slug]`}
+                      params={{ slug: id }}
+                      class:list={[
+                        "flex items-baseline gap-[0.5ch] p-2.5 ps-3 rounded-md engaged:bg-neutral-100 transition-colors text-sm text-pretty w-full",
+                        currentType === collection && currentSlug === id
+                          ? "text-accent-700 font-semibold"
+                          : "text-neutral-700 font-medium",
+                      ]}
+                    >
+                      <span aria-hidden class="text-current/50">
+                        {index + 1}.
+                      </span>
+                      <span>{title}</span>
+                      {currentType === collection && currentSlug === id && (
+                        <span class="sr-only">지금 보고 있는 글</span>
+                      )}
+                    </Link>
+                  </li>
+                )
+              )}
+            </ol>
+          </div>
+        </nav>
+      ))}
+    </div>
+  )
+}
