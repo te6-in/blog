@@ -8,7 +8,7 @@ const contentsPath =
     ? // on development: DEV_ONLY_CONTENTS_PATH를 사용하여 로컬 contents를 사용
       join(resolve(DEV_ONLY_CONTENTS_PATH), "contents")
     : // on build: git submodule로 연결된 리모트의 contents를 사용
-      join(import.meta.dirname, "../contents"); // XXX
+      join(import.meta.dirname, "../contents/contents"); // XXX
 
 const post = defineCollection({
   loader: glob({
