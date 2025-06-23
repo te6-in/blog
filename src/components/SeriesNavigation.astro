@@ -5,6 +5,7 @@ import { getCollection, getEntry } from "astro:content";
 import { BookMarked } from "lucide-astro";
 
 interface Props {
+  class?: string;
   currentType: "post" | "snippet";
   currentSlug: string;
 }
@@ -35,7 +36,7 @@ const seriesWithin = allSeriesWithResolvedEntries.filter(
 
 {
   seriesWithin.length > 0 && (
-    <div class="flex flex-col gap-2 p-4 sidebar-shown:p-0">
+    <div class:list={["flex flex-col gap-2", Astro.props.class]}>
       {seriesWithin.map(({ data: { title }, resolvedEntries }) => (
         <nav class="rounded-lg flex flex-col gap-3 border border-neutral-200 shadow-xs">
           <div class="flex items-start gap-1.5 text-neutral-800 p-5.5 pb-0 font-semibold transition-[padding]">
