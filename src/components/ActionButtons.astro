@@ -69,6 +69,8 @@ interface Props {
 </div>
 
 <script>
+  import { isTocOverlayOpen } from "./TableOfContents/store";
+
   const reactionCountLabels = Array.from(
     document.getElementsByClassName("reaction-count")
   );
@@ -81,10 +83,6 @@ interface Props {
   const showTocOverlayButtons = Array.from(
     document.getElementsByClassName("show-toc-overlay-button")
   );
-  const hideTocOverlayButton = document.getElementById(
-    "hide-toc-overlay-button"
-  );
-  const tocContainer = document.getElementById("toc-container");
 
   function handleGiscusMessage(event: MessageEvent) {
     if (event.origin !== "https://giscus.app") return;
@@ -130,21 +128,23 @@ interface Props {
     });
   }
 
-  if (tocContainer) {
-    showTocOverlayButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        if (button.getAttribute("aria-expanded") === "true") {
-          tocContainer.removeAttribute("data-showing-toc-overlay");
-          button.setAttribute("aria-expanded", "false");
-          hideTocOverlayButton?.setAttribute("aria-expanded", "false");
-
-          return;
-        }
-
-        button.setAttribute("aria-expanded", "true");
-        hideTocOverlayButton?.setAttribute("aria-expanded", "true");
-        tocContainer.setAttribute("data-showing-toc-overlay", "");
-      });
+  showTocOverlayButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      isTocOverlayOpen.set(true);
     });
-  }
+  });
+
+  isTocOverlayOpen.subscribe((isOpen) => {
+    if (isOpen) {
+      showTocOverlayButtons.forEach((button) => {
+        button.setAttribute("aria-expanded", "true");
+      });
+
+      return;
+    }
+
+    showTocOverlayButtons.forEach((button) => {
+      button.setAttribute("aria-expanded", "false");
+    });
+  });
 </script>

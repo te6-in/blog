@@ -60,19 +60,26 @@ const nestedHeadings = nestHeadings(Astro.props.headings);
   <NestedHeadingsList nestedHeadings={nestedHeadings} />
 </nav>
 <script>
+  import { isTocOverlayOpen } from "./store";
+
+  const tocContainer = document.getElementById("toc-container");
   const hideTocOverlayButton = document.getElementById(
     "hide-toc-overlay-button"
   );
-  const showTocOverlayButtons = Array.from(
-    document.querySelectorAll(".show-toc-overlay-button")
-  );
-  const tocContainer = document.getElementById("toc-container");
 
   hideTocOverlayButton?.addEventListener("click", () => {
+    isTocOverlayOpen.set(false);
+  });
+
+  isTocOverlayOpen.subscribe((isOpen) => {
+    if (isOpen) {
+      tocContainer?.setAttribute("data-showing-toc-overlay", "");
+      hideTocOverlayButton?.setAttribute("aria-expanded", "true");
+
+      return;
+    }
+
     tocContainer?.removeAttribute("data-showing-toc-overlay");
-    hideTocOverlayButton.setAttribute("aria-expanded", "false");
-    showTocOverlayButtons.forEach((button) =>
-      button.setAttribute("aria-expanded", "false")
-    );
+    hideTocOverlayButton?.setAttribute("aria-expanded", "false");
   });
 </script>
