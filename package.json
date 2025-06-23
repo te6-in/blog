@@ -28,7 +28,6 @@
     "github-slugger": "^2.0.0",
     "lucide-astro": "^0.473.0",
     "lucide-react": "^0.483.0",
-    "nanostores": "^1.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.10",

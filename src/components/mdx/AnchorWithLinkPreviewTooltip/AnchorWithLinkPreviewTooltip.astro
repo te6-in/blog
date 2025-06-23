@@ -42,7 +42,7 @@ const anchorProps: ComponentProps<typeof Anchor> = {
       <Anchor slot="trigger" {...anchorProps}>
         <slot />
       </Anchor>
-      <div class="flex flex-col gap-4 p-4 pb-3.5" slot="popup">
+      <div class="flex flex-col gap-4 p-4 pb-3.5 select-none" slot="popup">
         {type === "post" && detail.coverImage && (
           <ImageWithInferredAlt
             src={detail.coverImage}

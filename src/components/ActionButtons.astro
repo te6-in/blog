@@ -1,5 +1,5 @@
 ---
-import { Hash, MessageCircleMore, PartyPopper, Share } from "lucide-astro";
+import { MessageCircleMore, PartyPopper, Share } from "lucide-astro";
 
 interface Props {
   class: string;
@@ -8,7 +8,7 @@ interface Props {
 
 <div
   class:list={[
-    "inline-flex toc-shown:flex-col gap-1.5 sidebar-shown:gap-2 items-end pointer-events-none",
+    "inline-flex toc-shown:flex-col gap-1.5 sidebar-shown:gap-2 items-end pointer-events-none flex-wrap justify-end",
     Astro.props.class,
   ]}
 >
@@ -18,22 +18,10 @@ interface Props {
       aria-label="공유"
       class:list={[
         "share-button",
-        "p-2.5 sidebar-shown:p-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800",
+        "p-2.5 sidebar-shown:p-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 noscript:hidden",
       ]}
     >
       <Share class="flex-none" size={20} />
-    </button>
-    <button
-      type="button"
-      aria-controls="toc-container"
-      aria-expanded="false"
-      class:list={[
-        "show-toc-overlay-button",
-        "px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 border backdrop-blur-lg bg-white/65 border-neutral-200/65 rounded-full flex gap-1.5 items-center font-semibold transition-all text-sm pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 toc-shown:hidden cursor-pointer",
-      ]}
-    >
-      <Hash class="flex-none" size={20} />
-      <span class="flex items-baseline">목차</span>
     </button>
   </div>
   <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
@@ -69,8 +57,6 @@ interface Props {
 </div>
 
 <script>
-  import { isTocOverlayOpen } from "./TableOfContents/store";
-
   const reactionCountLabels = Array.from(
     document.getElementsByClassName("reaction-count")
   );
@@ -127,24 +113,4 @@ interface Props {
       });
     });
   }
-
-  showTocOverlayButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      isTocOverlayOpen.set(true);
-    });
-  });
-
-  isTocOverlayOpen.subscribe((isOpen) => {
-    if (isOpen) {
-      showTocOverlayButtons.forEach((button) => {
-        button.setAttribute("aria-expanded", "true");
-      });
-
-      return;
-    }
-
-    showTocOverlayButtons.forEach((button) => {
-      button.setAttribute("aria-expanded", "false");
-    });
-  });
 </script>
