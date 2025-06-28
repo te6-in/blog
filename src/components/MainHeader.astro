@@ -1,0 +1,65 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Image } from "astro:assets";
+import ImageWithInferredAlt from "./ImageWithInferredAlt.astro";
+
+interface Props {
+  title: string;
+  titleCount?: number;
+  description?: string;
+  coverImage?: ComponentProps<typeof Image>["src"];
+}
+
+const { title, titleCount, description, coverImage } = Astro.props;
+
+const variant = coverImage ? "glass" : "flat";
+---
+
+<div
+  class="w-full relative rounded-t-lg sidebar-shown:rounded-b-lg transition-[border-radius] overflow-hidden"
+>
+  <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
+    <div class="flex flex-col gap-2">
+      <span
+        class:list={[
+          "text-3xl leading-11",
+          variant === "glass" ? "text-white" : "text-neutral-800",
+        ]}
+      >
+        <h1 class="text-balance font-semibold inline">
+          {title}
+        </h1>
+        {
+          titleCount && (
+            <span class="text-current/50 font-medium ms-1.5">{titleCount}</span>
+          )
+        }
+      </span>
+      {
+        description && (
+          <p
+            class:list={[
+              "text-balance text-lg",
+              variant === "glass" ? "text-white/80" : "text-neutral-600",
+            ]}
+          >
+            {description}
+          </p>
+        )
+      }
+    </div>
+    <slot />
+  </div>
+  {
+    coverImage && (
+      <div class="absolute inset-0">
+        <ImageWithInferredAlt
+          src={coverImage}
+          class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
+          onload="this.classList.remove('motion-safe:animate-pulse')"
+        />
+        <div class="bg-gradient-to-b from-black/85 to-black/60 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
+      </div>
+    )
+  }
+</div>

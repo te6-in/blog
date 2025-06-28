@@ -12,14 +12,14 @@ interface Props extends Omit<HTMLAttributes<"a">, "href"> {
   };
 }
 
-const domain = Astro.props.href
-  ? new URL(Astro.props.href).hostname.replace("www.", "")
-  : "";
-
 const {
-  metadata: { title, description, siteName, hasImage },
+  metadata: { title, description, hasImage, siteName },
   ...props
 } = Astro.props;
+
+const domain = props.href
+  ? new URL(props.href).hostname.replace("www.", "")
+  : "";
 ---
 
 <a

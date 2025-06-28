@@ -52,6 +52,9 @@ const seriesWithin = allSeriesWithResolvedEntries.filter(
                     <Link
                       to={`/${collection}/[slug]`}
                       params={{ slug: id }}
+                      {...(currentType === collection && currentSlug === id && {
+                        "aria-current": "page",
+                      })}
                       class:list={[
                         "flex items-baseline gap-[0.5ch] p-2.5 ps-3 rounded-md engaged:bg-neutral-100 transition-colors text-sm text-pretty w-full",
                         currentType === collection && currentSlug === id
@@ -63,9 +66,6 @@ const seriesWithin = allSeriesWithResolvedEntries.filter(
                         {index + 1}.
                       </span>
                       <span>{title}</span>
-                      {currentType === collection && currentSlug === id && (
-                        <span class="sr-only">지금 보고 있는 글</span>
-                      )}
                     </Link>
                   </li>
                 )

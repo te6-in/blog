@@ -36,7 +36,8 @@ const classNames = match(variant)
   >
     <Image
       src={avatar}
-      alt={``}
+      alt=""
+      aria-hidden
       width={28}
       height={28}
       class:list={["rounded-full motion-safe:animate-pulse", classNames.image]}

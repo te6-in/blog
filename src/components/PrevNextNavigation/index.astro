@@ -13,9 +13,7 @@ interface Props {
 const { navigateIn, currentSlug } = Astro.props;
 
 const posts = (await getCollection(navigateIn)).sort(
-  (a, b) =>
-    new Date(a.data.publishedAt).getTime() -
-    new Date(b.data.publishedAt).getTime()
+  (a, b) => a.data.publishedAt.getTime() - b.data.publishedAt.getTime()
 );
 
 const currentPostIndex = posts.findIndex((post) => post.id === currentSlug);

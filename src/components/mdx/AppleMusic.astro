@@ -3,7 +3,9 @@ interface Props {
   url: string;
 }
 
-const src = Astro.props.url.replace(
+const { url } = Astro.props;
+
+const src = url.replace(
   "https://music.apple.com/",
   "https://embed.music.apple.com/"
 );

@@ -16,7 +16,7 @@ body {
   }
 
   .media-border {
-    @apply relative after:absolute after:inset-0 after:outline-1 after:-outline-offset-1 after:outline-black/5 after:z-10;
+    @apply relative after:absolute after:inset-0 after:outline-1 after:-outline-offset-1 after:outline-black/10 after:z-10;
   }
 }
 

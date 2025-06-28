@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 import Header from "../components/Header.astro";
 import Main from "../components/Main.astro";
 import "../styles/global.css";
+import type { ComponentProps } from "react";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  sidebarProps?: ComponentProps<typeof Sidebar>;
+}
+
+const { sidebarProps } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,10 +21,11 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
   </head>
   <body class="bg-body-bg">
     <Header />
-    <Sidebar />
+    <Sidebar {...sidebarProps} />
     <Main>
       <slot />
     </Main>

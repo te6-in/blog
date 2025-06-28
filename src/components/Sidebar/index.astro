@@ -5,14 +5,17 @@ import { CollapsibleSidebarItem } from "./CollapsibleSidebarItem";
 import LinkSidebarItem from "./LinkSidebarItem.astro";
 import TagChip from "../TagChip.astro";
 
-const tagParam = Astro.url.pathname.startsWith("/tag/")
-  ? Astro.params.slug
-  : null;
+interface Props {
+  currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
+}
+
+const { currentPage } = Astro.props;
 
 const tags = await getTags({ sortBy: "count" });
 ---
 
 <aside
+  id="sidebar"
   class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 stretch:ms-sidebar-stretch-x pt-marginal-height transition-[inset] w-sidebar-width overflow-x-hidden overscroll-y-none [scrollbar-color:var(--color-neutral-300)_transparent]"
 >
   <div
@@ -20,15 +23,21 @@ const tags = await getTags({ sortBy: "count" });
   >
   </div>
   <nav class="flex flex-col gap-2 w-[inherit] px-sidebar-padding-x py-4 -mt-22">
-    <LinkSidebarItem to="/posts">
+    <LinkSidebarItem to="/posts" isCurrentPage={currentPage?.type === "posts"}>
       <Newspaper slot="icon" />
       <Fragment slot="title">글</Fragment>
     </LinkSidebarItem>
-    <LinkSidebarItem to="/snippets">
+    <LinkSidebarItem
+      to="/snippets"
+      isCurrentPage={currentPage?.type === "snippets"}
+    >
       <FileCode2 slot="icon" />
       <Fragment slot="title">코드 조각</Fragment>
     </LinkSidebarItem>
-    <CollapsibleSidebarItem client:load defaultOpen={!!tagParam}>
+    <CollapsibleSidebarItem
+      client:load
+      defaultOpen={currentPage?.type === "tags"}
+    >
       <Tags slot="triggerIcon" />
       <Fragment slot="triggerTitle">태그</Fragment>
       <Fragment slot="panelContent">
@@ -36,7 +45,13 @@ const tags = await getTags({ sortBy: "count" });
           {
             tags.map((tag) => (
               <li>
-                <TagChip {...tag} />
+                <TagChip
+                  {...tag}
+                  isCurrentPage={
+                    currentPage?.type === "tags" &&
+                    currentPage?.slug === tag.slug
+                  }
+                />
               </li>
             ))
           }

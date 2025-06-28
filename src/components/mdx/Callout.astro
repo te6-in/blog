@@ -14,7 +14,7 @@ interface Props {
 const { variant } = Astro.props;
 
 const { icon: Icon, ariaLabel } = (() => {
-  switch (Astro.props.variant) {
+  switch (variant) {
     case "info":
       return { icon: Info, ariaLabel: "정보" };
     case "question":

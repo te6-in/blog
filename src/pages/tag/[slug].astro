@@ -1,6 +1,9 @@
 ---
+import MainHeader from "../../components/MainHeader.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getTags } from "../../lib/contents";
+import { getPosts, getSnippets, getTags } from "../../lib/contents";
+import SnippetList from "../../components/SnippetList";
+import PostList from "../../components/PostList";
 
 export async function getStaticPaths() {
   const tags = await getTags({});
@@ -12,11 +15,43 @@ export async function getStaticPaths() {
 }
 
 const { name, slug } = Astro.props;
-// TODO: 사이드바 태그 패널 열려 있어야 함
+
+const posts = (await getPosts({ sortBy: "publishedAt" })).filter(
+  ({ data: { tags } }) => tags.includes(name)
+);
+
+const snippets = (await getSnippets({ sortBy: "publishedAt" })).filter(
+  ({ data: { tags } }) => tags.includes(name)
+);
+
+// TODO: 바뀌는 태그들(띄어쓰기 추가 등) 리다이렉트
 ---
 
-<Layout>
-  <div>
-    {name}
-  </div>
+<Layout sidebarProps={{ currentPage: { type: "tags", slug } }}>
+  <MainHeader
+    title={`태그: ${name}`}
+    titleCount={posts.length + snippets.length}
+  />
+  {
+    posts.length > 0 && (
+      <>
+        <span class="text-lg text-neutral-700 px-8">
+          <h2 class="font-semibold inline">글</h2>
+          <span class="text-current/50 ms-1">{posts.length}</span>
+        </span>
+        <PostList posts={posts} />
+      </>
+    )
+  }
+  {
+    snippets.length > 0 && (
+      <>
+        <span class="text-lg text-neutral-700 px-8">
+          <h2 class="font-semibold inline">코드 조각</h2>
+          <span class="text-current/50 ms-1">{snippets.length}</span>
+        </span>
+        <SnippetList snippets={snippets} />
+      </>
+    )
+  }
 </Layout>

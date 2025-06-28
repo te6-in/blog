@@ -11,6 +11,8 @@ interface Props {
   headings: MarkdownHeading[];
 }
 
+const { headings } = Astro.props;
+
 function nestHeadings(headings: MarkdownHeading[]): NestedHeading[] {
   const nested: NestedHeading[] = [];
   const stack: NestedHeading[] = [];
@@ -34,7 +36,7 @@ function nestHeadings(headings: MarkdownHeading[]): NestedHeading[] {
   return nested;
 }
 
-const nestedHeadings = nestHeadings(Astro.props.headings);
+const nestedHeadings = nestHeadings(headings);
 ---
 
 <nav

@@ -22,6 +22,7 @@ import ActionButtons from "../../components/ActionButtons.astro";
 import TableOfContents from "../../components/TableOfContents";
 import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
 import AppleMusic from "../../components/mdx/AppleMusic.astro";
+import MainHeader from "../../components/MainHeader.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -43,67 +44,33 @@ const variant = post.data.coverImage ? "glass" : "flat";
 ---
 
 <Layout>
-  <div
-    class="w-full relative rounded-t-lg sidebar-shown:rounded-b-lg transition-[border-radius] overflow-hidden"
-  >
-    <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
-      <div class="flex flex-col gap-2">
-        <h1
-          class:list={[
-            "text-3xl leading-11 font-semibold text-balance",
-            variant === "glass" ? "text-white" : "text-neutral-800",
-          ]}
-        >
-          {post.data.title}
-        </h1>
-        <p
-          class:list={[
-            "text-balance text-lg",
-            variant === "glass" ? "text-white/80" : "text-neutral-600",
-          ]}
-        >
-          {post.data.description}
-        </p>
-      </div>
-      <ul role="list" class="flex gap-1.5 flex-wrap">
+  <MainHeader {...post.data}>
+    <ul role="list" class="flex gap-1.5 flex-wrap">
+      {
+        tagsWithCount.map((tag) => (
+          <li>
+            <TagChip variant={variant} {...tag} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex items-end justify-between gap-4 flex-wrap">
+      <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
         {
-          tagsWithCount.map((tag) => (
+          authors.map(({ id, data }) => (
             <li>
-              <TagChip variant={variant} {...tag} />
+              <AuthorChip variant={variant} id={id} {...data} />
             </li>
           ))
         }
       </ul>
-      <div class="flex items-end justify-between gap-4 flex-wrap">
-        <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
-          {
-            authors.map(({ id, data }) => (
-              <li>
-                <AuthorChip variant={variant} id={id} {...data} />
-              </li>
-            ))
-          }
-        </ul>
-        <MetadataGrid
-          variant={variant}
-          publishedAt={post.data.publishedAt}
-          updatedAt={post.data.updatedAt}
-        />
-      </div>
+      <MetadataGrid
+        variant={variant}
+        publishedAt={post.data.publishedAt}
+        updatedAt={post.data.updatedAt}
+      />
     </div>
-    {
-      post.data.coverImage && (
-        <div class="absolute inset-0">
-          <ImageWithInferredAlt
-            src={post.data.coverImage}
-            class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
-            onload="this.classList.remove('motion-safe:animate-pulse')"
-          />
-          <div class="bg-gradient-to-b from-black/85 to-black/60 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
-        </div>
-      )
-    }
-  </div>
+  </MainHeader>
   <div
     class="toc-shown:flex toc-shown:flex-row-reverse gap-3.5 grid grid-cols-1"
   >

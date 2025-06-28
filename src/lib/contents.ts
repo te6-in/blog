@@ -58,3 +58,41 @@ export async function getTags({ sortBy = "name" }: GetTagsParams) {
 
   return sortedTags;
 }
+
+interface GetPostsParams {
+  sortBy?: "publishedAt";
+}
+
+export async function getPosts({ sortBy = "publishedAt" }: GetPostsParams) {
+  const posts = await getCollection("post");
+
+  const sortedPosts = posts.sort((a, b) => {
+    switch (sortBy) {
+      // biome-ignore lint/complexity/noUselessSwitchCase: will be extended in the future
+      case "publishedAt":
+      default:
+        return b.data.publishedAt.getTime() - a.data.publishedAt.getTime();
+    }
+  });
+
+  return sortedPosts;
+}
+
+interface GetSnippetsParams {
+  sortBy?: "publishedAt";
+}
+
+export async function getSnippets({ sortBy = "publishedAt" }: GetSnippetsParams) {
+  const snippets = await getCollection("snippet");
+
+  const sortedSnippets = snippets.sort((a, b) => {
+    switch (sortBy) {
+      // biome-ignore lint/complexity/noUselessSwitchCase: will be extended in the future
+      case "publishedAt":
+      default:
+        return b.data.publishedAt.getTime() - a.data.publishedAt.getTime();
+    }
+  });
+
+  return sortedSnippets;
+}

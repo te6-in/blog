@@ -1,5 +1,6 @@
 ---
 import { match } from "ts-pattern";
+import { postDateFormatter } from "../lib/formatter";
 
 interface Props {
   variant?: "flat" | "glass";
@@ -8,12 +9,6 @@ interface Props {
 }
 
 const { variant = "flat", publishedAt, updatedAt } = Astro.props;
-
-const formatter = new Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "numeric",
-  day: "numeric",
-});
 
 const classNames = match(variant)
   .with("flat", () => ({
@@ -36,7 +31,7 @@ const classNames = match(variant)
           class:list={["whitespace-nowrap text-end", classNames.label]}
           datetime={publishedAt.toISOString()}
         >
-          {formatter.format(publishedAt)}
+          {postDateFormatter.format(publishedAt)}
         </time>
       </>
     )
@@ -49,7 +44,7 @@ const classNames = match(variant)
           class:list={["whitespace-nowrap text-end", classNames.label]}
           datetime={updatedAt.toISOString()}
         >
-          {formatter.format(updatedAt)}
+          {postDateFormatter.format(updatedAt)}
         </time>
       </>
     )

@@ -1,0 +1,41 @@
+---
+import Link from "astro-typesafe-routes/link";
+import { postDateFormatter } from "../../lib/formatter";
+
+interface Props {
+  slug: string;
+  title: string;
+  publishedAt: Date;
+  position?: {
+    firstGlobal?: boolean;
+    firstInYear?: boolean;
+    last?: boolean;
+  };
+}
+
+const { slug, title, publishedAt, position } = Astro.props;
+---
+
+<Link
+  to="/snippet/[slug]"
+  params={{ slug }}
+  class:list={[
+    "p-4.5 flex gap-3 justify-between sidebar-shown:justify-start md:justify-between engaged:bg-neutral-100 transition-colors group",
+    position?.firstGlobal && "rounded-t-xl",
+    position?.firstInYear &&
+      !position?.firstGlobal &&
+      "rounded-t-xl sidebar-shown:rounded-t-none",
+    position?.last && "rounded-b-xl",
+  ]}
+>
+  <div
+    class="flex gap-2.5 flex-col justify-between p-1 sidebar-shown:p-0 md:p-1 wrap-anywhere"
+  >
+    <div class="text-xl text-neutral-900 font-semibold text-balance">
+      {title}
+    </div>
+    <div class="text-neutral-500 text-xs">
+      {postDateFormatter.format(publishedAt)}
+    </div>
+  </div>
+</Link>

@@ -9,6 +9,8 @@ interface Props {
   nestedHeadings: NestedHeading[];
 }
 
+const { nestedHeadings } = Astro.props;
+
 function getMarginClass(depth: number) {
   switch (depth) {
     case 1:
@@ -25,7 +27,7 @@ function getMarginClass(depth: number) {
 
 <ol role="list">
   {
-    Astro.props.nestedHeadings.map(({ depth, slug, text, children }) => (
+    nestedHeadings.map(({ depth, slug, text, children }) => (
       <li>
         <a
           class:list={[
