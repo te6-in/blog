@@ -12,7 +12,6 @@ const tags = await getTags({ sortBy: "count" });
 <Layout>
   <MainHeader title="모든 태그" titleCount={tags.length} />
   <Collapsible
-    transition:name="tag-page-tag-list"
     client:load
     defaultOpen
     classNames={{

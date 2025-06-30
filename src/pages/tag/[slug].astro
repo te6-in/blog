@@ -38,7 +38,6 @@ const tags = await getTags({ sortBy: "count" });
     titleCount={posts.length + snippets.length}
   />
   <Collapsible
-    transition:name="tag-page-tag-list"
     client:load
     classNames={{
       root: "flex sidebar-shown:hidden flex-col justify-start mx-4 mb-8 border border-neutral-200 p-2 rounded-xl shadow-xs",

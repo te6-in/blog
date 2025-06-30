@@ -1,6 +1,6 @@
 import { Collapsible as BaseCollapsible } from "@base-ui-components/react/collapsible";
 import { ChevronRight } from "lucide-react";
-import { type PropsWithChildren, type ReactElement, useEffect, useState } from "react";
+import { type PropsWithChildren, type ReactElement, useEffect, useRef, useState } from "react";
 
 interface CollapsibleProps extends PropsWithChildren {
   classNames?: {
@@ -24,12 +24,22 @@ export function Collapsible({
   panelContent,
   defaultOpen = false,
 }: CollapsibleProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isHydrated, setIsHydrated] = useState(false);
-  useEffect(() => setIsHydrated(true), []);
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    setIsOpen(detailsRef.current?.open ?? defaultOpen);
+    setIsHydrated(true);
+  }, [defaultOpen]);
 
   if (!isHydrated) {
     return (
-      <details className={[classNames?.root, "group"].filter(Boolean).join(" ")} open={defaultOpen}>
+      <details
+        ref={detailsRef}
+        className={[classNames?.root, "group"].filter(Boolean).join(" ")}
+        open={defaultOpen}
+      >
         <summary className={classNames?.triggerRoot}>
           <div className={classNames?.triggerContent}>
             {triggerIcon}
@@ -50,7 +60,8 @@ export function Collapsible({
   return (
     <BaseCollapsible.Root
       className={[classNames?.root, "group"].filter(Boolean).join(" ")}
-      defaultOpen={defaultOpen}
+      open={isOpen}
+      onOpenChange={(open) => setIsOpen(open)}
     >
       <BaseCollapsible.Trigger className={classNames?.triggerRoot}>
         <div className={classNames?.triggerContent}>
