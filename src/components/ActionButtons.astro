@@ -14,12 +14,12 @@ interface Props {
 >
   <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
     <button
+      transition:persist
       type="button"
+      title="공유"
       aria-label="공유"
-      class:list={[
-        "share-button",
-        "p-2.5 sidebar-shown:p-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 noscript:hidden",
-      ]}
+      id="share-button"
+      class="p-2.5 sidebar-shown:p-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 cursor-pointer data-share-available:opacity-100 opacity-0 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800 noscript:hidden"
     >
       <Share class="flex-none" size={20} />
     </button>
@@ -33,41 +33,56 @@ interface Props {
       <span class="flex items-baseline">
         <span>반응</span>
         <span
-          class:list={[
-            "reaction-count",
-            "text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch]",
-          ]}></span>
+          id="reaction-count"
+          class="text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch]"
+        >
+        </span>
       </span>
-    </a>
-    <a
-      href="#comments"
-      class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
-    >
-      <MessageCircleMore class="flex-none" size={20} />
-      <span class="flex items-baseline">
-        <span>댓글</span>
-        <span
-          class:list={[
-            "comment-count",
-            "text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch]",
-          ]}></span>
-      </span>
+      <a
+        href="#comments"
+        class="px-3 py-2.5 sidebar-shown:px-3.5 sidebar-shown:py-3 toc-shown:bg-white border toc-shown:border-neutral-200 toc-shown:backdrop-blur-none backdrop-blur-lg bg-white/65 border-neutral-200/65 toc-shown:shadow rounded-full flex gap-1.5 items-center font-semibold transition-all toc-shown:engaged:bg-neutral-100 toc-shown:engaged:border-neutral-300 text-sm toc-shown:text-neutral-800 toc-shown:engaged:text-neutral-900 pointer-events-auto engaged:bg-white/85 engaged:border-neutral-200/85 shadow-sm text-neutral-800/90 engaged:text-neutral-800"
+      >
+        <MessageCircleMore class="flex-none" size={20} />
+        <span class="flex items-baseline">
+          <span>댓글</span>
+          <span
+            id="comment-count"
+            class="text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch]"
+          ></span>
+        </span>
+      </a>
     </a>
   </div>
 </div>
 
 <script>
-  const reactionCountLabels = Array.from(
-    document.getElementsByClassName("reaction-count")
-  );
-  const commentCountLabels = Array.from(
-    document.getElementsByClassName("comment-count")
-  );
-  const shareButtons = Array.from(
-    document.getElementsByClassName("share-button")
-  );
+  const shareButton = document.getElementById("share-button");
 
-  function handleGiscusMessage(event: MessageEvent) {
+  if (!navigator.share) {
+    shareButton?.remove();
+  }
+
+  if (navigator.share) {
+    shareButton?.setAttribute("data-share-available", "");
+    shareButton?.addEventListener("click", async () => {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href,
+      });
+    });
+  }
+</script>
+
+<script>
+  let reactionCountLabel: HTMLElement | null = null;
+  let commentCountLabel: HTMLElement | null = null;
+
+  document.addEventListener("astro:page-load", () => {
+    reactionCountLabel = document.getElementById("reaction-count");
+    commentCountLabel = document.getElementById("comment-count");
+  });
+
+  window.addEventListener("message", (event) => {
     if (event.origin !== "https://giscus.app") return;
     if (!(typeof event.data === "object" && event.data.giscus)) return;
 
@@ -78,36 +93,12 @@ interface Props {
       (giscusDiscussionData?.totalCommentCount ?? 0) +
       (giscusDiscussionData?.totalReplyCount ?? 0);
 
-    if (reactionCount) {
-      reactionCountLabels.forEach((label) => {
-        if (label instanceof HTMLElement === false) return;
-        label.innerText = `${reactionCount}`;
-      });
+    if (reactionCount && reactionCountLabel) {
+      reactionCountLabel.innerText = `${reactionCount}`;
     }
 
-    if (commentCount) {
-      commentCountLabels.forEach((label) => {
-        if (label instanceof HTMLElement === false) return;
-        label.innerText = `${commentCount}`;
-      });
+    if (commentCount && commentCountLabel) {
+      commentCountLabel.innerText = `${commentCount}`;
     }
-  }
-
-  window.addEventListener("message", handleGiscusMessage);
-
-  if (!navigator.share) {
-    shareButtons.forEach((button) => button.remove());
-  }
-
-  if (navigator.share) {
-    shareButtons.forEach((button) => {
-      button.setAttribute("data-share-available", "");
-      button.addEventListener("click", async () => {
-        await navigator.share({
-          title: document.title,
-          url: window.location.href,
-        });
-      });
-    });
-  }
+  });
 </script>

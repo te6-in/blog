@@ -80,8 +80,8 @@ const classNames = match(!!imageSrc)
       <div class="absolute inset-0">
         <ImageWithInferredAlt
           src={imageSrc}
-          class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
-          onload="this.classList.remove('motion-safe:animate-pulse')"
+          class="size-full object-cover not-noscript:motion-safe:animate-pulse bg-neutral-400 select-none"
+          onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
         <div class="bg-gradient-to-b from-black/85 to-black/65 inset-0 absolute contrast-more:backdrop-blur-sm transition-[backdrop-filter]" />
       </div>

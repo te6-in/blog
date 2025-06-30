@@ -60,8 +60,8 @@ const variant = coverImage ? "glass" : "flat";
       <div class="absolute inset-0">
         <ImageWithInferredAlt
           src={coverImage}
-          class="size-full object-cover motion-safe:animate-pulse bg-neutral-400 select-none"
-          onload="this.classList.remove('motion-safe:animate-pulse')"
+          class="size-full object-cover not-noscript:motion-safe:animate-pulse bg-neutral-400 select-none"
+          onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
         <div class="bg-gradient-to-b from-black/85 to-black/60 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
       </div>

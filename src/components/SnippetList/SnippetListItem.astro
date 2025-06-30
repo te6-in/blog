@@ -34,8 +34,8 @@ const { slug, title, publishedAt, position } = Astro.props;
     <div class="text-xl text-neutral-900 font-semibold text-balance">
       {title}
     </div>
-    <div class="text-neutral-500 text-xs">
+    <time class="text-neutral-500 text-xs" datetime={publishedAt.toISOString()}>
       {postDateFormatter.format(publishedAt)}
-    </div>
+    </time>
   </div>
 </Link>

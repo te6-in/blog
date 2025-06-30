@@ -1,9 +1,10 @@
 ---
-import { FileCode2, Newspaper, Tags } from "lucide-astro";
+import { FileCode2, Newspaper, Rss, Tags } from "lucide-astro";
 import { getTags } from "../../lib/contents";
 import { Collapsible } from "../Collapsible";
 import LinkSidebarItem from "./LinkSidebarItem.astro";
 import TagChip from "../TagChip.astro";
+import { Star, Github as GitHub } from "lucide-astro"; // because it's GitHub
 
 interface Props {
   currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
@@ -16,57 +17,129 @@ const tags = await getTags({ sortBy: "count" });
 
 <aside
   id="sidebar"
-  class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 stretch:ms-sidebar-stretch-x pt-marginal-height transition-[inset] w-sidebar-width overflow-x-hidden overscroll-y-none [scrollbar-color:var(--color-neutral-300)_transparent]"
+  class="fixed inset-y-0 -start-sidebar-width sidebar-shown:start-0 stretch:ms-sidebar-stretch-x pt-header-height transition-[inset] w-sidebar-width overflow-x-hidden overscroll-y-none [scrollbar-color:var(--color-neutral-300)_transparent] grid grid-cols-1"
 >
   <div
-    class="sticky top-0 inset-x-0 h-22 -mx-2 bg-gradient-to-b from-body-bg to-transparent pointer-events-none z-10"
+    class="sticky top-0 inset-x-0 h-22 -mx-2 bg-gradient-to-b from-body-bg to-transparent pointer-events-none z-10 grid-pos-start"
   >
   </div>
-  <nav class="flex flex-col gap-2 w-[inherit] px-sidebar-padding-x py-4 -mt-22">
-    <LinkSidebarItem to="/posts" isCurrentPage={currentPage?.type === "posts"}>
-      <Newspaper slot="icon" />
-      <Fragment slot="title">글</Fragment>
-    </LinkSidebarItem>
-    <LinkSidebarItem
-      to="/snippets"
-      isCurrentPage={currentPage?.type === "snippets"}
-    >
-      <FileCode2 slot="icon" />
-      <Fragment slot="title">코드 조각</Fragment>
-    </LinkSidebarItem>
-    <Collapsible
-      client:load
-      defaultOpen={currentPage?.type === "tags"}
-      classNames={{
-        root: "flex flex-col -mx-2 justify-start",
-        triggerRoot:
-          "flex items-center justify-between gap-1 rounded-lg p-2 engaged:bg-black/5 backdrop-blur-none engaged:backdrop-blur-sm transition-all z-10 cursor-pointer text-neutral-700 sticky top-2",
-        triggerContent: "flex items-center gap-2",
-        triggerChevron: "transition-transform flex-none",
-        triggerTitle: "font-semibold",
-        panelContent: "flex gap-3 mt-1",
-      }}
-    >
-      <Tags slot="triggerIcon" />
-      <Fragment slot="triggerTitle">태그</Fragment>
-      <Fragment slot="panelContent">
-        <div class="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none"></div>
-        <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">
-          {
-            tags.map((tag) => (
-              <li>
-                <TagChip
-                  {...tag}
-                  isCurrentPage={
-                    currentPage?.type === "tags" &&
-                    currentPage?.slug === tag.slug
-                  }
-                />
-              </li>
-            ))
-          }
-        </ul>
-      </Fragment>
-    </Collapsible>
-  </nav>
+  <div
+    class="flex flex-col justify-between gap-6 w-[inherit] px-sidebar-padding-x py-4 grid-pos-start"
+  >
+    <nav class="flex flex-col gap-2">
+      <LinkSidebarItem
+        to="/posts"
+        isCurrentPage={currentPage?.type === "posts"}
+      >
+        <Newspaper slot="icon" />
+        <Fragment slot="title">글</Fragment>
+      </LinkSidebarItem>
+      <LinkSidebarItem
+        to="/snippets"
+        isCurrentPage={currentPage?.type === "snippets"}
+      >
+        <FileCode2 slot="icon" />
+        <Fragment slot="title">코드 조각</Fragment>
+      </LinkSidebarItem>
+      <Collapsible
+        client:load
+        defaultOpen={currentPage?.type === "tags"}
+        classNames={{
+          root: "flex flex-col -mx-2 justify-start",
+          triggerRoot:
+            "flex items-center justify-between gap-1 rounded-lg p-2 engaged:bg-black/5 backdrop-blur-none engaged:backdrop-blur-sm transition-all z-10 cursor-pointer text-neutral-700 sticky top-2",
+          triggerContent: "flex items-center gap-2",
+          triggerChevron: "transition-transform flex-none",
+          triggerTitle: "font-semibold",
+          panelContent: "flex gap-3 mt-1",
+        }}
+      >
+        <Tags slot="triggerIcon" />
+        <Fragment slot="triggerTitle">태그</Fragment>
+        <Fragment slot="panelContent">
+          <div class="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none"></div>
+          <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">
+            {
+              tags.map((tag) => (
+                <li>
+                  <TagChip
+                    {...tag}
+                    isCurrentPage={
+                      currentPage?.type === "tags" &&
+                      currentPage?.slug === tag.slug
+                    }
+                  />
+                </li>
+              ))
+            }
+          </ul>
+        </Fragment>
+      </Collapsible>
+    </nav>
+    <div class="flex mb-3 -mx-2 self-start">
+      <a
+        title="RSS 피드"
+        aria-label="RSS 피드"
+        href="/rss.xml"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
+      >
+        <Rss size={14} class="flex-none" stroke-width={3} />
+      </a>
+      <a
+        title="블로그 GitHub 레포지토리"
+        aria-label="블로그 GitHub 레포지토리"
+        id="star-count-anchor"
+        href="https://github.com/te6-in/blog"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex gap-0.5 not-noscript:px-[0.6875rem] items-center noscript:justify-center rounded-lg engaged:bg-neutral-200 transition-colors font-semibold text-neutral-500 h-9 noscript:w-9"
+      >
+        <Star size={14} class="fill-current flex-none noscript:hidden" />
+        <span
+          transition:persist
+          class="supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch] text-xs noscript:hidden"
+        ></span>
+        <GitHub
+          size={14}
+          stroke-width={3}
+          class="flex-none hidden noscript:block"
+        />
+      </a>
+    </div>
+  </div>
 </aside>
+<script>
+  import { Octokit } from "@octokit/core";
+
+  // this runs once, and it's fine
+
+  const starCountAnchor = document.getElementById("star-count-anchor");
+  const starCountLabel = starCountAnchor?.querySelector("span");
+  const octokit = new Octokit();
+
+  try {
+    const {
+      data: { stargazers_count },
+    } = await octokit.request("GET /repos/{owner}/{repo}", {
+      owner: "te6-in",
+      repo: "blog", // FIXME
+    });
+
+    if (starCountLabel) {
+      starCountLabel.innerText = `${stargazers_count}`;
+    }
+
+    if (starCountAnchor) {
+      starCountAnchor.setAttribute(
+        "aria-label",
+        `블로그 GitHub 레포지토리 (${stargazers_count} stars)`
+      );
+    }
+  } catch {
+    if (starCountLabel) {
+      starCountLabel.innerText = "0";
+    }
+  }
+</script>

@@ -40,8 +40,11 @@ const classNames = match(variant)
       aria-hidden
       width={28}
       height={28}
-      class:list={["rounded-full motion-safe:animate-pulse", classNames.image]}
-      onload="this.classList.remove('motion-safe:animate-pulse')"
+      class:list={[
+        "rounded-full not-noscript:motion-safe:animate-pulse",
+        classNames.image,
+      ]}
+      onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
     />
     <span>
       <span>

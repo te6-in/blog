@@ -125,9 +125,12 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
     <PreviewCard href={href} metadata={metadata} target="_blank">
       {externalImage && (
         <img
-          class:list={[IMAGE_CLASS, "bg-neutral-200 motion-safe:animate-pulse"]}
+          class:list={[
+            IMAGE_CLASS,
+            "bg-neutral-200 not-noscript:motion-safe:animate-pulse",
+          ]}
           {...externalImage}
-          onload={`this.classList.remove("motion-safe:animate-pulse")`}
+          onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
       )}
     </PreviewCard>

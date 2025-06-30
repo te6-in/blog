@@ -85,6 +85,7 @@ const nextPost = posts[currentPostIndex + 1];
       )
     }
     <button
+      title="맨 위로 스크롤"
       aria-label="맨 위로 스크롤"
       id="scroll-to-top-button"
       type="button"
@@ -96,9 +97,11 @@ const nextPost = posts[currentPostIndex + 1];
 </div>
 
 <script>
-  document
-    .getElementById("scroll-to-top-button")
-    ?.addEventListener("click", () =>
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    );
+  document.addEventListener("astro:page-load", () => {
+    document
+      .getElementById("scroll-to-top-button")
+      ?.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
+  });
 </script>

@@ -45,17 +45,17 @@ const { slug, title, description, publishedAt, coverImage, position } =
         {description}
       </p>
     </div>
-    <div class="text-neutral-500 text-xs">
+    <time class="text-neutral-500 text-xs" datetime={publishedAt.toISOString()}>
       {postDateFormatter.format(publishedAt)}
-    </div>
+    </time>
   </div>
   {
     coverImage && (
       <div class="w-40 max-w-2/5 sidebar-shown:max-w-[unset] md:max-w-1/3 flex-none rounded-lg overflow-hidden media-border after:rounded-lg self-start">
         <ImageWithInferredAlt
           src={coverImage}
-          class="size-full motion-safe:group-engaged:scale-105 transition-transform object-cover motion-safe:animate-pulse bg-neutral-200"
-          onload="this.classList.remove('motion-safe:animate-pulse')"
+          class="size-full motion-safe:group-engaged:scale-105 transition-transform object-cover not-noscript:motion-safe:animate-pulse bg-neutral-200"
+          onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
       </div>
     )

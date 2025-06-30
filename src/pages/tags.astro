@@ -12,12 +12,13 @@ const tags = await getTags({ sortBy: "count" });
 <Layout>
   <MainHeader title="모든 태그" titleCount={tags.length} />
   <Collapsible
+    transition:name="tag-page-tag-list"
     client:load
     defaultOpen
     classNames={{
       root: "flex flex-col justify-start mx-4 mb-6 sidebar-shown:mb-8 border border-neutral-200 p-2 rounded-xl shadow-xs",
       triggerRoot:
-        "flex items-center justify-between gap-1 rounded p-2 engaged:bg-neutral-100 transition-colors cursor-pointer text-neutral-500 engaged:hover:text-neutral-700",
+        "flex items-center justify-between gap-1 rounded p-2 engaged:bg-neutral-100 transition-colors cursor-pointer text-neutral-500 engaged:text-neutral-700",
       triggerContent: "flex items-center gap-2",
       triggerChevron: "transition-transform flex-none",
       triggerTitle: "font-semibold",

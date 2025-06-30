@@ -1,0 +1,31 @@
+---
+const builtDate = new Date();
+
+const formatter = Intl.DateTimeFormat("ko-KR", {
+  dateStyle: "long",
+  timeStyle: "short",
+  hour12: false,
+});
+---
+
+<footer
+  class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 flex flex-col gap-2 -z-10 h-footer-height px-4 py-6"
+>
+  <div class="text-neutral-500 text-sm text-balance">
+    <span>마지막 업데이트</span>
+    <time class="font-semibold ml-0.5" datetime={builtDate.toISOString()}>
+      {formatter.format(builtDate)}
+    </time>
+  </div>
+  <p class="text-neutral-400 text-xs text-balance">
+    <a
+      class="engaged:text-neutral-500 underline"
+      href="https://github.com/microsoft/fluentui-emoji"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      microsoft/fluentui-emoji
+    </a>{" "}
+    is licensed under the MIT License.<br />Copyright (c) Microsoft Corporation.
+  </p>
+</footer>
