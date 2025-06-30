@@ -8,5 +8,6 @@ interface Props extends Omit<ComponentProps<typeof Tweet>, "id"> {
 
 const { url, ...props } = Astro.props;
 ---
+
 <Tweet id={url} {...props} />
-<script is:inline async src="https://platform.twitter.com/widgets.js" />
+<script is:inline async src="https://platform.twitter.com/widgets.js"></script>

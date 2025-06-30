@@ -66,9 +66,6 @@ interface Props {
   const shareButtons = Array.from(
     document.getElementsByClassName("share-button")
   );
-  const showTocOverlayButtons = Array.from(
-    document.getElementsByClassName("show-toc-overlay-button")
-  );
 
   function handleGiscusMessage(event: MessageEvent) {
     if (event.origin !== "https://giscus.app") return;

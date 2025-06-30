@@ -27,11 +27,11 @@ const { slug, title, description, publishedAt, coverImage, position } =
   params={{ slug }}
   class:list={[
     "p-4.5 flex gap-3 justify-between sidebar-shown:justify-start md:justify-between engaged:bg-neutral-100 transition-colors group min-h-34 sidebar-shown:min-h-[unset] md:min-h-34 sidebar-shown:flex-wrap sidebar-shown:flex-col-reverse md:flex-nowrap md:flex-row",
-    position?.firstGlobal && "rounded-t-xl",
+    position?.firstGlobal && "rounded-t-2xl",
     position?.firstInYear &&
       !position?.firstGlobal &&
-      "rounded-t-xl sidebar-shown:rounded-t-none",
-    position?.last && "rounded-b-xl",
+      "rounded-t-2xl sidebar-shown:rounded-t-none",
+    position?.last && "rounded-b-2xl",
   ]}
 >
   <div

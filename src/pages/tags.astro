@@ -1,0 +1,41 @@
+---
+import MainHeader from "../components/MainHeader.astro";
+import Layout from "../layouts/Layout.astro";
+import { getTags } from "../lib/contents";
+import TagChip from "../components/TagChip.astro";
+import { Collapsible } from "../components/Collapsible";
+import { Tags as TagsIcon } from "lucide-astro";
+
+const tags = await getTags({ sortBy: "count" });
+---
+
+<Layout>
+  <MainHeader title="모든 태그" titleCount={tags.length} />
+  <Collapsible
+    client:load
+    defaultOpen
+    classNames={{
+      root: "flex flex-col justify-start mx-4 mb-6 sidebar-shown:mb-8 border border-neutral-200 p-2 rounded-xl shadow-xs",
+      triggerRoot:
+        "flex items-center justify-between gap-1 rounded p-2 engaged:bg-neutral-100 transition-colors cursor-pointer text-neutral-500 engaged:hover:text-neutral-700",
+      triggerContent: "flex items-center gap-2",
+      triggerChevron: "transition-transform flex-none",
+      triggerTitle: "font-semibold",
+      panelContent: "mt-2 pt-0",
+    }}
+  >
+    <TagsIcon slot="triggerIcon" />
+    <Fragment slot="triggerTitle">태그</Fragment>
+    <Fragment slot="panelContent">
+      <ul role="list" class="flex flex-wrap gap-2 p-1.5">
+        {
+          tags.map((tag) => (
+            <li>
+              <TagChip {...tag} />
+            </li>
+          ))
+        }
+      </ul>
+    </Fragment>
+  </Collapsible>
+</Layout>

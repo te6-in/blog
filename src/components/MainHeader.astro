@@ -26,12 +26,17 @@ const variant = coverImage ? "glass" : "flat";
           variant === "glass" ? "text-white" : "text-neutral-800",
         ]}
       >
-        <h1 class="text-balance font-semibold inline">
+        <h1
+          class:list={[
+            "text-balance font-semibold inline",
+            titleCount && "me-1.5",
+          ]}
+        >
           {title}
         </h1>
         {
           titleCount && (
-            <span class="text-current/50 font-medium ms-1.5">{titleCount}</span>
+            <span class="text-current/50 font-medium">{titleCount}</span>
           )
         }
       </span>
