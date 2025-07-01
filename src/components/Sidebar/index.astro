@@ -4,7 +4,7 @@ import { getTags } from "../../lib/contents";
 import { Collapsible } from "../Collapsible";
 import LinkSidebarItem from "./LinkSidebarItem.astro";
 import TagChip from "../TagChip.astro";
-import { Star, Github as GitHub } from "lucide-astro"; // because it's GitHub
+import StarCount from "../StarCount.astro";
 
 interface Props {
   currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
@@ -85,61 +85,11 @@ const tags = await getTags({ sortBy: "count" });
         rel="noopener noreferrer"
         class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
       >
-        <Rss size={14} class="flex-none" stroke-width={3} />
+        <Rss size={15} class="flex-none" stroke-width={3} />
       </a>
-      <a
-        title="블로그 GitHub 레포지토리"
-        aria-label="블로그 GitHub 레포지토리"
-        id="star-count-anchor"
-        href="https://github.com/te6-in/blog"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex gap-0.5 not-noscript:px-[0.6875rem] items-center noscript:justify-center rounded-lg engaged:bg-neutral-200 transition-colors font-semibold text-neutral-500 h-9 noscript:w-9"
-      >
-        <Star size={14} class="fill-current flex-none noscript:hidden" />
-        <span
-          transition:persist
-          class="supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch] text-xs noscript:hidden"
-        ></span>
-        <GitHub
-          size={14}
-          stroke-width={3}
-          class="flex-none hidden noscript:block"
-        />
-      </a>
+      <StarCount
+        class="not-noscript:px-[0.6875rem] rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 font-semibold h-9 noscript:w-9 text-xs"
+      />
     </div>
   </div>
 </aside>
-<script>
-  import { Octokit } from "@octokit/core";
-
-  // this runs once, and it's fine
-
-  const starCountAnchor = document.getElementById("star-count-anchor");
-  const starCountLabel = starCountAnchor?.querySelector("span");
-  const octokit = new Octokit();
-
-  try {
-    const {
-      data: { stargazers_count },
-    } = await octokit.request("GET /repos/{owner}/{repo}", {
-      owner: "te6-in",
-      repo: "blog", // FIXME
-    });
-
-    if (starCountLabel) {
-      starCountLabel.innerText = `${stargazers_count}`;
-    }
-
-    if (starCountAnchor) {
-      starCountAnchor.setAttribute(
-        "aria-label",
-        `블로그 GitHub 레포지토리 (${stargazers_count} stars)`
-      );
-    }
-  } catch {
-    if (starCountLabel) {
-      starCountLabel.innerText = "0";
-    }
-  }
-</script>

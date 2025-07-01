@@ -22,8 +22,8 @@ const postsByYear = groupBy(posts, ({ data: { publishedAt } }) =>
     Object.entries(postsByYear)
       .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
       .map(([year, posts], yearIndex) => (
-        <li class="flex gap-2 items-start flex-col sidebar-shown:flex-row">
-          <div class="font-semibold text-sm text-neutral-500 ps-5.5 sidebar-shown:ps-6.5 pt-6.5 sidebar-shown:pb-6.5 sidebar-shown:sticky sidebar-shown:top-0">
+        <li class="flex gap-2 sidebar-shown:gap-4 items-start flex-col sidebar-shown:flex-row">
+          <div class="font-semibold text-sm text-neutral-500 ps-5.5 sidebar-shown:ps-6.5 pt-5.5 sidebar-shown:pb-5.5 sidebar-shown:sticky sidebar-shown:top-0">
             {year}
           </div>
           <ol

@@ -1,0 +1,69 @@
+---
+import { Star, Github as GitHub } from "lucide-astro";
+
+interface Props {
+  class?: string;
+}
+---
+
+<a
+  title="블로그 GitHub 레포지토리"
+  aria-label="블로그 GitHub 레포지토리"
+  href="https://github.com/te6-in/blog"
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={[
+    "star-count-anchor",
+    "flex gap-0.5 items-center noscript:justify-center",
+    Astro.props.class,
+  ]}
+>
+  <Star size={15} class="fill-current flex-none noscript:hidden" />
+  <span
+    transition:persist
+    class="supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch] noscript:hidden"
+  ></span>
+  <GitHub size={15} stroke-width={3} class="flex-none hidden noscript:block" />
+</a>
+<script>
+  import { Octokit } from "@octokit/core";
+
+  // this runs once, and it's fine
+
+  const starCountAnchors = Array.from(
+    document.getElementsByClassName("star-count-anchor")
+  );
+  const starCountLabels = Array.from(
+    document.querySelectorAll(".star-count-anchor span")
+  );
+
+  const octokit = new Octokit();
+
+  try {
+    const {
+      data: { stargazers_count },
+    } = await octokit.request("GET /repos/{owner}/{repo}", {
+      owner: "te6-in",
+      repo: "blog", // FIXME
+    });
+
+    starCountLabels.forEach((label) => {
+      if (label instanceof HTMLSpanElement === false) return;
+      label.innerText = `${stargazers_count}`;
+    });
+
+    if (starCountAnchors) {
+      starCountAnchors.forEach((anchor) => {
+        anchor.setAttribute(
+          "aria-label",
+          `블로그 GitHub 레포지토리 (${stargazers_count} stars)`
+        );
+      });
+    }
+  } catch {
+    starCountLabels.forEach((label) => {
+      if (label instanceof HTMLSpanElement === false) return;
+      label.innerText = "0";
+    });
+  }
+</script>

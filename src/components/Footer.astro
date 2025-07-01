@@ -1,4 +1,7 @@
 ---
+import { Rss, Star, Github as GitHub } from "lucide-astro";
+import StarCount from "./StarCount.astro";
+
 const builtDate = new Date();
 
 const formatter = Intl.DateTimeFormat("ko-KR", {
@@ -9,23 +12,81 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
 ---
 
 <footer
-  class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 flex flex-col gap-2 -z-10 h-footer-height px-4 py-6"
+  class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 flex flex-col justify-between gap-2 -z-10 h-footer-height px-4 py-6"
 >
-  <div class="text-neutral-500 text-sm text-balance">
-    <span>마지막 업데이트</span>
-    <time class="font-semibold ml-0.5" datetime={builtDate.toISOString()}>
-      {formatter.format(builtDate)}
-    </time>
+  <div>
+    <div class="text-neutral-500 text-sm text-balance">
+      <span>블로그 마지막 업데이트</span>
+      <time class="font-semibold ml-0.5" datetime={builtDate.toISOString()}>
+        {formatter.format(builtDate)}
+      </time>
+    </div>
+    <p class="text-neutral-400 text-xs text-balance">
+      <a
+        class="engaged:text-neutral-500 underline"
+        href="https://github.com/microsoft/fluentui-emoji"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        microsoft/fluentui-emoji
+      </a>{" "}
+      is licensed under the MIT License.<br />Copyright (c) Microsoft
+      Corporation.
+    </p>
   </div>
-  <p class="text-neutral-400 text-xs text-balance">
+  <div class="flex self-end">
     <a
-      class="engaged:text-neutral-500 underline"
-      href="https://github.com/microsoft/fluentui-emoji"
+      title="GitHub 프로필"
+      aria-label="GitHub 프로필"
+      href="https://github.com/te6-in"
       target="_blank"
       rel="noopener noreferrer"
+      class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={18}
+        height={18}
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="flex-none"
+      >
+        <path
+          d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"
+        ></path>
+      </svg>
+    </a>
+    <a
+      title="Bluesky 프로필"
+      aria-label="Bluesky 프로필"
+      href="https://bsky.app/profile/te6.in"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={16}
+        height={14}
+        viewBox="0 0 600 530"
+        fill="currentColor"
+        class="flex-none"
+      >
+        <path
+          d="M135.72 44.03C202.216 93.951 273.74 195.17 300 249.49c26.262-54.316 97.782-155.54 164.28-205.46C512.26 8.009 590-19.862 590 68.825c0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.38-3.69-10.832-3.708-7.896-.017-2.936-1.193.516-3.707 7.896-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.45-163.25-81.433C20.15 217.613 9.997 86.535 9.997 68.825c0-88.687 77.742-60.816 125.72-24.795z"
+        ></path>
+      </svg>
+    </a>
+    <a
+      title="RSS 피드"
+      aria-label="RSS 피드"
+      href="/rss.xml"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
     >
-      microsoft/fluentui-emoji
-    </a>{" "}
-    is licensed under the MIT License.<br />Copyright (c) Microsoft Corporation.
-  </p>
+      <Rss size={15} class="flex-none" stroke-width={3} />
+    </a>
+    <StarCount
+      class="not-noscript:px-[0.6875rem] rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 font-semibold h-9 noscript:w-9 text-xs"
+    />
+  </div>
 </footer>

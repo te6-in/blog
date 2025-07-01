@@ -7,7 +7,7 @@ import Link from "astro-typesafe-routes/link";
     class="fixed start-0 top-0 -z-10 sidebar-shown:z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
   >
     <div
-      class="-mx-2 p-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
+      class="-mx-2 px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
     >
       <a
         href="https://te6.in/"
@@ -21,9 +21,30 @@ import Link from "astro-typesafe-routes/link";
     </div>
   </div>
   <div
-    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-between px-4 -z-10"
+    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-between px-3 -z-10"
   >
     <div>contents</div>
-    <div>contents</div>
+    <div
+      class="sidebar-shown:hidden flex items-center gap-2 text-neutral-600 font-semibold"
+    >
+      <Link
+        to="/posts"
+        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+      >
+        글
+      </Link>
+      <Link
+        to="/snippets"
+        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+      >
+        코드 조각
+      </Link>
+      <Link
+        to="/tags"
+        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+      >
+        태그
+      </Link>
+    </div>
   </div>
 </header>
