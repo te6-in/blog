@@ -10,7 +10,7 @@ import Link from "astro-typesafe-routes/link";
       class="-mx-2 px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
     >
       <a
-        href="https://te6.in/"
+        href={`https://te6.in/?ref=${Astro.url.hostname}`}
         target="_blank"
         class="font-medium text-neutral-600 p-1 -m-1"
       >

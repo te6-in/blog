@@ -1,6 +1,7 @@
 ---
 import { match } from "ts-pattern";
 import { Image } from "astro:assets";
+import { getAnchor } from "./mdx/AnchorWithLinkPreviewTooltip/get-anchor";
 
 interface Props {
   variant?: "flat" | "glass";
@@ -22,6 +23,11 @@ const classNames = match(variant)
     image: "bg-neutral-200/75 backdrop-blur",
   }))
   .exhaustive();
+
+const { url: urlWithSearchParams } = await getAnchor({
+  astroURL: Astro.url,
+  href: url,
+});
 ---
 
 <address>
@@ -30,7 +36,7 @@ const classNames = match(variant)
       "inline-flex items-center gap-2 text-sm transition-all p-2 pe-3.5 not-italic rounded-full -m-2 border border-transparent group",
       classNames.base,
     ]}
-    href={url}
+    href={urlWithSearchParams}
     target="_blank"
     rel="noopener noreferrer"
   >

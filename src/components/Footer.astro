@@ -1,5 +1,5 @@
 ---
-import { Rss, Star, Github as GitHub } from "lucide-astro";
+import { Rss } from "lucide-astro";
 import StarCount from "./StarCount.astro";
 
 const builtDate = new Date();
@@ -24,7 +24,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <p class="text-neutral-400 text-xs text-balance">
       <a
         class="engaged:text-neutral-500 underline"
-        href="https://github.com/microsoft/fluentui-emoji"
+        href={`https://github.com/microsoft/fluentui-emoji?ref=${Astro.url.hostname}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -38,7 +38,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <a
       title="GitHub 프로필"
       aria-label="GitHub 프로필"
-      href="https://github.com/te6-in"
+      href={`https://github.com/te6-in?ref=${Astro.url.hostname}`}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
@@ -58,7 +58,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <a
       title="Bluesky 프로필"
       aria-label="Bluesky 프로필"
-      href="https://bsky.app/profile/te6.in"
+      href={`https://bsky.app/profile/te6.in?ref=${Astro.url.hostname}`}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
