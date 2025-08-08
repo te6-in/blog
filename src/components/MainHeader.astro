@@ -22,16 +22,11 @@ const variant = coverImage ? "glass" : "flat";
     <div class="flex flex-col gap-2">
       <span
         class:list={[
-          "text-3xl leading-11",
+          "text-3xl leading-11 text-balance",
           variant === "glass" ? "text-white" : "text-neutral-800",
         ]}
       >
-        <h1
-          class:list={[
-            "text-balance font-semibold inline",
-            titleCount && "me-1.5",
-          ]}
-        >
+        <h1 class:list={["font-semibold inline", titleCount && "me-1.5"]}>
           {title}
         </h1>
         {

@@ -101,7 +101,13 @@ const nextPost = posts[currentPostIndex + 1];
     document
       .getElementById("scroll-to-top-button")
       ?.addEventListener("click", () =>
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        window.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
+            .matches
+            ? "smooth"
+            : "auto",
+        })
       );
   });
 </script>
