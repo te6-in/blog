@@ -1,8 +1,6 @@
 import type { InferEntrySchema } from "astro:content";
 import { getEntry } from "astro:content";
 
-import.meta.glob;
-
 export async function getAnchor({
   href,
   astroURL,

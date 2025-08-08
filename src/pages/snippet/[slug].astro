@@ -1,17 +1,30 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntries, render } from "astro:content";
 import { BaselineStatus } from "astro-embed";
 import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
 import Prose from "../../components/Prose.astro";
 import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
-import Foo from "../../components/mdx/Foo.astro";
 import Hr from "../../components/mdx/Hr.astro";
 import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
+import ImageGrid from "../../components/mdx/ImageGrid.astro";
+import ImageColumns from "../../components/mdx/ImageColumns.astro";
+import ImageStack from "../../components/mdx/ImageStack.astro";
+import AppleMusic from "../../components/mdx/AppleMusic.astro";
+import MainHeader from "../../components/MainHeader.astro";
+import { getTag } from "../../lib/contents";
+import TagChip from "../../components/TagChip.astro";
+import AuthorChip from "../../components/AuthorChip.astro";
+import MetadataGrid from "../../components/MetadataGrid.astro";
+import TableOfContents from "../../components/TableOfContents";
+import ActionButtons from "../../components/ActionButtons.astro";
+import Comments from "../../components/Comments.astro";
+import PrevNextNavigation from "../../components/PrevNextNavigation";
+import SeriesNavigation from "../../components/SeriesNavigation.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("snippet");
@@ -23,25 +36,72 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+const tagsWithCount = await Promise.all(post.data.tags.map(getTag));
+
+const authors = await getEntries(post.data.authors);
 ---
 
 <Layout>
-  <Prose>
-    <Content
-      components={{
-        Callout,
-        LinkPreviewCard,
-        AppleMusic: Foo,
-        Twitter,
-        YouTube,
-        Bluesky,
-        BaselineStatus,
-        ImageGrid: Foo,
-        img: ImageWithInferredAlt,
-        a: AnchorWithLinkPreviewTooltip,
-        hr: Hr,
-      }}
+  <MainHeader {...post.data}>
+    <ul role="list" class="flex gap-1.5 flex-wrap">
+      {
+        tagsWithCount.map((tag) => (
+          <li>
+            <TagChip {...tag} />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex items-end justify-between gap-4 flex-wrap">
+      <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
+        {
+          authors.map(({ id, data }) => (
+            <li>
+              <AuthorChip id={id} {...data} />
+            </li>
+          ))
+        }
+      </ul>
+      <MetadataGrid
+        publishedAt={post.data.publishedAt}
+        updatedAt={post.data.updatedAt}
+      />
+    </div>
+  </MainHeader>
+  <div
+    class="flex flex-col pb-19 sidebar-shown:pb-26 toc-shown:pb-12 overflow-x-hidden gap-1 grid-pos-start transition-[padding]"
+  >
+    <SeriesNavigation
+      currentType={post.collection}
+      currentSlug={post.id}
+      class="p-4 pb-1 sidebar-shown:p-0 sidebar-shown:mb-2"
     />
-  </Prose>
+    <div
+      class="flex flex-col px-5 pt-6 toc-shown:ps-8 toc-shown:pe-4 sidebar-shown:pt-4 gap-12 transition-[padding]"
+    >
+      <Prose>
+        <Content
+          components={{
+            Callout,
+            LinkPreviewCard,
+            AppleMusic,
+            Twitter,
+            YouTube,
+            Bluesky,
+            BaselineStatus,
+            ImageColumns,
+            ImageGrid,
+            ImageStack,
+            img: ImageWithInferredAlt,
+            a: AnchorWithLinkPreviewTooltip,
+            hr: Hr,
+          }}
+        />
+      </Prose>
+      <Comments />
+      <PrevNextNavigation navigateIn={post.collection} currentSlug={post.id} />
+    </div>
+  </div>
 </Layout>
