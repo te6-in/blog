@@ -10,10 +10,13 @@ type Props = Omit<ComponentProps<typeof Image>, "alt"> &
 const { src: __src, alt: __alt } = Astro.props;
 
 if (__alt) {
-  throw new Error("Alt text should not be provided. It will be inferred.");
+  throw new Error(
+    "Alt text should not be provided. It must be found in the json file."
+  );
 }
 
 const { src } = await getImage({ src: __src });
+
 const decodedSrc = decodeURIComponent(src);
 
 const fileName = removeQueryString(decodedSrc).split("/").pop();
