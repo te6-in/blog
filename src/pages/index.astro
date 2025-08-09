@@ -10,6 +10,7 @@ import {
   getSnippetBlogPostingId,
 } from "../lib/json-ld";
 import { METADATA } from "../lib/metadata";
+import { $path } from "astro-typesafe-routes/path";
 
 const posts = await getCollection("post");
 const snippets = await getCollection("snippet");
@@ -36,6 +37,7 @@ const blog: WithContext<Blog> = {
   datePublished: METADATA.createdAt.toISOString(),
   dateModified: METADATA.updatedAt.toISOString(),
   discussionUrl: METADATA.discussions.url,
+  // TODO: image (thumbnail)
   blogPost: [
     ...posts.map(
       (post) =>
@@ -57,7 +59,12 @@ const blog: WithContext<Blog> = {
 };
 ---
 
-<Layout>
+<Layout
+  metadataProps={{
+    canonicalUrl: new URL($path({ to: "/" }), Astro.url.origin).href,
+    image: undefined, // TODO
+  }}
+>
   <h1>안녕하세요. {METADATA.name}입니다.</h1>
   <p>최근에 올라온 글을 확인해보세요.</p>
   <IceCreamBowl />

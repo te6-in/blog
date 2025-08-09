@@ -16,6 +16,7 @@ export const METADATA = {
   lexicons,
   author: {
     name: "찬휘",
+    id: "te6",
     url: "https://te6.in",
     avatar: "https://avatars.githubusercontent.com/u/56245920?v=4",
   },
@@ -23,7 +24,9 @@ export const METADATA = {
     url: "https://github.com/te6-in/blog-te6-in-comments/discussions",
   },
   social: {
-    twitter: {},
+    twitter: {
+      username: "@te6_in",
+    },
     github: {},
     mastodon: {},
     bluesky: {},

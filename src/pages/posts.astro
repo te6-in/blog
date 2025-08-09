@@ -4,11 +4,18 @@ import Layout from "../layouts/Layout.astro";
 import { getPosts } from "../lib/contents";
 import PostList from "../components/PostList";
 import { METADATA } from "../lib/metadata";
+import { $path } from "astro-typesafe-routes/path";
 
 const posts = await getPosts({ sortBy: "publishedAt" });
 ---
 
-<Layout sidebarProps={{ currentPage: { type: "posts" } }}>
+<Layout
+  metadataProps={{
+    title: `모든 ${METADATA.lexicons.posts.label}`,
+    canonicalUrl: new URL($path({ to: "/posts" }), Astro.url.origin).href,
+  }}
+  sidebarProps={{ currentPage: { type: "posts" } }}
+>
   <MainHeader
     title={`모든 ${METADATA.lexicons.posts.label}`}
     titleCount={posts.length}

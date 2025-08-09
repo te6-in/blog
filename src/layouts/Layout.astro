@@ -6,8 +6,11 @@ import Main from "../components/Main.astro";
 import "../styles/global.css";
 import type { ComponentProps } from "react";
 import { ClientRouter } from "astro:transitions";
+import { METADATA } from "../lib/metadata";
+import Metadata from "../components/Metadata.astro";
 
 interface Props {
+  metadataProps: ComponentProps<typeof Metadata>;
   sidebarProps?: ComponentProps<typeof Sidebar>;
 }
 
@@ -18,9 +21,41 @@ const { sidebarProps } = Astro.props;
 <html lang="ko" class="motion-safe:scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <Metadata {...Astro.props.metadataProps} />
+
+    <!-- TODO: un-comment after making a new image -->
+    <!-- <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" /> -->
+    <!-- TODO: read https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7 -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={METADATA.name} />
+
+    <!-- TODO: un-comment after implementing rss. maybe can replace with $path -->
+    <!-- <link
+      rel="alternate"
+      type="application/rss+xml"
+      href={new URL("/rss.xml", Astro.url.origin)}
+    /> -->
+
+    <!-- <meta name="fediverse:creator" content="@Gargron@mastodon.social" /> -->
+    <meta name="twitter:site:id" content={METADATA.social.twitter.username} />
+    <meta
+      name="twitter:creator:id"
+      content={METADATA.social.twitter.username}
+    />
+
+    <!-- TODO: after making a new manifest file -->
+    <!-- <link rel="manifest" href="/manifest.webmanifest" /> -->
+    <!-- <meta name="mobile-web-app-capable" content="yes" /> -->
+
+    <!-- TODO: enable after implementing dark mode -->
+    <!-- <meta name="darkreader-lock" /> -->
+
     <meta name="generator" content={Astro.generator} />
+
     <ClientRouter />
   </head>
   <body class="bg-body-bg overflow-x-hidden">

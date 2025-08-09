@@ -93,7 +93,22 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
 );
 ---
 
-<Layout>
+<Layout
+  metadataProps={{
+    title: snippet.data.title,
+    // description: 본문 앞부분 조금 넣기
+    keywords: tagsWithCount.map(({ name }) => name),
+    authors: authors.map(({ id, data: { name } }) => ({ id, name })),
+    article: {
+      publishedAt: snippet.data.publishedAt,
+      updatedAt: snippet.data.updatedAt,
+    },
+    canonicalUrl: new URL(
+      $path({ to: "/post/[slug]", params: { slug: snippet.id } }),
+      Astro.url.origin
+    ).href,
+  }}
+>
   <MainHeader {...snippet.data}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {

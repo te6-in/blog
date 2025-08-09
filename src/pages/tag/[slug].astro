@@ -8,6 +8,7 @@ import TagChip from "../../components/TagChip.astro";
 import { Tags as TagsIcon } from "lucide-astro";
 import { Collapsible } from "../../components/Collapsible";
 import { METADATA } from "../../lib/metadata";
+import { $path } from "astro-typesafe-routes/path";
 
 export async function getStaticPaths() {
   const tags = await getTags({});
@@ -33,7 +34,16 @@ const tags = await getTags({ sortBy: "count" });
 // TODO: 바뀌는 태그들(띄어쓰기 추가 등) 리다이렉트
 ---
 
-<Layout sidebarProps={{ currentPage: { type: "tags", slug } }}>
+<Layout
+  metadataProps={{
+    title: `${METADATA.lexicons.tags.label}: ${name}`,
+    canonicalUrl: new URL(
+      $path({ to: "/tag/[slug]", params: { slug } }),
+      Astro.url.origin
+    ).href,
+  }}
+  sidebarProps={{ currentPage: { type: "tags", slug } }}
+>
   <MainHeader
     title={`${METADATA.lexicons.tags.label}: ${name}`}
     titleCount={posts.length + snippets.length}

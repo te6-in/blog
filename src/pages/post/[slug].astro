@@ -99,7 +99,29 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
 );
 ---
 
-<Layout>
+<Layout
+  metadataProps={{
+    title: post.data.title,
+    description: post.data.description,
+    keywords: tagsWithCount.map(({ name }) => name),
+    authors: authors.map(({ id, data: { name } }) => ({ id, name })),
+    // TODO: 잘 들어가는지 보기
+    ...(post.data.coverImage && {
+      image: {
+        src: post.data.coverImage.src,
+        alt: "", // TODO: fetch alt from json
+      },
+    }),
+    article: {
+      publishedAt: post.data.publishedAt,
+      updatedAt: post.data.updatedAt,
+    },
+    canonicalUrl: new URL(
+      $path({ to: "/post/[slug]", params: { slug: post.id } }),
+      Astro.url.origin
+    ).href,
+  }}
+>
   <MainHeader {...post.data}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {

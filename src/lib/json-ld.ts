@@ -24,8 +24,8 @@ export function getPeopleFromAuthors(
 ): WithContext<Person>[] {
   const blogAuthor = getBlogAuthorPerson(astroUrl);
 
-  return authors.map(({ data: { avatar, name, url } }) => {
-    if (name === getBlogAuthorPerson(astroUrl).name)
+  return authors.map(({ id, data: { avatar, name, url } }) => {
+    if (id === METADATA.author.id)
       return {
         "@context": "https://schema.org",
         "@type": "Person",
