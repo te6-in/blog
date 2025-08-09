@@ -10,7 +10,7 @@ import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getPostUrl, getTag } from "../../lib/contents";
+import { getTag } from "../../lib/contents";
 import TagChip from "../../components/TagChip.astro";
 import AuthorChip from "../../components/AuthorChip.astro";
 import MetadataGrid from "../../components/MetadataGrid.astro";
@@ -33,6 +33,7 @@ import {
 import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
 import { $path } from "astro-typesafe-routes/path";
 import JsonLd from "../../components/JsonLd.astro";
+import { METADATA } from "../../lib/metadata";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -52,7 +53,7 @@ const tagsWithCount = await Promise.all(post.data.tags.map(getTag));
 
 const authors = await getEntries(post.data.authors);
 
-const authorPeople = getPeopleFromAuthors(authors);
+const authorPeople = getPeopleFromAuthors(authors, Astro.url);
 
 const blogPosting: WithContext<BlogPosting> = {
   "@context": "https://schema.org",
@@ -70,7 +71,7 @@ const blogPosting: WithContext<BlogPosting> = {
     dateModified: post.data.updatedAt.toISOString(),
   }),
   articleBody: post.body,
-  thumbnailUrl: post.data.coverImage?.src,
+  thumbnailUrl: post.data.coverImage?.src, // TODO: 배포하고 퍼블릭 URL 잘 들어가는지 확인
 };
 
 const postBreadcrumbList: WithContext<BreadcrumbList> = {
@@ -80,13 +81,13 @@ const postBreadcrumbList: WithContext<BreadcrumbList> = {
     {
       "@type": "ListItem",
       position: 1,
-      name: "홈",
+      name: METADATA.lexicons.index.label,
       item: Astro.url.origin,
     },
     {
       "@type": "ListItem",
       position: 2,
-      name: "글",
+      name: METADATA.lexicons.posts.label,
       item: new URL($path({ to: "/posts" }), Astro.url.origin).href,
     },
   ],

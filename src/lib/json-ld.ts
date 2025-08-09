@@ -1,16 +1,45 @@
-import type { BreadcrumbList, Person, WithContext } from "schema-dts";
 import type { CollectionEntry } from "astro:content";
 import { $path } from "astro-typesafe-routes/path";
+import type { BreadcrumbList, Person, WithContext } from "schema-dts";
 import { getPostUrl, getSnippetUrl } from "./contents";
+import { METADATA } from "./metadata";
 
-export function getPeopleFromAuthors(authors: CollectionEntry<"author">[]): WithContext<Person>[] {
-  return authors.map(({ data: { avatar, name, url } }) => ({
+export function getBlogAuthorPerson({ origin }: URL) {
+  const url = new URL(origin);
+  url.hash = "#person";
+
+  return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name,
-    url,
-    image: avatar,
-  }));
+    "@id": url.href,
+    name: METADATA.author.name,
+    url: METADATA.author.url,
+    image: METADATA.author.avatar,
+  } satisfies WithContext<Person>;
+}
+
+export function getPeopleFromAuthors(
+  authors: CollectionEntry<"author">[],
+  astroUrl: URL,
+): WithContext<Person>[] {
+  const blogAuthor = getBlogAuthorPerson(astroUrl);
+
+  return authors.map(({ data: { avatar, name, url } }) => {
+    if (name === getBlogAuthorPerson(astroUrl).name)
+      return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": blogAuthor["@id"],
+      };
+
+    return {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name,
+      url,
+      image: avatar,
+    };
+  });
 }
 
 export function getBreadcrumbListsFromTags(
@@ -27,7 +56,7 @@ export function getBreadcrumbListsFromTags(
       {
         "@type": "ListItem",
         position: 1,
-        name: "홈",
+        name: METADATA.lexicons.index.label,
         item: astroUrl.origin,
       },
       {

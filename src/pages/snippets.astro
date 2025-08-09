@@ -3,11 +3,15 @@ import MainHeader from "../components/MainHeader.astro";
 import Layout from "../layouts/Layout.astro";
 import { getSnippets } from "../lib/contents";
 import SnippetList from "../components/SnippetList";
+import { METADATA } from "../lib/metadata";
 
 const snippets = await getSnippets({ sortBy: "publishedAt" });
 ---
 
 <Layout sidebarProps={{ currentPage: { type: "snippets" } }}>
-  <MainHeader title="모든 코드 조각" titleCount={snippets.length} />
+  <MainHeader
+    title={`모든 ${METADATA.lexicons.snippets.label}`}
+    titleCount={snippets.length}
+  />
   <SnippetList snippets={snippets} />
 </Layout>

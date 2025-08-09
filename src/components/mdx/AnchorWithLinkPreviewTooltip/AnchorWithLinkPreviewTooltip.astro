@@ -5,6 +5,7 @@ import { Tooltip } from "./Tooltip";
 import Anchor from "./Anchor.astro";
 import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
 import { getAnchor } from "./get-anchor";
+import { METADATA } from "../../../lib/metadata";
 
 type Props = HTMLAttributes<"a">;
 
@@ -68,8 +69,8 @@ const anchorProps: ComponentProps<typeof Anchor> = {
       </div>
       <div class="w-full border-t border-neutral-200 text-xs px-4 py-1.5 flex justify-between">
         <span class="text-neutral-600 font-medium">
-          이 블로그의 {type === "post" && "글"}
-          {type === "snippet" && "코드 조각"}
+          이 블로그의 {type === "post" && METADATA.lexicons.posts.label}
+          {type === "snippet" && METADATA.lexicons.snippets.label}
         </span>
         {anchorProps.target === "_blank" && (
           <span class="text-neutral-400">새 탭에서 열립니다.</span>

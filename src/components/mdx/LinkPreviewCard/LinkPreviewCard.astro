@@ -11,6 +11,7 @@ import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
 import { getAnchor } from "../AnchorWithLinkPreviewTooltip/get-anchor";
 import PreviewCard from "./PreviewCard.astro";
 import { parseOpenGraph } from "./lib";
+import { METADATA } from "../../../lib/metadata";
 
 export interface Props {
   /** URL to fetch Open Graph data. */
@@ -58,7 +59,7 @@ const { href, metadata, internalImage, externalImage } = await match(type)
       metadata: {
         title,
         description,
-        siteName: "이 블로그의 글",
+        siteName: `이 블로그의 ${METADATA.lexicons.posts.label}`,
         hasImage: hideMedia ? false : !!coverImage,
       },
       internalImage: coverImage,
@@ -72,7 +73,7 @@ const { href, metadata, internalImage, externalImage } = await match(type)
       href: url.href,
       metadata: {
         title: detail.title,
-        siteName: "이 블로그의 코드 조각",
+        siteName: `이 블로그의 ${METADATA.lexicons.snippets.label}`,
         hasImage: false,
       },
     };

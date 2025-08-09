@@ -5,6 +5,7 @@ import { Collapsible } from "../Collapsible";
 import LinkSidebarItem from "./LinkSidebarItem.astro";
 import TagChip from "../TagChip.astro";
 import StarCount from "../StarCount.astro";
+import { METADATA } from "../../lib/metadata";
 
 interface Props {
   currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
@@ -32,14 +33,14 @@ const tags = await getTags({ sortBy: "count" });
         isCurrentPage={currentPage?.type === "posts"}
       >
         <Newspaper slot="icon" />
-        <Fragment slot="title">글</Fragment>
+        <Fragment slot="title">{METADATA.lexicons.posts.label}</Fragment>
       </LinkSidebarItem>
       <LinkSidebarItem
         to="/snippets"
         isCurrentPage={currentPage?.type === "snippets"}
       >
         <FileCode2 slot="icon" />
-        <Fragment slot="title">코드 조각</Fragment>
+        <Fragment slot="title">{METADATA.lexicons.snippets.label}</Fragment>
       </LinkSidebarItem>
       <Collapsible
         client:load
@@ -55,7 +56,7 @@ const tags = await getTags({ sortBy: "count" });
         }}
       >
         <Tags slot="triggerIcon" />
-        <Fragment slot="triggerTitle">태그</Fragment>
+        <Fragment slot="triggerTitle">{METADATA.lexicons.tags.label}</Fragment>
         <Fragment slot="panelContent">
           <div class="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none"></div>
           <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">

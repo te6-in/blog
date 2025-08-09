@@ -1,5 +1,6 @@
 ---
 import Link from "astro-typesafe-routes/link";
+import { METADATA } from "../lib/metadata";
 ---
 
 <header>
@@ -31,19 +32,19 @@ import Link from "astro-typesafe-routes/link";
         to="/posts"
         class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
       >
-        글
+        {METADATA.lexicons.posts.label}
       </Link>
       <Link
         to="/snippets"
         class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
       >
-        코드 조각
+        {METADATA.lexicons.snippets.label}
       </Link>
       <Link
         to="/tags"
         class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
       >
-        태그
+        {METADATA.lexicons.tags.label}
       </Link>
     </div>
   </div>

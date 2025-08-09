@@ -1,5 +1,5 @@
+import { type CollectionEntry, getCollection } from "astro:content";
 import { $path } from "astro-typesafe-routes/path";
-import { getCollection, type CollectionEntry } from "astro:content";
 import { uniqBy } from "es-toolkit";
 import { slug } from "github-slugger";
 

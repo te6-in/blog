@@ -5,12 +5,16 @@ import { getTags } from "../lib/contents";
 import TagChip from "../components/TagChip.astro";
 import { Collapsible } from "../components/Collapsible";
 import { Tags as TagsIcon } from "lucide-astro";
+import { METADATA } from "../lib/metadata";
 
 const tags = await getTags({ sortBy: "count" });
 ---
 
 <Layout>
-  <MainHeader title="모든 태그" titleCount={tags.length} />
+  <MainHeader
+    title={`모든 ${METADATA.lexicons.tags.label}`}
+    titleCount={tags.length}
+  />
   <Collapsible
     client:load
     defaultOpen
@@ -25,7 +29,9 @@ const tags = await getTags({ sortBy: "count" });
     }}
   >
     <TagsIcon slot="triggerIcon" />
-    <Fragment slot="triggerTitle">태그</Fragment>
+    <Fragment slot="triggerTitle">
+      {METADATA.lexicons.tags.label}
+    </Fragment>
     <Fragment slot="panelContent">
       <ul role="list" class="flex flex-wrap gap-2 p-1.5">
         {

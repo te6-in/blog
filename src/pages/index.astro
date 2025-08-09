@@ -1,34 +1,66 @@
 ---
 import { IceCreamBowl } from "lucide-astro";
 import Layout from "../layouts/Layout.astro";
-import type { WithContext, Blog } from "schema-dts";
+import type { WithContext, Blog, BlogPosting } from "schema-dts";
 import { getCollection } from "astro:content";
 import JsonLd from "../components/JsonLd.astro";
-import { getPostBlogPostingId, getSnippetBlogPostingId } from "../lib/json-ld";
+import {
+  getBlogAuthorPerson,
+  getPostBlogPostingId,
+  getSnippetBlogPostingId,
+} from "../lib/json-ld";
+import { METADATA } from "../lib/metadata";
 
 const posts = await getCollection("post");
 const snippets = await getCollection("snippet");
 
+const person = getBlogAuthorPerson(Astro.url);
+
 const blog: WithContext<Blog> = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "te6.in 블로그",
-  alternateName: "te6.in 개발·디자인 블로그",
+  name: METADATA.name,
+  alternateName: METADATA.previousName,
+  description: METADATA.description,
+  keywords: METADATA.keywords,
+  author: {
+    "@type": "Person",
+    "@id": person["@id"],
+  },
+  copyrightHolder: {
+    "@type": "Person",
+    "@id": person["@id"],
+  },
+  url: Astro.url.origin,
+  dateCreated: METADATA.createdAt.toISOString(),
+  datePublished: METADATA.createdAt.toISOString(),
+  dateModified: METADATA.updatedAt.toISOString(),
+  discussionUrl: METADATA.discussions.url,
   blogPost: [
-    ...posts.map((post) => ({
-      "@id": getPostBlogPostingId(post, Astro.url),
-    })),
-    ...snippets.map((snippet) => ({
-      "@id": getSnippetBlogPostingId(snippet, Astro.url),
-    })),
+    ...posts.map(
+      (post) =>
+        ({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "@id": getPostBlogPostingId(post, Astro.url),
+        }) satisfies WithContext<BlogPosting>
+    ),
+    ...snippets.map(
+      (snippet) =>
+        ({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "@id": getSnippetBlogPostingId(snippet, Astro.url),
+        }) satisfies WithContext<BlogPosting>
+    ),
   ],
 };
 ---
 
 <Layout>
-  <h1>안녕하세요. te6.in 블로그입니다.</h1>
+  <h1>안녕하세요. {METADATA.name}입니다.</h1>
   <p>최근에 올라온 글을 확인해보세요.</p>
   <IceCreamBowl />
 </Layout>
 
-<JsonLd data={blog} />
+<JsonLd data={[blog, person]} />

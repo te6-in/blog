@@ -3,11 +3,15 @@ import MainHeader from "../components/MainHeader.astro";
 import Layout from "../layouts/Layout.astro";
 import { getPosts } from "../lib/contents";
 import PostList from "../components/PostList";
+import { METADATA } from "../lib/metadata";
 
 const posts = await getPosts({ sortBy: "publishedAt" });
 ---
 
 <Layout sidebarProps={{ currentPage: { type: "posts" } }}>
-  <MainHeader title="모든 글" titleCount={posts.length} />
+  <MainHeader
+    title={`모든 ${METADATA.lexicons.posts.label}`}
+    titleCount={posts.length}
+  />
   <PostList posts={posts} />
 </Layout>

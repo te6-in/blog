@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astro-community/astro-embed-utils": "^0.1.3",
+    "@astrojs/check": "^0.9.4",
     "@astrojs/internal-helpers": "0.7.1",
     "@astrojs/mdx": "4.3.3",
     "@astrojs/react": "4.3.0",
@@ -41,7 +42,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "22",
     "schema-dts": "^1.1.5",
-    "typescript": "^5.8.2"
+    "typescript": "^5.9.2"
   },
   "resolutions": {
     "@astro-community/astro-embed-bluesky@npm:^0.1.0": "patch:@astro-community/astro-embed-bluesky@patch%3A@astro-community/astro-embed-bluesky@npm%253A0.1.3%23~/.yarn/patches/@astro-community-astro-embed-bluesky-npm-0.1.3-e9d05800b9.patch%3A%3Aversion=0.1.3&hash=2b36b1#~/.yarn/patches/@astro-community-astro-embed-bluesky-patch-696341f2bd.patch",

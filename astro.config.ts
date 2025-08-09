@@ -3,11 +3,13 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import typesafeRoutes from "astro-typesafe-routes";
+import type { RouteId } from "astro-typesafe-routes/path";
 import { defineConfig, envField } from "astro/config";
+import { METADATA } from "./src/lib/metadata";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://blog.te6.in",
+  site: METADATA.site,
   integrations: [mdx(), sitemap(), react(), typesafeRoutes()],
   vite: {
     plugins: [tailwindcss()],
@@ -18,7 +20,7 @@ export default defineConfig({
     "/memos": "/posts",
     "/memo/[slug]": "/post/[slug]",
     "/category/[slug]": "/tag/[slug]",
-  },
+  } satisfies Record<string, RouteId>,
   env: {
     schema: {
       DEV_ONLY_CONTENTS_PATH: envField.string({
