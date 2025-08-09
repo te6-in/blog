@@ -24,7 +24,7 @@
     "@types/react-dom": "^19.0.4",
     "astro": "5.12.8",
     "astro-embed": "^0.9.0",
-    "astro-typesafe-routes": "^4.2.2",
+    "astro-typesafe-routes": "^5.0.0",
     "es-toolkit": "^1.32.0",
     "github-slugger": "^2.0.0",
     "lucide-astro": "^0.473.0",
