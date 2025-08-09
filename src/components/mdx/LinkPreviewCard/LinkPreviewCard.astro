@@ -25,7 +25,7 @@ const { href: __href, hideMedia = false, noRef = false } = Astro.props;
 
 const { type, url, detail } = await getAnchor({
   href: __href,
-  astroURL: Astro.url,
+  astroUrl: Astro.url,
   options: {
     noRef,
   },

@@ -11,7 +11,7 @@ type Props = HTMLAttributes<"a">;
 const { href } = Astro.props;
 if (!href) throw new Error("href is required");
 
-const { url, type, detail } = await getAnchor({ href, astroURL: Astro.url });
+const { url, type, detail } = await getAnchor({ href, astroUrl: Astro.url });
 
 const variant: ComponentProps<typeof Anchor>["variant"] = (() => {
   switch (type) {

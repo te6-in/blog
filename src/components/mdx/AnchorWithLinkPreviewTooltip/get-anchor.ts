@@ -3,11 +3,11 @@ import { getEntry } from "astro:content";
 
 export async function getAnchor({
   href,
-  astroURL,
+  astroUrl,
   options,
 }: {
   href: string | URL;
-  astroURL: URL;
+  astroUrl: URL;
   options?: {
     noRef?: boolean;
   };
@@ -19,17 +19,17 @@ export async function getAnchor({
   )
 > {
   if (typeof href === "string" && href.startsWith("#")) {
-    const url = new URL(astroURL.pathname, astroURL.origin);
+    const url = new URL(astroUrl.pathname, astroUrl.origin);
     url.hash = href;
 
     return { url, type: "hash" };
   }
 
   const isRelative = typeof href === "string" && href.startsWith("/");
-  const url = new URL(href, isRelative ? astroURL.origin : undefined);
+  const url = new URL(href, isRelative ? astroUrl.origin : undefined);
 
-  if ((!options || options.noRef !== true) && url.origin !== astroURL.origin) {
-    url.searchParams.set("ref", astroURL.hostname);
+  if ((!options || options.noRef !== true) && url.origin !== astroUrl.origin) {
+    url.searchParams.set("ref", astroUrl.hostname);
 
     return { url, type: "external" };
   }

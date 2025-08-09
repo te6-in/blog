@@ -1,9 +1,34 @@
 ---
 import { IceCreamBowl } from "lucide-astro";
 import Layout from "../layouts/Layout.astro";
+import type { WithContext, Blog } from "schema-dts";
+import { getCollection } from "astro:content";
+import JsonLd from "../components/JsonLd.astro";
+import { getPostBlogPostingId, getSnippetBlogPostingId } from "../lib/json-ld";
+
+const posts = await getCollection("post");
+const snippets = await getCollection("snippet");
+
+const blog: WithContext<Blog> = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "te6.in 블로그",
+  alternateName: "te6.in 개발·디자인 블로그",
+  blogPost: [
+    ...posts.map((post) => ({
+      "@id": getPostBlogPostingId(post, Astro.url),
+    })),
+    ...snippets.map((snippet) => ({
+      "@id": getSnippetBlogPostingId(snippet, Astro.url),
+    })),
+  ],
+};
 ---
+
 <Layout>
-	<h1>안녕하세요. te6.in 블로그입니다.</h1>
-	<p>최근에 올라온 글을 확인해보세요.</p>
-	<IceCreamBowl />
+  <h1>안녕하세요. te6.in 블로그입니다.</h1>
+  <p>최근에 올라온 글을 확인해보세요.</p>
+  <IceCreamBowl />
 </Layout>
+
+<JsonLd data={blog} />

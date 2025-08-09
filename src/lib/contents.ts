@@ -1,4 +1,5 @@
-import { getCollection } from "astro:content";
+import { $path } from "astro-typesafe-routes/path";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { uniqBy } from "es-toolkit";
 import { slug } from "github-slugger";
 
@@ -95,4 +96,12 @@ export async function getSnippets({ sortBy = "publishedAt" }: GetSnippetsParams)
   });
 
   return sortedSnippets;
+}
+
+export function getPostUrl({ id }: CollectionEntry<"post">, astroUrl: URL) {
+  return new URL($path({ to: "/post/[slug]", params: { slug: id } }), astroUrl.origin);
+}
+
+export function getSnippetUrl({ id }: CollectionEntry<"snippet">, astroUrl: URL) {
+  return new URL($path({ to: "/snippet/[slug]", params: { slug: id } }), astroUrl.origin);
 }
