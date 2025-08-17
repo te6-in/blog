@@ -6,11 +6,17 @@ import TagChip from "../components/TagChip.astro";
 import { Collapsible } from "../components/Collapsible";
 import { Tags as TagsIcon } from "lucide-astro";
 import { METADATA } from "../lib/metadata";
+import { $path } from "astro-typesafe-routes/path";
 
 const tags = await getTags({ sortBy: "count" });
 ---
 
-<Layout>
+<Layout
+  metadataProps={{
+    title: `모든 ${METADATA.lexicons.tags.label}`,
+    canonicalUrl: $path({ to: "/tags" }),
+  }}
+>
   <MainHeader
     title={`모든 ${METADATA.lexicons.tags.label}`}
     titleCount={tags.length}
