@@ -18,6 +18,7 @@ const tags = await getTags({ sortBy: "count" });
   }}
 >
   <MainHeader
+    class="w-full"
     title={`모든 ${METADATA.lexicons.tags.label}`}
     titleCount={tags.length}
   />

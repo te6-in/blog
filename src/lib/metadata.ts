@@ -20,7 +20,21 @@ export const METADATA = {
     url: "https://te6.in",
     avatar: "https://avatars.githubusercontent.com/u/56245920?v=4",
   },
+  repo: {
+    owner: "te6-in",
+    name: "blog",
+    url: "https://github.com/te6-in/blog",
+  },
   discussions: {
+    repo: {
+      owner: "te6-in",
+      name: "blog-te6-in-comments",
+      id: "R_kgDOIZUGww",
+      category: {
+        id: "DIC_kwDOIZUGw84CTZxb",
+        name: "Comments",
+      },
+    },
     url: "https://github.com/te6-in/blog-te6-in-comments/discussions",
   },
   social: {

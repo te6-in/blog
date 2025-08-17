@@ -46,6 +46,7 @@ const tags = await getTags({ sortBy: "count" });
   sidebarProps={{ currentPage: { type: "tags", slug } }}
 >
   <MainHeader
+    class="w-full"
     title={`${METADATA.lexicons.tags.label}: ${name}`}
     titleCount={posts.length + snippets.length}
   />

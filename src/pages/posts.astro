@@ -17,6 +17,7 @@ const posts = await getPosts({ sortBy: "publishedAt" });
   sidebarProps={{ currentPage: { type: "posts" } }}
 >
   <MainHeader
+    class="w-full"
     title={`모든 ${METADATA.lexicons.posts.label}`}
     titleCount={posts.length}
   />

@@ -5,13 +5,13 @@ import type { MarkdownHeading } from "astro";
 import NestedHeadingsList, {
   type NestedHeading,
 } from "./NestedHeadingsList.astro";
+import type { HTMLAttributes } from "astro/types";
 
-interface Props {
-  class?: string;
+interface Props extends HTMLAttributes<"nav"> {
   headings: MarkdownHeading[];
 }
 
-const { headings } = Astro.props;
+const { headings, class: className, ...props } = Astro.props;
 
 function nestHeadings(headings: MarkdownHeading[]): NestedHeading[] {
   const nested: NestedHeading[] = [];
@@ -42,8 +42,9 @@ const nestedHeadings = nestHeadings(headings);
 <nav
   class:list={[
     "overflow-y-auto [scrollbar-color:var(--color-neutral-200)_transparent] flex flex-col text-sm",
-    Astro.props.class,
+    className,
   ]}
+  {...props}
 >
   <div
     class="sticky top-0 font-semibold bg-gradient-to-b from-white to-transparent px-2.5 py-3 text-neutral-900 pointer-events-none flex items-center justify-between"

@@ -1,22 +1,33 @@
 ---
-import type { ComponentProps } from "astro/types";
+import type { ComponentProps, HTMLAttributes } from "astro/types";
 import { Image } from "astro:assets";
 import ImageWithInferredAlt from "./ImageWithInferredAlt.astro";
 
-interface Props {
+interface Props extends HTMLAttributes<"div"> {
   title: string;
   titleCount?: number;
   description?: string;
   coverImage?: ComponentProps<typeof Image>["src"];
 }
 
-const { title, titleCount, description, coverImage } = Astro.props;
+const {
+  title,
+  titleCount,
+  description,
+  coverImage,
+  class: className,
+  ...props
+} = Astro.props;
 
 const variant = coverImage ? "glass" : "flat";
 ---
 
 <div
-  class="w-full relative rounded-t-lg sidebar-shown:rounded-b-lg transition-[border-radius] overflow-hidden"
+  class:list={[
+    "relative rounded-t-lg sidebar-shown:rounded-b-lg transition-[border-radius] overflow-hidden",
+    className,
+  ]}
+  {...props}
 >
   <div class="flex flex-col justify-end gap-5 p-8 z-10 relative">
     <div class="flex flex-col gap-2">

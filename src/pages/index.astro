@@ -1,5 +1,4 @@
 ---
-import { IceCreamBowl } from "lucide-astro";
 import Layout from "../layouts/Layout.astro";
 import type { WithContext, Blog, BlogPosting } from "schema-dts";
 import { getCollection } from "astro:content";
@@ -11,9 +10,21 @@ import {
 } from "../lib/json-ld";
 import { METADATA } from "../lib/metadata";
 import { $path } from "astro-typesafe-routes/path";
+import PostGrid from "../components/PostGrid";
+import PostGridItemSkeleton from "../components/PostGrid/PostGridItemSkeleton.astro";
+import PostGridItemTemplate from "../components/PostGrid/PostGridItemTemplate.astro";
+import PostGridItem from "../components/PostGrid/PostGridItem.astro";
 
 const posts = await getCollection("post");
 const snippets = await getCollection("snippet");
+
+const featuredPosts = posts
+  .filter(({ data: { featured } }) => featured)
+  .sort(
+    ({ data: { publishedAt: a } }, { data: { publishedAt: b } }) =>
+      b.getTime() - a.getTime()
+  )
+  .slice(0, 6);
 
 const person = getBlogAuthorPerson(Astro.url);
 
@@ -66,8 +77,178 @@ const blog: WithContext<Blog> = {
   }}
 >
   <h1>안녕하세요. {METADATA.name}입니다.</h1>
-  <p>최근에 올라온 글을 확인해보세요.</p>
-  <IceCreamBowl />
+  <div>추천드리는 글</div>
+  <PostGrid class="p-2">
+    {
+      featuredPosts.map(({ data, id }) => (
+        <PostGridItem class="featured-anchor" slug={id} {...data} />
+      ))
+    }
+  </PostGrid>
+  <div>최근 반응이 많은 글</div>
+  <PostGrid class="p-2" id="recently-commented-posts-grid">
+    <div id="loader" class="contents">
+      {Array.from({ length: 3 }).map(() => <PostGridItemSkeleton />)}
+    </div>
+    <PostGridItemTemplate id="post-grid-item" />
+  </PostGrid>
 </Layout>
 
 <JsonLd data={[blog, person]} />
+
+<script>
+  import { Octokit } from "@octokit/core";
+  import { $path } from "astro-typesafe-routes/path";
+  import type { PostsResponse } from "./api/posts";
+  import type { DiscussionsResponse } from "../lib/github";
+  import type { DataCollectionKey } from "astro:content";
+  import { METADATA } from "../lib/metadata";
+
+  const octokit = new Octokit();
+
+  throw "";
+
+  await main();
+
+  async function fetchPosts() {
+    return (await fetch($path({ to: "/api/posts" })).then((res) =>
+      res.json()
+    )) as PostsResponse;
+  }
+
+  async function fetchDiscussions() {
+    const response = await octokit.request(
+      "GET /repos/{owner}/{repo}/discussions",
+      {
+        owner: METADATA.discussions.repo.owner,
+        repo: METADATA.discussions.repo.name,
+        per_page: 100,
+      }
+    );
+
+    return response.data as DiscussionsResponse;
+  }
+
+  async function fetchDiscussionComments(discussionNumber: number) {
+    const response = await octokit.request(
+      "GET /repos/{owner}/{repo}/discussions/{discussion_number}/comments",
+      {
+        owner: METADATA.discussions.repo.owner,
+        repo: METADATA.discussions.repo.name,
+        discussion_number: discussionNumber,
+        per_page: 100,
+      }
+    );
+  }
+
+  function getGridItemClone(
+    template: HTMLTemplateElement,
+    item: {
+      coverImage: { src: string; alt: string };
+      title: string;
+      description: string;
+      href: string;
+    }
+  ) {
+    const clone = template.content.cloneNode(true) as DocumentFragment;
+
+    const anchor = clone.querySelector("a") as HTMLAnchorElement;
+    const image = clone.querySelector(".cover-image") as HTMLImageElement;
+    const title = clone.querySelector(".title") as HTMLElement;
+    const description = clone.querySelector(".description") as HTMLElement;
+
+    anchor.addEventListener("mouseenter", () => {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = item.href;
+
+      document.head.appendChild(link);
+    });
+
+    anchor.href = item.href;
+    image.src = item.coverImage.src;
+    image.alt = item.coverImage.alt;
+    title.textContent = item.title;
+    description.textContent = item.description;
+
+    return clone;
+  }
+
+  async function main() {
+    const loader = document.getElementById("loader");
+
+    const featuredAnchorsHrefs = [
+      ...document.querySelectorAll<HTMLAnchorElement>(".featured-anchor"),
+    ].map((anchor) => anchor.href);
+
+    const recentlyCommentedPostsGrid = document.getElementById(
+      "recently-commented-posts-grid"
+    );
+
+    const postGridItem = document.getElementById(
+      "post-grid-item"
+    ) as HTMLTemplateElement;
+
+    if (!recentlyCommentedPostsGrid || !postGridItem) {
+      console.warn("recentlyCommentedPostsGrid or postGridItem not found");
+
+      return;
+    }
+
+    await Promise.all([fetchPosts(), fetchDiscussions()])
+      .then(([posts, discussions]) => {
+        const recentlyEngaged = discussions
+          .filter(({ title }) => {
+            if (title.split("/")[0] !== ("post" satisfies DataCollectionKey)) {
+              return false;
+            }
+
+            // prevent featured posts from being shown
+            if (
+              featuredAnchorsHrefs.some(
+                (href) => new URL(href).pathname === `/${title}`
+              )
+            ) {
+              return false;
+            }
+
+            return true;
+          })
+          .sort(
+            (a, b) =>
+              new Date(b.updated_at).getTime() -
+              new Date(a.updated_at).getTime()
+          )
+          .map((discussion) => ({
+            discussion,
+            post: posts.find(({ id }) => id === discussion.title.split("/")[1]),
+          }))
+          .filter(
+            ({ post }) => post && post.data.coverImage // coverImage가 있는 post만 사용
+          )
+          .slice(0, 3);
+
+        const clones = recentlyEngaged.map(({ post }) => {
+          // not happening, just for type safety
+          if (!post) throw new Error("post is undefined");
+          if (!post.data.coverImage)
+            throw new Error("post.data.coverImage is undefined");
+
+          return getGridItemClone(postGridItem, {
+            coverImage: post.data.coverImage,
+            title: post.data.title,
+            description: post.data.description,
+            href: $path({ to: "/post/[slug]", params: { slug: post.id } }),
+          });
+        });
+
+        recentlyCommentedPostsGrid.append(...clones);
+      })
+      .catch((error) => {
+        console.error("Error fetching recently engaged posts:", error);
+      })
+      .finally(() => {
+        loader?.remove();
+      });
+  }
+</script>

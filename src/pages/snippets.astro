@@ -17,6 +17,7 @@ const snippets = await getSnippets({ sortBy: "publishedAt" });
   sidebarProps={{ currentPage: { type: "snippets" } }}
 >
   <MainHeader
+    class="w-full"
     title={`모든 ${METADATA.lexicons.snippets.label}`}
     titleCount={snippets.length}
   />

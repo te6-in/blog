@@ -1,16 +1,18 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import { MessageCircleMore, PartyPopper, Share } from "lucide-astro";
 
-interface Props {
-  class: string;
-}
+interface Props extends HTMLAttributes<"div"> {}
+
+const { class: className, ...props } = Astro.props;
 ---
 
 <div
   class:list={[
     "inline-flex toc-shown:flex-col gap-1.5 sidebar-shown:gap-2 items-end pointer-events-none flex-wrap justify-end",
-    Astro.props.class,
+    className,
   ]}
+  {...props}
 >
   <div class="flex gap-1.5 sidebar-shown:gap-2 items-end">
     <button

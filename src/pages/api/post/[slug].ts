@@ -1,8 +1,8 @@
+import { getCollection } from "astro:content";
 import { removeQueryString } from "@astrojs/internal-helpers/path";
 import type { APIRoute, GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { getCollection } from "astro:content";
 
-interface PostResponse {
+export interface PostResponse {
   id: string;
   data: {
     title: string;

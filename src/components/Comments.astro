@@ -1,14 +1,17 @@
-<!-- TODO: metadata로 빼기 -->
+---
+import { METADATA } from "../lib/metadata";
+---
+
 <div id="comments" class="giscus scroll-mt-5 sidebar-shown:scroll-mt-9"></div>
 <!-- should be run every time when a page is loaded -->
 <script
   data-astro-rerun
   is:inline
   src="https://giscus.app/client.js"
-  data-repo="te6-in/blog-te6-in-comments"
-  data-repo-id="R_kgDOIZUGww"
-  data-category="Comments"
-  data-category-id="DIC_kwDOIZUGw84CTZxb"
+  data-repo={`${METADATA.discussions.repo.owner}/${METADATA.discussions.repo.name}`}
+  data-repo-id={METADATA.discussions.repo.id}
+  data-category={METADATA.discussions.repo.category.name}
+  data-category-id={METADATA.discussions.repo.category.id}
   data-mapping="pathname"
   data-strict="0"
   data-reactions-enabled="1"

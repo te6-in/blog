@@ -1,5 +1,5 @@
-import type { APIRoute, GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
+import type { APIRoute, GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 export interface SnippetResponse {
   id: string;

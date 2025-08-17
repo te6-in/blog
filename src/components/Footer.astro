@@ -40,7 +40,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <a
       title="GitHub 프로필"
       aria-label="GitHub 프로필"
-      href={`https://github.com/te6-in?ref=${Astro.url.hostname}`}
+      href={`${METADATA.repo.url}?ref=${Astro.url.hostname}`}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
