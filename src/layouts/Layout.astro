@@ -14,7 +14,7 @@ interface Props {
   sidebarProps?: ComponentProps<typeof Sidebar>;
 }
 
-const { sidebarProps } = Astro.props;
+const { metadataProps, sidebarProps } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +23,7 @@ const { sidebarProps } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <Metadata {...Astro.props.metadataProps} />
+    <Metadata {...metadataProps} />
 
     <!-- TODO: un-comment after making a new image -->
     <!-- <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" /> -->

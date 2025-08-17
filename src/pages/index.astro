@@ -11,8 +11,8 @@ import {
 import { METADATA } from "../lib/metadata";
 import { $path } from "astro-typesafe-routes/path";
 import PostGrid from "../components/PostGrid";
-import PostGridItemSkeleton from "../components/PostGrid/PostGridItemSkeleton.astro";
-import PostGridItemTemplate from "../components/PostGrid/PostGridItemTemplate.astro";
+import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
+import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
 
 const posts = await getCollection("post");
@@ -78,7 +78,9 @@ const blog: WithContext<Blog> = {
 >
   <h1>안녕하세요. {METADATA.name}입니다.</h1>
   <div>추천드리는 글</div>
-  <PostGrid class="p-2">
+  <PostGrid
+    class="p-2 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3"
+  >
     {
       featuredPosts.map(({ data, id }) => (
         <PostGridItem class="featured-anchor" slug={id} {...data} />
@@ -86,12 +88,12 @@ const blog: WithContext<Blog> = {
     }
   </PostGrid>
   <div>최근 반응이 많은 글</div>
-  <PostGrid class="p-2" id="recently-commented-posts-grid">
+  <div class="p-2 flex flex-col gap-2" id="recently-engaged-posts">
     <div id="loader" class="contents">
-      {Array.from({ length: 3 }).map(() => <PostGridItemSkeleton />)}
+      {Array.from({ length: 3 }).map(() => <PostWithCommentsSkeleton />)}
     </div>
-    <PostGridItemTemplate id="post-grid-item" />
-  </PostGrid>
+    <PostWithCommentsTemplate id="post-grid-item" />
+  </div>
 </Layout>
 
 <JsonLd data={[blog, person]} />
@@ -100,13 +102,14 @@ const blog: WithContext<Blog> = {
   import { Octokit } from "@octokit/core";
   import { $path } from "astro-typesafe-routes/path";
   import type { PostsResponse } from "./api/posts";
-  import type { DiscussionsResponse } from "../lib/github";
+  import type {
+    DiscussionsResponse,
+    DiscussionCommentsResponse,
+  } from "../lib/github";
   import type { DataCollectionKey } from "astro:content";
   import { METADATA } from "../lib/metadata";
 
   const octokit = new Octokit();
-
-  throw "";
 
   await main();
 
@@ -139,6 +142,8 @@ const blog: WithContext<Blog> = {
         per_page: 100,
       }
     );
+
+    return response.data as DiscussionCommentsResponse;
   }
 
   function getGridItemClone(
@@ -182,7 +187,7 @@ const blog: WithContext<Blog> = {
     ].map((anchor) => anchor.href);
 
     const recentlyCommentedPostsGrid = document.getElementById(
-      "recently-commented-posts-grid"
+      "recently-engaged-posts"
     );
 
     const postGridItem = document.getElementById(
@@ -195,60 +200,89 @@ const blog: WithContext<Blog> = {
       return;
     }
 
-    await Promise.all([fetchPosts(), fetchDiscussions()])
-      .then(([posts, discussions]) => {
-        const recentlyEngaged = discussions
-          .filter(({ title }) => {
-            if (title.split("/")[0] !== ("post" satisfies DataCollectionKey)) {
-              return false;
-            }
+    const [posts, discussions] = await Promise.all([
+      fetchPosts(),
+      fetchDiscussions(),
+    ]);
 
-            // prevent featured posts from being shown
-            if (
-              featuredAnchorsHrefs.some(
-                (href) => new URL(href).pathname === `/${title}`
-              )
-            ) {
-              return false;
-            }
+    const recentlyEngaged = discussions
+      .filter(({ title }) => {
+        if (title.split("/")[0] !== ("post" satisfies DataCollectionKey)) {
+          return false;
+        }
 
-            return true;
-          })
-          .sort(
-            (a, b) =>
-              new Date(b.updated_at).getTime() -
-              new Date(a.updated_at).getTime()
+        // prevent featured posts from being shown
+        if (
+          featuredAnchorsHrefs.some(
+            (href) => new URL(href).pathname === `/${title}`
           )
-          .map((discussion) => ({
-            discussion,
-            post: posts.find(({ id }) => id === discussion.title.split("/")[1]),
-          }))
-          .filter(
-            ({ post }) => post && post.data.coverImage // coverImage가 있는 post만 사용
-          )
-          .slice(0, 3);
+        ) {
+          return false;
+        }
 
-        const clones = recentlyEngaged.map(({ post }) => {
-          // not happening, just for type safety
-          if (!post) throw new Error("post is undefined");
-          if (!post.data.coverImage)
-            throw new Error("post.data.coverImage is undefined");
-
-          return getGridItemClone(postGridItem, {
-            coverImage: post.data.coverImage,
-            title: post.data.title,
-            description: post.data.description,
-            href: $path({ to: "/post/[slug]", params: { slug: post.id } }),
-          });
-        });
-
-        recentlyCommentedPostsGrid.append(...clones);
+        return true;
       })
-      .catch((error) => {
-        console.error("Error fetching recently engaged posts:", error);
-      })
-      .finally(() => {
-        loader?.remove();
+      .sort(
+        (a, b) =>
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      )
+      .map((discussion) => ({
+        discussion,
+        post: posts.find(({ id }) => id === discussion.title.split("/")[1]),
+      }))
+      .filter(
+        ({ post }) => post && post.data.coverImage // coverImage가 있는 post만 사용
+      )
+      .slice(0, 3);
+
+    const clones = recentlyEngaged.map(({ post }) => {
+      // not happening, just for type safety
+      if (!post) throw new Error("post is undefined");
+      if (!post.data.coverImage)
+        throw new Error("post.data.coverImage is undefined");
+
+      return getGridItemClone(postGridItem, {
+        coverImage: post.data.coverImage,
+        title: post.data.title,
+        description: post.data.description,
+        href: $path({ to: "/post/[slug]", params: { slug: post.id } }),
       });
+    });
+
+    recentlyCommentedPostsGrid.append(...clones);
+    loader?.remove();
+
+    const recentComments = await Promise.all(
+      recentlyEngaged.map(async ({ discussion, post }) => {
+        // not happening, just for type safety
+        if (!post) throw new Error("post is undefined");
+
+        return {
+          post,
+          discussion,
+          comments: await fetchDiscussionComments(discussion.number),
+        };
+      })
+    );
+
+    const recentlyEngagedAnchors =
+      recentlyCommentedPostsGrid.querySelectorAll<HTMLAnchorElement>("a");
+
+    for (const anchor of recentlyEngagedAnchors) {
+      const { comments } =
+        recentComments.find(
+          ({ discussion }) =>
+            new URL(anchor.href).pathname === `/${discussion.title}`
+        ) || {};
+
+      if (!comments) continue;
+
+      console.log(
+        comments.sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        )
+      );
+    }
   }
 </script>

@@ -1,8 +1,17 @@
-<template>
+---
+import type { HTMLAttributes } from "astro/types";
+
+// doesn't support <template>
+interface Props extends HTMLAttributes<"div"> {}
+---
+
+<template {...Astro.props}>
   <a
-    class="flex flex-col gap-4 engaged:bg-neutral-100 p-4 rounded-2xl transition-colors group"
+    class="flex gap-4 engaged:bg-neutral-100 p-4 rounded-2xl transition-colors group items-start"
   >
-    <div class="rounded-lg overflow-hidden media-border after:rounded-lg">
+    <div
+      class="rounded-lg overflow-hidden media-border after:rounded-lg w-2/7 min-w-40"
+    >
       <img
         class="cover-image not-noscript:motion-safe:animate-pulse bg-neutral-400 motion-safe:group-engaged:scale-105 transition-transform"
         onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
@@ -12,6 +21,7 @@
       <div class="title text-xl text-neutral-800 leading-snug font-semibold">
       </div>
       <p class="description text-sm text-neutral-500 leading-snug"></p>
+      <div class="comments flex flex-col gap-0.5"></div>
     </div>
   </a>
 </template>
