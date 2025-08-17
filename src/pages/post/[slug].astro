@@ -34,15 +34,16 @@ import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
 import { $path } from "astro-typesafe-routes/path";
 import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths() {
+export const getStaticPaths = (async () => {
   const posts = await getCollection("post");
 
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
   }));
-}
+}) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);

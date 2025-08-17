@@ -9,15 +9,16 @@ import { Tags as TagsIcon } from "lucide-astro";
 import { Collapsible } from "../../components/Collapsible";
 import { METADATA } from "../../lib/metadata";
 import { $path } from "astro-typesafe-routes/path";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths() {
+export const getStaticPaths = (async () => {
   const tags = await getTags({});
 
   return tags.map(({ name, slug }) => ({
     params: { slug },
     props: { name, slug },
   }));
-}
+}) satisfies GetStaticPaths;
 
 const { name, slug } = Astro.props;
 

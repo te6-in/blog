@@ -32,15 +32,16 @@ import {
 } from "../../lib/json-ld";
 import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths() {
+export const getStaticPaths = (async () => {
   const snippets = await getCollection("snippet");
 
   return snippets.map((snippet) => ({
     params: { slug: snippet.id },
     props: { snippet },
   }));
-}
+}) satisfies GetStaticPaths;
 
 const { snippet } = Astro.props;
 const { Content } = await render(snippet);
