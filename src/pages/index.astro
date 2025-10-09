@@ -11,8 +11,8 @@ import {
 import { METADATA } from "../lib/metadata";
 import { $path } from "astro-typesafe-routes/path";
 import PostGrid from "../components/PostGrid";
-import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
-import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
+// import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
+// import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
 
 const posts = await getCollection("post");
@@ -87,18 +87,18 @@ const blog: WithContext<Blog> = {
       ))
     }
   </PostGrid>
-  <div>최근 반응이 많은 글</div>
+  <!-- <div>최근 반응이 많은 글</div>
   <div class="p-2 flex flex-col gap-2" id="recently-engaged-posts">
     <div id="loader" class="contents">
       {Array.from({ length: 3 }).map(() => <PostWithCommentsSkeleton />)}
     </div>
     <PostWithCommentsTemplate id="post-grid-item" />
-  </div>
+  </div> -->
 </Layout>
 
 <JsonLd data={[blog, person]} />
 
-<script>
+<!-- <script>
   import { Octokit } from "@octokit/core";
   import { $path } from "astro-typesafe-routes/path";
   import type { PostsResponse } from "./api/posts";
@@ -280,4 +280,4 @@ const blog: WithContext<Blog> = {
       );
     }
   }
-</script>
+</script> -->
