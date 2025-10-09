@@ -31,8 +31,6 @@ const snippets = (await getSnippets({ sortBy: "publishedAt" })).filter(
 );
 
 const tags = await getTags({ sortBy: "count" });
-
-// TODO: 바뀌는 태그들(띄어쓰기 추가 등) 리다이렉트
 ---
 
 <Layout

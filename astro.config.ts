@@ -26,7 +26,12 @@ export default defineConfig({
     "/memos": "/posts",
     "/memo/[slug]": "/post/[slug]",
     "/category/[slug]": "/tag/[slug]",
-  } satisfies Record<string, RouteId>,
+    "/tag/소셜미디어": "/tag/소셜-미디어",
+    "/tag/디자인시스템": "/tag/디자인-시스템",
+    "/tag/디지털권리": "/tag/디지털-권리",
+    "/tag/AppsScript": "/tag/Apps-Script",
+    "/tag/UX라이팅": "/tag/UX-라이팅",
+  } satisfies Record<string, RouteId | (string & {})>,
   env: {
     schema: {
       DEV_ONLY_CONTENTS_PATH: envField.string({
