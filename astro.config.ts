@@ -16,6 +16,7 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "hover",
   },
+  trailingSlash: "never",
   integrations: [mdx(), sitemap(), react(), typesafeRoutes()],
   vite: {
     plugins: [tailwindcss()],
