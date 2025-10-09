@@ -14,6 +14,8 @@ import PostGrid from "../components/PostGrid";
 // import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
 // import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
+import MainHeader from "../components/MainHeader.astro";
+import { Image } from "astro:assets";
 
 const posts = await getCollection("post");
 const snippets = await getCollection("snippet");
@@ -76,24 +78,49 @@ const blog: WithContext<Blog> = {
     image: undefined, // TODO
   }}
 >
-  <h1>안녕하세요. {METADATA.name}입니다.</h1>
-  <div>추천드리는 글</div>
-  <PostGrid
-    class="p-2 pb-6 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-1"
-  >
-    {
-      featuredPosts.map(({ data, id }) => (
-        <PostGridItem class="featured-anchor" slug={id} {...data} />
-      ))
-    }
-  </PostGrid>
-  <!-- <div>최근 반응이 많은 글</div>
-  <div class="p-2 flex flex-col gap-2" id="recently-engaged-posts">
-    <div id="loader" class="contents">
-      {Array.from({ length: 3 }).map(() => <PostWithCommentsSkeleton />)}
+  <div class="flex flex-col gap-12">
+    <div class="flex flex-col gap-6">
+      <div
+        class="rounded-2xl overflow-hidden ml-8 mt-8 after:rounded-2xl media-border self-start shadow-xl shadow-sky-700/15"
+      >
+        <Image
+          src={METADATA.author.avatar}
+          alt=""
+          width={120}
+          height={120}
+          onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
+          class="bg-neutral-200 not-noscript:motion-safe:animate-pulse"
+          aria-hidden
+        />
+      </div>
+      <h1
+        class="font-semibold text-3xl leading-11 ml-8 text-neutral-800 whitespace-nowrap"
+      >
+        안녕하세요. <wbr />{METADATA.name}입니다.
+      </h1>
     </div>
-    <PostWithCommentsTemplate id="post-grid-item" />
-  </div> -->
+    <div class="flex flex-col gap-1">
+      <h2 class="font-medium text-lg text-balance ml-8 text-neutral-600">
+        추천드리는 글
+      </h2>
+      <PostGrid
+        class="p-3 sidebar-shown:pb-7 toc-shown:pb-7 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-1"
+      >
+        {
+          featuredPosts.map(({ data, id }) => (
+            <PostGridItem class="featured-anchor" slug={id} {...data} />
+          ))
+        }
+      </PostGrid>
+    </div>
+    <!-- <div>최근 반응이 많은 글</div>
+    <div class="p-2 flex flex-col gap-2" id="recently-engaged-posts">
+      <div id="loader" class="contents">
+        {Array.from({ length: 3 }).map(() => <PostWithCommentsSkeleton />)}
+      </div>
+      <PostWithCommentsTemplate id="post-grid-item" />
+    </div> -->
+  </div>
 </Layout>
 
 <JsonLd data={[blog, person]} />

@@ -1,6 +1,8 @@
 ---
 import Link from "astro-typesafe-routes/link";
 import { METADATA } from "../lib/metadata";
+import { Image } from "astro:assets";
+import icon from "../assets/icon.png";
 ---
 
 <header>
@@ -8,23 +10,27 @@ import { METADATA } from "../lib/metadata";
     class="fixed start-0 top-0 -z-10 sidebar-shown:z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
   >
     <div
-      class="-mx-2 px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-2 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
+      class="-mx-2 px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-1 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
     >
       <a
-        href={`https://te6.in/?ref=${Astro.url.hostname}`}
+        href={`${METADATA.author.url}/?ref=${Astro.url.hostname}`}
         target="_blank"
-        class="font-medium text-neutral-600 p-1 -m-1"
+        class="font-medium text-neutral-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-neutral-200 rounded-lg transition-colors"
       >
-        te6.in
+        <Image src={icon} alt="" class="size-6" aria-hidden />
+        <div>te6.in</div>
       </a>
       <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
-      <Link to="/" class="font-bold text-neutral-800 p-1">Blog</Link>
+      <Link
+        to="/"
+        class="font-bold text-neutral-800 py-2 px-2.5 engaged:bg-neutral-200 transition-colors rounded-lg"
+        >Blog</Link
+      >
     </div>
   </div>
   <div
-    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-between px-3 -z-10"
+    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-end px-3 -z-10"
   >
-    <div>contents</div>
     <div
       class="sidebar-shown:hidden flex items-center gap-2 text-neutral-600 font-semibold"
     >
