@@ -8,6 +8,7 @@ import type { ComponentProps } from "react";
 import { ClientRouter } from "astro:transitions";
 import { METADATA } from "../lib/metadata";
 import Metadata from "../components/Metadata.astro";
+import Fonts from "../components/Fonts.astro";
 
 interface Props {
   metadataProps: ComponentProps<typeof Metadata>;
@@ -46,6 +47,8 @@ const { metadataProps, sidebarProps } = Astro.props;
       name="twitter:creator:id"
       content={METADATA.social.twitter.username}
     />
+
+    <Fonts />
 
     <!-- TODO: after making a new manifest file -->
     <!-- <link rel="manifest" href="/manifest.webmanifest" /> -->
