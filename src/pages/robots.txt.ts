@@ -5,6 +5,9 @@ const getRobotsTxt = (sitemapURL: URL) =>
 User-agent: *
 Allow: /
 
+User-agent: *
+Disallow: /images
+
 Sitemap: ${sitemapURL.href}
 `.trimStart();
 

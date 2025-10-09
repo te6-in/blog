@@ -9,6 +9,7 @@ import { ClientRouter } from "astro:transitions";
 import { METADATA } from "../lib/metadata";
 import Metadata from "../components/Metadata.astro";
 import Fonts from "../components/Fonts.astro";
+import { $path } from "astro-typesafe-routes/path";
 
 interface Props {
   metadataProps: ComponentProps<typeof Metadata>;
@@ -26,20 +27,17 @@ const { metadataProps, sidebarProps } = Astro.props;
 
     <Metadata {...metadataProps} />
 
-    <!-- TODO: un-comment after making a new image -->
-    <!-- <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" /> -->
-    <!-- TODO: read https://dev.to/masakudamatsu/favicon-nightmare-how-to-maintain-sanity-3al7 -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" />
 
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content={METADATA.name} />
 
-    <!-- TODO: un-comment after implementing rss. maybe can replace with $path -->
-    <!-- <link
+    <link
       rel="alternate"
       type="application/rss+xml"
-      href={new URL("/rss.xml", Astro.url.origin)}
-    /> -->
+      href={new URL($path({ to: "/rss.xml" }), Astro.url.origin).href}
+    />
 
     <!-- <meta name="fediverse:creator" content="@Gargron@mastodon.social" /> -->
     <meta name="twitter:site:id" content={METADATA.social.twitter.username} />

@@ -43,7 +43,7 @@ export type DiscussionsResponse = {
     user_view_type: string;
     site_admin: boolean;
   };
-  labels: unknown[]; // TODO: might implement later
+  labels: unknown[]; // XXX: might implement later
   state: string;
   state_reason: string | null;
   locked: boolean;

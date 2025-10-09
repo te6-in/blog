@@ -35,6 +35,7 @@ import { $path } from "astro-typesafe-routes/path";
 import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
 import type { GetStaticPaths } from "astro";
+import { getAlt } from "../../lib/images";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("post");
@@ -72,7 +73,9 @@ const blogPosting: WithContext<BlogPosting> = {
     dateModified: post.data.updatedAt.toISOString(),
   }),
   articleBody: post.body,
-  thumbnailUrl: post.data.coverImage?.src, // TODO: 배포하고 퍼블릭 URL 잘 들어가는지 확인
+  ...(post.data.coverImage && {
+    thumbnailUrl: new URL(post.data.coverImage.src, Astro.url.origin).href,
+  }),
 };
 
 const postBreadcrumbList: WithContext<BreadcrumbList> = {
@@ -98,6 +101,10 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
   tagsWithCount,
   Astro.url
 );
+
+const coverImageAlt = post.data.coverImage
+  ? await getAlt({ src: post.data.coverImage })
+  : null;
 ---
 
 <Layout
@@ -106,13 +113,13 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
     description: post.data.description,
     keywords: tagsWithCount.map(({ name }) => name),
     authors: authors.map(({ id, data: { name } }) => ({ id, name })),
-    // TODO: 잘 들어가는지 보기
-    ...(post.data.coverImage && {
-      image: {
-        src: post.data.coverImage.src,
-        alt: "", // TODO: fetch alt from json
-      },
-    }),
+    ...(post.data.coverImage &&
+      coverImageAlt && {
+        image: {
+          src: post.data.coverImage.src,
+          alt: coverImageAlt,
+        },
+      }),
     article: {
       publishedAt: post.data.publishedAt,
       updatedAt: post.data.updatedAt,

@@ -53,7 +53,7 @@ const blog: WithContext<Blog> = {
   datePublished: METADATA.createdAt.toISOString(),
   dateModified: METADATA.updatedAt.toISOString(),
   discussionUrl: METADATA.discussions.url,
-  // TODO: image (thumbnail)
+  thumbnailUrl: new URL("/images/default-og-image.png", Astro.url.origin).href,
   blogPost: [
     ...posts.map(
       (post) =>
@@ -78,7 +78,6 @@ const blog: WithContext<Blog> = {
 <Layout
   metadataProps={{
     canonicalUrl: new URL($path({ to: "/" }), Astro.url.origin).href,
-    image: undefined, // TODO
   }}
 >
   <div class="flex flex-col">

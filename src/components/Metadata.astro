@@ -60,35 +60,24 @@ interface Props {
 <meta property="og:url" content={Astro.props.canonicalUrl} />
 <link rel="canonical" href={Astro.props.canonicalUrl} />
 
-{
-  Astro.props.image && (
-    <>
-      {/* TODO: add fallback image */}
-      {/* <meta
-        property="og:image"
-        content={
-          Astro.props.image.url ??
-          new URL("/images/default-image.png", Astro.url.origin)
-        }
-      />
-      <meta
-        name="twitter:image"
-        content={
-          Astro.props.image.url ??
-          new URL("/images/default-image.png", Astro.url.origin)
-        }
-      /> */}
-      <meta
-        property="og:image:alt"
-        content={Astro.props.image.alt ?? "상어 모양의 te6.in 로고"}
-      />
-      <meta
-        name="twitter:image:alt"
-        content={Astro.props.image.alt ?? "상어 모양의 te6.in 로고"}
-      />
-    </>
-  )
-}
+<meta
+  property="og:image"
+  content={Astro.props.image?.src ??
+    new URL("/images/default-og.png", Astro.url.origin)}
+/>
+<meta
+  name="twitter:image"
+  content={Astro.props.image?.src ??
+    new URL("/images/default-og.png", Astro.url.origin)}
+/>
+<meta
+  property="og:image:alt"
+  content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}
+/>
+<meta
+  name="twitter:image:alt"
+  content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}
+/>
 
 {
   Astro.props.article === undefined && (
