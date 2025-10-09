@@ -24,7 +24,18 @@ body {
   }
 }
 
-@custom-variant engaged (&:hover, &:focus-visible);
+@custom-variant engaged {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+
+  &:focus-visible {
+    @slot;
+  }
+}
+
 @custom-variant prose-del (& :is(:where(del):not(:where([class~='not-prose'],[class~='not-prose'] *))));
 
 @theme {
