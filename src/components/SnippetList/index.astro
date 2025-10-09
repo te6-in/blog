@@ -16,14 +16,14 @@ const snippetsByYear = groupBy(snippets, ({ data: { publishedAt } }) =>
 
 <ol
   role="list"
-  class="divide divide-y divide-neutral-300 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5"
+  class="divide divide-y divide-neutral-300 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5 transition-[padding]"
 >
   {
     Object.entries(snippetsByYear)
       .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
       .map(([year, snippets], yearIndex) => (
         <li class="flex gap-2 sidebar-shown:gap-4 items-start flex-col sidebar-shown:flex-row">
-          <div class="font-semibold text-sm text-neutral-500 ps-5.5 sidebar-shown:ps-6.5 pt-5.5 sidebar-shown:pb-5.5 sidebar-shown:sticky sidebar-shown:top-0">
+          <div class="font-semibold text-sm text-neutral-500 ps-5.5 sidebar-shown:ps-6.5 pt-5.5 sidebar-shown:pb-5.5 sidebar-shown:sticky sidebar-shown:top-0 transition-[padding]">
             {year}
           </div>
           <ol

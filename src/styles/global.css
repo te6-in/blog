@@ -88,7 +88,7 @@ body {
   --spacing-mdx-component-margin-y: 1.25em;
 
   /* layout */
-  --spacing-sidebar-hidden-title-width: calc(var(--spacing) * 36);
+  --spacing-sidebar-hidden-title-width: calc(var(--spacing) * 48);
   --spacing-sidebar-width: calc(var(--spacing) * 68);
   --spacing-sidebar-padding-x: calc(var(--spacing) * 8);
   --spacing-sidebar-stretch-x: calc((100vw - var(--breakpoint-stretch)) / 2);
