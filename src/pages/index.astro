@@ -95,10 +95,9 @@ const blog: WithContext<Blog> = {
           aria-hidden
         />
       </div>
-      <h1
-        class="font-semibold text-3xl leading-11 ml-8 text-neutral-800 whitespace-nowrap"
-      >
-        안녕하세요. <wbr />{METADATA.name}입니다.
+      <h1 class="font-semibold text-3xl leading-11 mx-8 text-neutral-800">
+        <span class="whitespace-nowrap">안녕하세요.</span>
+        <span class="whitespace-nowrap">{METADATA.name}입니다.</span>
       </h1>
     </div>
     <div class="flex flex-col gap-1">
