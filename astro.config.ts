@@ -10,6 +10,12 @@ import { METADATA } from "./src/lib/metadata";
 // https://astro.build/config
 export default defineConfig({
   site: METADATA.site,
+  // this already is the default behavior when <ClientRouter /> is used
+  // however, astro requires us to specify this explicitly when we use astro:prefetch
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   integrations: [mdx(), sitemap(), react(), typesafeRoutes()],
   vite: {
     plugins: [tailwindcss()],

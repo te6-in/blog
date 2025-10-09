@@ -108,6 +108,7 @@ const blog: WithContext<Blog> = {
   } from "../lib/github";
   import type { DataCollectionKey } from "astro:content";
   import { METADATA } from "../lib/metadata";
+  import { prefetch } from "astro:prefetch";
 
   const octokit = new Octokit();
 
@@ -162,13 +163,7 @@ const blog: WithContext<Blog> = {
     const title = clone.querySelector(".title") as HTMLElement;
     const description = clone.querySelector(".description") as HTMLElement;
 
-    anchor.addEventListener("mouseenter", () => {
-      const link = document.createElement("link");
-      link.rel = "prefetch";
-      link.href = item.href;
-
-      document.head.appendChild(link);
-    });
+    anchor.addEventListener("mouseenter", () => prefetch(anchor.href));
 
     anchor.href = item.href;
     image.src = item.coverImage.src;
