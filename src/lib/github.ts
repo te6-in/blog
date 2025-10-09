@@ -1,3 +1,5 @@
+// this type definition is here because octokit does not provide type definitions for discussions yet
+
 export type DiscussionsResponse = {
   repository_url: string;
   category: {
