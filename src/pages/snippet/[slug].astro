@@ -97,7 +97,8 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
 <Layout
   metadataProps={{
     title: snippet.data.title,
-    // description: 본문 앞부분 조금 넣기
+    description:
+      snippet.body?.slice(0, 160).replace(/\n/g, " ") ?? snippet.data.title, // fallback shouldn't happen
     keywords: tagsWithCount.map(({ name }) => name),
     authors: authors.map(({ id, data: { name } }) => ({ id, name })),
     article: {

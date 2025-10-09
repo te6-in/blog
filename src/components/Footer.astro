@@ -40,7 +40,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <a
       title="GitHub 프로필"
       aria-label="GitHub 프로필"
-      href={`${METADATA.repo.url}?ref=${Astro.url.hostname}`}
+      href={`${METADATA.social.github.url}/?ref=${Astro.url.hostname}`}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
@@ -60,7 +60,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
     <a
       title="Bluesky 프로필"
       aria-label="Bluesky 프로필"
-      href={`https://bsky.app/profile/te6.in?ref=${Astro.url.hostname}`}
+      href={`${METADATA.social.bluesky.url}/?ref=${Astro.url.hostname}`}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"

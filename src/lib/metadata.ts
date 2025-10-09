@@ -8,9 +8,8 @@ const lexicons = {
 export const METADATA = {
   name: "te6.in 블로그",
   previousName: "te6.in 개발·디자인 블로그",
+  description: "소프트웨어 개발 및 UX 디자인 관련 글을 다룹니다.",
   site: "https://blog.te6.in",
-  // TODO: do better
-  description: "te6.in 블로그입니다. 개발 및 디자인 글을 주로 작성합니다.",
   createdAt: new Date("2022-12-22T12:00:00+09:00"),
   updatedAt: new Date(),
   lexicons,
@@ -41,9 +40,13 @@ export const METADATA = {
     twitter: {
       username: "@te6_in",
     },
-    github: {},
+    github: {
+      url: "https://github.com/te6-in",
+    },
     mastodon: {},
-    bluesky: {},
+    bluesky: {
+      url: "https://bsky.app/profile/te6.in",
+    },
     instagram: {},
   },
   keywords: [
