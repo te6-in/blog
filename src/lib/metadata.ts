@@ -43,11 +43,12 @@ export const METADATA = {
     github: {
       url: "https://github.com/te6-in",
     },
-    mastodon: {},
     bluesky: {
       url: "https://bsky.app/profile/te6.in",
     },
-    instagram: {},
+    linkedin: {
+      url: "https://www.linkedin.com/in/te6",
+    },
   },
   keywords: [
     "개발",

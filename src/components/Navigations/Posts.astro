@@ -1,0 +1,10 @@
+---
+import Base from "./Base.astro";
+import { METADATA } from "../../lib/metadata";
+import { Newspaper } from "lucide-astro";
+---
+
+<Base to="/posts">
+  <Newspaper class="flex-none" size={20} />
+  <span>모든 {METADATA.lexicons.posts.label} 보기</span>
+</Base>

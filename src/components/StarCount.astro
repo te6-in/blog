@@ -2,6 +2,7 @@
 import { Star, Github as GitHub } from "lucide-astro";
 import { METADATA } from "../lib/metadata";
 import type { HTMLAttributes } from "astro/types";
+import { appendReferrer } from "../lib/href";
 
 interface Props extends HTMLAttributes<"a"> {}
 
@@ -11,7 +12,7 @@ const { class: className, ...props } = Astro.props;
 <a
   title="블로그 GitHub 레포지토리"
   aria-label="블로그 GitHub 레포지토리"
-  href={`${METADATA.repo.url}?ref=${Astro.url.hostname}`}
+  href={appendReferrer(METADATA.repo.url, Astro.url.hostname)}
   target="_blank"
   rel="noopener noreferrer"
   class:list={[

@@ -1,0 +1,20 @@
+---
+interface Props {
+  href?: string;
+  title?: string;
+  ariaLabel?: string;
+}
+
+const { href, title, ariaLabel } = Astro.props;
+---
+
+<a
+  title={title}
+  aria-label={ariaLabel}
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
+>
+  <slot />
+</a>

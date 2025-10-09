@@ -1,0 +1,29 @@
+---
+import { ArrowUp } from "lucide-astro";
+---
+
+<button
+  title="맨 위로 스크롤"
+  aria-label="맨 위로 스크롤"
+  id="scroll-to-top-button"
+  type="button"
+  class="flex gap-1.5 p-3 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow cursor-pointer"
+>
+  <ArrowUp class="flex-none" size={20} />
+</button>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    document
+      .getElementById("scroll-to-top-button")
+      ?.addEventListener("click", () =>
+        window.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
+            .matches
+            ? "smooth"
+            : "auto",
+        })
+      );
+  });
+</script>

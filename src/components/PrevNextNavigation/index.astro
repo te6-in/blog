@@ -1,10 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import PrevNextNavigationItem from "./PrevNextNavigationItem.astro";
-import Link from "astro-typesafe-routes/link";
-import { ArrowUp, FileCode2, Newspaper } from "lucide-astro";
 import PrevNextNavigationEmptyItem from "./PrevNextNavigationEmptyItem.astro";
-import { METADATA } from "../../lib/metadata";
+import { Navigations } from "../Navigations";
+import ScrollToTopButton from "../Navigations/ScrollToTopButton.astro";
 
 interface Props {
   navigateIn: "post" | "snippet";
@@ -63,52 +62,8 @@ const nextPost = posts[currentPostIndex + 1];
     }
   </nav>
   <div class="flex gap-2">
-    {
-      navigateIn === "post" && (
-        <Link
-          to="/posts"
-          class="flex gap-1.5 px-3.5 py-3 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900"
-        >
-          <Newspaper class="flex-none" size={20} />
-          <span>모든 {METADATA.lexicons.posts.label} 보기</span>
-        </Link>
-      )
-    }
-    {
-      navigateIn === "snippet" && (
-        <Link
-          to="/snippets"
-          class="flex gap-1.5 px-3.5 py-3 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900"
-        >
-          <FileCode2 class="flex-none" size={20} />
-          <span>모든 {METADATA.lexicons.snippets.label} 보기</span>
-        </Link>
-      )
-    }
-    <button
-      title="맨 위로 스크롤"
-      aria-label="맨 위로 스크롤"
-      id="scroll-to-top-button"
-      type="button"
-      class="flex gap-1.5 p-3 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow engaged:text-neutral-900 cursor-pointer"
-    >
-      <ArrowUp class="flex-none" size={20} />
-    </button>
+    {navigateIn === "post" && <Navigations.Posts />}
+    {navigateIn === "snippet" && <Navigations.Snippets />}
+    <Navigations.ScrollToTopButton />
   </div>
 </div>
-
-<script>
-  document.addEventListener("astro:page-load", () => {
-    document
-      .getElementById("scroll-to-top-button")
-      ?.addEventListener("click", () =>
-        window.scrollTo({
-          top: 0,
-          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
-            .matches
-            ? "smooth"
-            : "auto",
-        })
-      );
-  });
-</script>

@@ -3,6 +3,8 @@ import Link from "astro-typesafe-routes/link";
 import { METADATA } from "../lib/metadata";
 import { Image } from "astro:assets";
 import icon from "../assets/icon.png";
+import { appendReferrer } from "../lib/href";
+import { Socials } from "./Socials";
 ---
 
 <header>
@@ -10,12 +12,12 @@ import icon from "../assets/icon.png";
     class="fixed start-0 top-0 -z-10 sidebar-shown:z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
   >
     <div
-      class="-mx-2 px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-1 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
+      class="-mx-2 ps-3 sidebar-shown:px-3 py-2 sidebar-shown:bg-body-bg flex items-center gap-1 h-header-height sidebar-shown:border-neutral-300 border-b border-transparent transition-[border-color]"
     >
       <a
-        href={`${METADATA.author.url}/?ref=${Astro.url.hostname}`}
+        href={appendReferrer(METADATA.author.url, Astro.url.hostname)}
         target="_blank"
-        class="font-medium text-neutral-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-neutral-200 rounded-lg transition-colors"
+        class="font-medium text-neutral-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-neutral-200 rounded-xl transition-colors"
       >
         <Image src={icon} alt="" class="size-6" aria-hidden />
         <div>te6.in</div>
@@ -23,32 +25,37 @@ import icon from "../assets/icon.png";
       <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
       <Link
         to="/"
-        class="font-bold text-neutral-800 py-2 px-2.5 engaged:bg-neutral-200 transition-colors rounded-lg"
+        class="font-bold text-neutral-800 py-2 px-2.5 engaged:bg-neutral-200 transition-colors rounded-xl"
         >Blog</Link
       >
     </div>
   </div>
   <div
-    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-end px-3 -z-10"
+    class="fixed top-0 start-sidebar-hidden-title-width sidebar-shown:start-sidebar-width end-0 transition-[inset] stretch:mx-sidebar-stretch-x h-header-height flex items-center justify-end pe-3 -z-10"
   >
+    <div class="hidden sidebar-shown:flex px-1 gap-1">
+      <Socials.GitHub />
+      <Socials.Bluesky />
+      <Socials.LinkedIn />
+    </div>
     <div
-      class="sidebar-shown:hidden flex items-center gap-2 text-neutral-600 font-semibold"
+      class="sidebar-shown:hidden flex items-center gap-1 text-neutral-600 font-semibold"
     >
       <Link
         to="/posts"
-        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+        class="px-2.5 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors flex-none"
       >
         {METADATA.lexicons.posts.label}
       </Link>
       <Link
         to="/snippets"
-        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+        class="px-2.5 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors flex-none"
       >
         {METADATA.lexicons.snippets.label}
       </Link>
       <Link
         to="/tags"
-        class="px-2 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors"
+        class="px-2.5 py-1.5 engaged:bg-neutral-200 rounded-lg transition-colors flex-none"
       >
         {METADATA.lexicons.tags.label}
       </Link>

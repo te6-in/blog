@@ -1,0 +1,10 @@
+---
+import Base from "./Base.astro";
+import { METADATA } from "../../lib/metadata";
+import { FileCode2 } from "lucide-astro";
+---
+
+<Base to="/snippets">
+  <FileCode2 class="flex-none" size={20} />
+  <span>모든 {METADATA.lexicons.snippets.label} 보기</span>
+</Base>

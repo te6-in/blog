@@ -6,6 +6,7 @@ import LinkSidebarItem from "./LinkSidebarItem.astro";
 import TagChip from "../TagChip.astro";
 import StarCount from "../StarCount.astro";
 import { METADATA } from "../../lib/metadata";
+import { $path } from "astro-typesafe-routes/path";
 
 interface Props {
   currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
@@ -81,7 +82,7 @@ const tags = await getTags({ sortBy: "count" });
       <a
         title="RSS 피드"
         aria-label="RSS 피드"
-        href="/rss.xml"
+        href={$path({ to: "/rss.xml" })}
         target="_blank"
         rel="noopener noreferrer"
         class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"

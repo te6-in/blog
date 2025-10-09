@@ -1,0 +1,9 @@
+---
+import { $path } from "astro-typesafe-routes/path";
+import Base from "./Base.astro";
+import { Rss as RssIcon } from "lucide-astro";
+---
+
+<Base title="RSS 피드" aria-label="RSS 피드" href={$path({ to: "/rss.xml" })}
+  ><RssIcon size={15} class="flex-none" stroke-width={3} />
+</Base>

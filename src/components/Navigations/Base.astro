@@ -1,0 +1,19 @@
+---
+import { type LinkProps } from "astro-typesafe-routes/link";
+import Link from "astro-typesafe-routes/link";
+import type { RouteId } from "astro-typesafe-routes/path";
+
+type Props<T extends RouteId> = LinkProps<T>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<Link
+  {...props}
+  class:list={[
+    "flex gap-1.5 px-4 py-3 rounded-full bg-white border border-neutral-200 items-center text-sm text-neutral-800 font-semibold engaged:bg-neutral-100 transition-colors shadow flex-none",
+    className,
+  ]}
+>
+  <slot />
+</Link>
