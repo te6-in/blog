@@ -17,7 +17,7 @@ import { Socials } from "./Socials";
       <a
         href={appendReferrer(METADATA.author.url, Astro.url.hostname)}
         target="_blank"
-        class="font-medium text-neutral-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-neutral-200 rounded-xl transition-colors"
+        class="font-medium text-neutral-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-neutral-200 rounded-lg transition-colors"
       >
         <Image src={icon} alt="" class="size-6" aria-hidden />
         <div>te6.in</div>
@@ -25,7 +25,7 @@ import { Socials } from "./Socials";
       <div class="w-0.5 rounded-full h-[1.5em] bg-neutral-300"></div>
       <Link
         to="/"
-        class="font-bold text-neutral-800 py-2 px-2.5 engaged:bg-neutral-200 transition-colors rounded-xl"
+        class="font-bold text-neutral-800 py-2 px-2.5 engaged:bg-neutral-200 transition-colors rounded-lg"
         >Blog</Link
       >
     </div>
@@ -39,7 +39,7 @@ import { Socials } from "./Socials";
       <Socials.LinkedIn />
     </div>
     <div
-      class="sidebar-shown:hidden flex items-center gap-1 text-neutral-600 font-semibold"
+      class="sidebar-shown:hidden flex items-center gap-1 text-neutral-600 font-medium"
     >
       <Link
         to="/posts"

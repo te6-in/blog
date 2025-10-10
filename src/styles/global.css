@@ -4,6 +4,9 @@
 *:not(path) {
   /* outline: 1px solid red; */
   /* --default-transition-duration: 1s; */
+
+  /* this is fine because we're applying proper :active styles */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -24,15 +27,29 @@ body {
   }
 }
 
+@custom-variant hover {
+  /* remove @media (hover: hover) to always apply hover styles */
+  &:hover {
+    @slot;
+  }
+}
+
+/* most of the times you'll want to use engaged instead of hover */
 @custom-variant engaged {
+  &:focus-visible {
+    @slot;
+  }
+
   @media (hover: hover) {
     &:hover {
       @slot;
     }
   }
 
-  &:focus-visible {
-    @slot;
+  @media (hover: none) {
+    &:active {
+      @slot;
+    }
   }
 }
 
@@ -105,4 +122,5 @@ body {
   --aspect-cover-image: 16 / 10;
 
   --radius-mdx-block: var(--radius-xl);
+  --radius-content-card: 1.65625rem;
 }
