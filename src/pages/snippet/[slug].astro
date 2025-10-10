@@ -114,9 +114,9 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
   <MainHeader class="w-full" {...snippet.data}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {
-        tagsWithCount.map((tag) => (
+        tagsWithCount.map(({ slug, name, count }) => (
           <li>
-            <TagChip {...tag} />
+            <TagChip slug={slug} name={name} count={count} />
           </li>
         ))
       }
@@ -124,9 +124,9 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
     <div class="flex items-end justify-between gap-4 flex-wrap">
       <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
         {
-          authors.map(({ id, data }) => (
+          authors.map(({ id, data: { avatar, name, url } }) => (
             <li>
-              <AuthorChip id={id} {...data} />
+              <AuthorChip id={id} avatar={avatar} name={name} url={url} />
             </li>
           ))
         }

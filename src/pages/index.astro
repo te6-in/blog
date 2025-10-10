@@ -108,8 +108,13 @@ const blog: WithContext<Blog> = {
         class="p-4 sidebar-shown:p-3 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding]"
       >
         {
-          featuredPosts.map(({ data, id }) => (
-            <PostGridItem class="featured-anchor" slug={id} {...data} />
+          featuredPosts.map(({ data: { title, description }, id }) => (
+            <PostGridItem
+              class="featured-anchor"
+              slug={id}
+              title={title}
+              description={description}
+            />
           ))
         }
       </PostGrid>

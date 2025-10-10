@@ -42,9 +42,9 @@ const tags = await getTags({ sortBy: "count" });
     <Fragment slot="panelContent">
       <ul role="list" class="flex flex-wrap gap-2 p-1.5">
         {
-          tags.map((tag) => (
+          tags.map(({ name, slug, count }) => (
             <li>
-              <TagChip {...tag} />
+              <TagChip slug={slug} name={name} count={count} />
             </li>
           ))
         }

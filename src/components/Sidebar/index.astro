@@ -62,13 +62,14 @@ const tags = await getTags({ sortBy: "count" });
           <div class="w-0.5 rounded-full bg-neutral-200 ms-4.5 flex-none"></div>
           <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">
             {
-              tags.map((tag) => (
+              tags.map(({ slug, name, count }) => (
                 <li>
                   <TagChip
-                    {...tag}
+                    slug={slug}
+                    name={name}
+                    count={count}
                     isCurrentPage={
-                      currentPage?.type === "tags" &&
-                      currentPage?.slug === tag.slug
+                      currentPage?.type === "tags" && currentPage?.slug === slug
                     }
                   />
                 </li>

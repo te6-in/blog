@@ -133,9 +133,9 @@ const coverImageAlt = post.data.coverImage
   <MainHeader class="w-full" {...post.data}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {
-        tagsWithCount.map((tag) => (
+        tagsWithCount.map(({ slug, name, count }) => (
           <li>
-            <TagChip variant={variant} {...tag} />
+            <TagChip variant={variant} slug={slug} name={name} count={count} />
           </li>
         ))
       }
@@ -143,9 +143,15 @@ const coverImageAlt = post.data.coverImage
     <div class="flex items-end justify-between gap-4 flex-wrap">
       <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
         {
-          authors.map(({ id, data }) => (
+          authors.map(({ id, data: { avatar, name, url } }) => (
             <li>
-              <AuthorChip variant={variant} id={id} {...data} />
+              <AuthorChip
+                variant={variant}
+                id={id}
+                avatar={avatar}
+                name={name}
+                url={url}
+              />
             </li>
           ))
         }
