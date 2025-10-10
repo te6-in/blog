@@ -14,10 +14,7 @@ import PostGrid from "../components/PostGrid";
 // import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
 // import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
-import MainHeader from "../components/MainHeader.astro";
 import { Image } from "astro:assets";
-import Link from "astro-typesafe-routes/link";
-import { FileCode2, Newspaper } from "lucide-astro";
 import { Navigations } from "../components/Navigations";
 
 const posts = await getCollection("post");
@@ -108,14 +105,17 @@ const blog: WithContext<Blog> = {
         class="p-4 sidebar-shown:p-3 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding]"
       >
         {
-          featuredPosts.map(({ data: { title, description }, id }) => (
-            <PostGridItem
-              class="featured-anchor"
-              slug={id}
-              title={title}
-              description={description}
-            />
-          ))
+          featuredPosts.map(
+            ({ data: { title, description, coverImage }, id }) => (
+              <PostGridItem
+                class="featured-anchor"
+                slug={id}
+                title={title}
+                description={description}
+                coverImage={coverImage}
+              />
+            )
+          )
         }
       </PostGrid>
     </div>
