@@ -67,7 +67,7 @@ const variant = coverImage ? "glass" : "flat";
   </div>
   {
     coverImage && (
-      <div class="absolute inset-0 after:absolute after:inset-0 after:dark:outline-1 after:-outline-offset-1 after:outline-white/5 after:z-10 after:rounded-t-content-card sidebar-shown:after:rounded-[0.65625rem] after:transition-[border-radius]">
+      <div class="absolute inset-0 after:absolute after:inset-0 dark:sidebar-shown:after:outline-1 after:-outline-offset-1 after:outline-white/5 after:z-10 after:rounded-t-content-card sidebar-shown:after:rounded-[0.65625rem] after:transition-[border-radius]">
         <ImageWithInferredAlt
           src={coverImage}
           class="size-full object-cover not-noscript:motion-safe:animate-pulse bg-gray-400 dark:bg-zinc-600 select-none"
