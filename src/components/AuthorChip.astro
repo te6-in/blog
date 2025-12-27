@@ -15,8 +15,8 @@ const { variant = "flat", id, avatar, name, url } = Astro.props;
 
 const classNames = match(variant)
   .with("flat", () => ({
-    base: "engaged:bg-gray-100 dark:engaged:bg-neutral-900 text-gray-700 dark:text-neutral-300 engaged:text-gray-800 dark:engaged:text-neutral-200",
-    image: "bg-gray-200 dark:bg-neutral-700",
+    base: "engaged:bg-gray-100 dark:engaged:bg-zinc-900 text-gray-700 dark:text-zinc-300 engaged:text-gray-800 dark:engaged:text-zinc-200",
+    image: "bg-gray-200 dark:bg-zinc-700",
   }))
   .with("glass", () => ({
     base: "engaged:border-gray-500/30 engaged:bg-gray-300/30 engaged:backdrop-blur engaged:shadow text-white/80 engaged:text-white",

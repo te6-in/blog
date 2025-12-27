@@ -19,7 +19,7 @@ const tags = await getTags({ sortBy: "count" });
 
 <aside
   id="sidebar"
-  class="fixed inset-y-0 hidden sidebar-shown:grid grid-cols-1 start-0 stretch:ms-sidebar-stretch-x pt-header-height transition-[inset] w-sidebar-width overflow-x-hidden overscroll-y-none [scrollbar-color:var(--color-gray-300)_transparent] dark:[scrollbar-color:var(--color-neutral-800)_transparent] [scrollbar-width:thin]"
+  class="fixed inset-y-0 hidden sidebar-shown:grid grid-cols-1 start-0 stretch:ms-sidebar-stretch-x pt-header-height transition-[inset] w-sidebar-width overflow-x-hidden overscroll-y-none [scrollbar-color:var(--color-gray-300)_transparent] dark:[scrollbar-color:var(--color-zinc-800)_transparent] [scrollbar-width:thin]"
 >
   <div
     class="sticky top-0 inset-x-0 h-22 -mx-2 bg-gradient-to-b from-body-bg dark:from-body-bg-dark to-transparent pointer-events-none z-10 grid-pos-start"
@@ -49,7 +49,7 @@ const tags = await getTags({ sortBy: "count" });
         classNames={{
           root: "flex flex-col -mx-2 justify-start",
           triggerRoot:
-            "flex items-center justify-between gap-1 rounded-lg p-2 engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark backdrop-blur-none engaged:backdrop-blur-sm transition-all z-10 cursor-pointer text-gray-700 dark:text-neutral-300 sticky top-2",
+            "flex items-center justify-between gap-1 rounded-lg p-2 engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark backdrop-blur-none engaged:backdrop-blur-sm transition-all z-10 cursor-pointer text-gray-700 dark:text-zinc-300 sticky top-2",
           triggerContent: "flex items-center gap-2",
           triggerChevron: "transition-transform flex-none",
           triggerTitle: "font-semibold",
@@ -60,7 +60,7 @@ const tags = await getTags({ sortBy: "count" });
         <Fragment slot="triggerTitle">{METADATA.lexicons.tags.label}</Fragment>
         <Fragment slot="panelContent">
           <div
-            class="w-0.5 rounded-full bg-gray-200 dark:bg-neutral-800 ms-4.5 flex-none"
+            class="w-0.5 rounded-full bg-gray-200 dark:bg-zinc-800 ms-4.5 flex-none"
           >
           </div>
           <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">
@@ -89,12 +89,12 @@ const tags = await getTags({ sortBy: "count" });
         href={$path({ to: "/rss.xml" })}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-center rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-neutral-500 size-9"
+        class="flex items-center justify-center rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-zinc-500 size-9"
       >
         <Rss size={15} class="flex-none" stroke-width={3} />
       </a>
       <StarCount
-        class="not-noscript:px-[0.6875rem] rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-neutral-500 font-semibold h-9 noscript:w-9 text-xs"
+        class="not-noscript:px-[0.6875rem] rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-zinc-500 font-semibold h-9 noscript:w-9 text-xs"
       />
     </div>
   </div>

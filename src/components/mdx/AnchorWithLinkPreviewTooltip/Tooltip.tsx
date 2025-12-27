@@ -98,7 +98,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
         >
           <div
             style={styles}
-            className="not-prose bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 w-64 rounded-xl transition-all"
+            className="not-prose bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 w-64 rounded-xl transition-all"
           >
             {popup}
           </div>

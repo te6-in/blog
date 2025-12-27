@@ -12,26 +12,26 @@ import { Socials } from "./Socials";
     class="fixed start-0 top-0 -z-10 sidebar-shown:z-10 w-sidebar-hidden-title-width sidebar-shown:w-sidebar-width px-4 sidebar-shown:px-sidebar-padding-x stretch:ms-sidebar-stretch-x transition-[inset,width,padding]"
   >
     <div
-      class="-mx-2 ps-3 sidebar-shown:px-3 py-2 sidebar-shown:bg-body-bg dark:sidebar-shown:bg-body-bg-dark flex items-center gap-1 h-header-height sidebar-shown:border-gray-300 dark:sidebar-shown:border-neutral-800 border-b border-transparent transition-[border-color]"
+      class="-mx-2 ps-3 sidebar-shown:px-3 py-2 sidebar-shown:bg-body-bg dark:sidebar-shown:bg-body-bg-dark flex items-center gap-1 h-header-height sidebar-shown:border-gray-300 dark:sidebar-shown:border-zinc-800 border-b border-transparent transition-[border-color]"
     >
       <!-- relative to make focus ring visible above the separator -->
       <a
         href={appendReferrer(METADATA.author.url, Astro.url.hostname)}
         target="_blank"
         class:list={[
-          "relative font-medium text-gray-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-body-item-engaged rounded-lg transition-colors dark:text-neutral-400 dark:engaged:bg-body-item-engaged-dark",
+          "relative font-medium text-gray-600 p-2 pr-2.5 -ml-3 flex gap-2 engaged:bg-body-item-engaged rounded-lg transition-colors dark:text-zinc-400 dark:engaged:bg-body-item-engaged-dark",
           "scroll-to-top-on-focus",
         ]}
       >
         <Image src={icon} alt="" class="size-6" aria-hidden />
         <div>te6.in</div>
       </a>
-      <div class="w-0.5 rounded-full h-[1.5em] bg-gray-300 dark:bg-neutral-800">
+      <div class="w-0.5 rounded-full h-[1.5em] bg-gray-300 dark:bg-zinc-800">
       </div>
       <Link
         to="/"
         class:list={[
-          "font-bold text-gray-800 py-2 px-2.5 engaged:bg-body-item-engaged transition-colors rounded-lg dark:text-neutral-200 dark:engaged:bg-body-item-engaged-dark",
+          "font-bold text-gray-800 py-2 px-2.5 engaged:bg-body-item-engaged transition-colors rounded-lg dark:text-zinc-200 dark:engaged:bg-body-item-engaged-dark",
           "scroll-to-top-on-focus",
         ]}>Blog</Link
       >
@@ -46,7 +46,7 @@ import { Socials } from "./Socials";
       <Socials.LinkedIn class="scroll-to-top-on-focus" />
     </div>
     <div
-      class="sidebar-shown:hidden flex items-center gap-1 text-gray-600 dark:text-neutral-400 font-medium"
+      class="sidebar-shown:hidden flex items-center gap-1 text-gray-600 dark:text-zinc-400 font-medium"
     >
       <Link
         to="/posts"

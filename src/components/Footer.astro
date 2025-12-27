@@ -15,7 +15,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
   class="fixed inset-x-0 sidebar-shown:start-sidebar-width transition-[inset] stretch:mx-sidebar-stretch-x bottom-0 flex flex-col justify-between gap-2 -z-10 h-footer-height px-4 py-6"
 >
   <div class="flex flex-col gap-3">
-    <div class="text-gray-500 dark:text-neutral-500 text-sm text-balance">
+    <div class="text-gray-500 dark:text-zinc-500 text-sm text-balance">
       <span>블로그 마지막 업데이트</span>
       <time
         class="font-semibold ml-0.5"
@@ -24,10 +24,10 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
         {formatter.format(METADATA.updatedAt)}
       </time>
     </div>
-    <p class="text-gray-400 dark:text-neutral-600 text-xs text-balance">
+    <p class="text-gray-400 dark:text-zinc-600 text-xs text-balance">
       <a
         class:list={[
-          "engaged:text-gray-500 dark:engaged:text-neutral-500 underline transition-colors rounded-lg",
+          "engaged:text-gray-500 dark:engaged:text-zinc-500 underline transition-colors rounded-lg",
           "scroll-to-bottom-on-focus",
         ]}
         href={appendReferrer(
@@ -48,7 +48,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
       <Socials.Rss class="scroll-to-bottom-on-focus" />
       <StarCount
         class:list={[
-          "not-noscript:px-[0.6875rem] rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-neutral-500 font-semibold h-9 noscript:w-9 text-xs",
+          "not-noscript:px-[0.6875rem] rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-zinc-500 font-semibold h-9 noscript:w-9 text-xs",
           "scroll-to-bottom-on-focus",
         ]}
       />

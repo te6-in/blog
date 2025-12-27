@@ -14,11 +14,11 @@
 }
 
 body {
-  @apply break-keep selection:bg-gray-700 selection:text-gray-100 dark:selection:bg-neutral-200 dark:selection:text-neutral-900;
+  @apply break-keep selection:bg-gray-700 selection:text-gray-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
 }
 
 img {
-  @apply selection:bg-gray-800/50 dark:selection:bg-neutral-50/50
+  @apply selection:bg-gray-800/50 dark:selection:bg-zinc-50/50
 }
 
 a,
@@ -101,8 +101,8 @@ pre.astro-code):not(.transition-transform-on-focus) {
   --color-content-card-bg: var(--color-white);
   --color-body-bg: var(--color-gray-100);
 
-  --color-content-card-bg-dark: var(--color-neutral-950);
-  --color-body-bg-dark: oklch(6.5% 0 0);
+  --color-content-card-bg-dark: var(--color-zinc-950);
+  --color-body-bg-dark: oklch(6.5% 0.0028 285.823);
 
   --color-body-item-engaged: rgba(0, 0, 0, 0.075);
   --color-body-item-engaged-dark: rgba(255, 255, 255, 0.1);

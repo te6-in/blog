@@ -15,10 +15,8 @@ const { variant, ...props } = Astro.props;
 >
   <!-- <a {...props} class="no-underline"> -->
   <span class="underline"><slot /></span>
-  <span
-    class="inline-block -mb-0.5 text-neutral-500 dark:text-neutral-500 me-0.5"
-  >
-    <!-- <span class="inline-block -mb-0.5 text-neutral-500 me-0.5 -ms-0.5 select-none"> -->
+  <span class="inline-block -mb-0.5 text-zinc-500 dark:text-zinc-500 me-0.5">
+    <!-- <span class="inline-block -mb-0.5 text-zinc-500 me-0.5 -ms-0.5 select-none"> -->
     {variant === "new-tab" && <ExternalLink class="flex-none" size={15} />}
     {variant === "hash" && <Hash class="flex-none" size={15} />}
     {variant === "article" && <Newspaper class="flex-none" size={15} />}

@@ -52,28 +52,28 @@ const anchorProps: ComponentProps<typeof Anchor> = {
         )}
         <div class="flex justify-between gap-2.5">
           <div class="flex flex-col gap-1.5">
-            <div class="text-lg leading-snug text-gray-900 dark:text-neutral-100 font-bold text-balance">
+            <div class="text-lg leading-snug text-gray-900 dark:text-zinc-100 font-bold text-balance">
               {detail.title}
             </div>
             {type === "post" && detail.description && (
-              <div class="text-gray-500 dark:text-neutral-500 text-sm leading-snug text-pretty">
+              <div class="text-gray-500 dark:text-zinc-500 text-sm leading-snug text-pretty">
                 {detail.description}
               </div>
             )}
           </div>
           <ExternalLink
-            class="text-gray-400 dark:text-neutral-600 flex-none m-0.5 me-0"
+            class="text-gray-400 dark:text-zinc-600 flex-none m-0.5 me-0"
             size={18}
           />
         </div>
       </div>
-      <div class="w-full border-t border-gray-200 dark:border-neutral-800 text-xs px-4 py-1.5 flex justify-between">
-        <span class="text-gray-600 dark:text-neutral-400 font-medium">
+      <div class="w-full border-t border-gray-200 dark:border-zinc-800 text-xs px-4 py-1.5 flex justify-between">
+        <span class="text-gray-600 dark:text-zinc-400 font-medium">
           이 블로그의 {type === "post" && METADATA.lexicons.posts.label}
           {type === "snippet" && METADATA.lexicons.snippets.label}
         </span>
         {anchorProps.target === "_blank" && (
-          <span class="text-gray-400 dark:text-neutral-600">
+          <span class="text-gray-400 dark:text-zinc-600">
             새 탭에서 열립니다.
           </span>
         )}

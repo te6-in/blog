@@ -16,19 +16,19 @@ const postsByYear = groupBy(posts, ({ data: { publishedAt } }) =>
 
 <ol
   role="list"
-  class="divide divide-y divide-gray-300 dark:divide-neutral-700 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5 transition-[padding]"
+  class="divide divide-y divide-gray-300 dark:divide-zinc-700 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5 transition-[padding]"
 >
   {
     Object.entries(postsByYear)
       .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
       .map(([year, posts], yearIndex) => (
         <li class="flex gap-2 sidebar-shown:gap-4 items-start flex-col sidebar-shown:flex-row">
-          <div class="font-semibold text-sm text-gray-500 dark:text-neutral-500 ps-5.5 sidebar-shown:ps-6.5 pt-5.5 sidebar-shown:pb-5.5 sidebar-shown:sticky sidebar-shown:top-0 transition-[padding]">
+          <div class="font-semibold text-sm text-gray-500 dark:text-zinc-500 ps-5.5 sidebar-shown:ps-6.5 pt-5.5 sidebar-shown:pb-5.5 sidebar-shown:sticky sidebar-shown:top-0 transition-[padding]">
             {year}
           </div>
           <ol
             role="list"
-            class="divide-y divide-gray-200 dark:divide-neutral-800 w-full sidebar-shown:w-[unset] sidebar-shown:grow"
+            class="divide-y divide-gray-200 dark:divide-zinc-800 w-full sidebar-shown:w-[unset] sidebar-shown:grow"
           >
             {posts.map(
               (

@@ -20,7 +20,7 @@ const { slug, title, publishedAt, position } = Astro.props;
   to="/snippet/[slug]"
   params={{ slug }}
   class:list={[
-    "p-4.5 flex gap-3 justify-between sidebar-shown:justify-start md:justify-between engaged:bg-gray-100 dark:engaged:bg-neutral-900 transition-colors group scroll-my-5",
+    "p-4.5 flex gap-3 justify-between sidebar-shown:justify-start md:justify-between engaged:bg-gray-100 dark:engaged:bg-zinc-900 transition-colors group scroll-my-5",
     position?.firstGlobal && "rounded-t-xl",
     position?.firstInYear &&
       !position?.firstGlobal &&
@@ -32,12 +32,12 @@ const { slug, title, publishedAt, position } = Astro.props;
     class="flex gap-2.5 flex-col justify-between p-1 sidebar-shown:p-0 wrap-anywhere transition-[padding]"
   >
     <div
-      class="text-xl text-gray-900 dark:text-neutral-100 font-semibold text-balance"
+      class="text-xl text-gray-900 dark:text-zinc-100 font-semibold text-balance"
     >
       {title}
     </div>
     <time
-      class="text-gray-500 dark:text-neutral-500 text-xs"
+      class="text-gray-500 dark:text-zinc-500 text-xs"
       datetime={publishedAt.toISOString()}
     >
       {postDateFormatter.format(publishedAt)}
