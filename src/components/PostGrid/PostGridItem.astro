@@ -27,7 +27,7 @@ const {
   to="/post/[slug]"
   params={{ slug }}
   class:list={[
-    "flex flex-col gap-3.5 engaged:bg-neutral-100 p-2.5 sidebar-shown:p-3.5 rounded-2xl transition-all group",
+    "flex flex-col gap-3.5 engaged:bg-gray-100 p-2.5 sidebar-shown:p-3.5 rounded-2xl transition-all group dark:engaged:bg-neutral-900",
     className,
   ]}
   {...props}
@@ -37,14 +37,14 @@ const {
       <div class="rounded-lg overflow-hidden media-border after:rounded-lg">
         <ImageWithInferredAlt
           src={coverImage}
-          class="not-noscript:motion-safe:animate-pulse bg-neutral-400 motion-safe:group-engaged:scale-105 transition-transform"
+          class="not-noscript:motion-safe:animate-pulse bg-gray-400 dark:bg-neutral-600 motion-safe:group-engaged:scale-105 transition-transform"
           onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
       </div>
     ) : (
       <div
         aria-hidden
-        class="rounded-lg bg-neutral-50 media-border after:rounded-lg aspect-16/10 text-neutral-300 flex justify-center items-center [&>svg]:size-1/4"
+        class="rounded-lg bg-gray-50 dark:bg-neutral-950 media-border after:rounded-lg aspect-16/10 text-gray-300 dark:text-neutral-700 flex justify-center items-center [&>svg]:size-1/4"
       >
         {
           shuffle([
@@ -59,10 +59,12 @@ const {
     )
   }
   <div class="text-balance flex flex-col gap-1.5 p-0.5">
-    <div class="text-xl text-neutral-800 leading-snug font-semibold">
+    <div
+      class="text-xl text-gray-800 dark:text-neutral-200 leading-snug font-semibold"
+    >
       {title}
     </div>
-    <p class="text-sm text-neutral-500 leading-snug">
+    <p class="text-sm text-gray-500 dark:text-neutral-500 leading-snug">
       {description}
     </p>
   </div>

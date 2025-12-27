@@ -2,16 +2,21 @@
 import { appendReferrer } from "../../lib/href";
 import { METADATA } from "../../lib/metadata";
 import Base from "./Base.astro";
+
+interface Props {
+  class?: string;
+}
 ---
 
 <Base
   title="Bluesky 프로필"
   aria-label="Bluesky 프로필"
+  class={Astro.props.class}
   href={appendReferrer(METADATA.social.bluesky.url, Astro.url.hostname)}
   ><svg
     xmlns="http://www.w3.org/2000/svg"
-    width={16}
-    height={14}
+    width={20}
+    height={17}
     viewBox="0 0 600 530"
     fill="currentColor"
     class="flex-none"

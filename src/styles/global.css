@@ -9,17 +9,35 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+*:not(.rounded-full) {
+  corner-shape: superellipse(1.1);
+}
+
 body {
-  @apply break-keep;
+  @apply break-keep selection:bg-gray-700 selection:text-gray-100 dark:selection:bg-neutral-200 dark:selection:text-neutral-900;
+}
+
+img {
+  @apply selection:bg-gray-800/50 dark:selection:bg-neutral-50/50
+}
+
+a,
+button,
+summary,
+pre.astro-code {
+  @apply focus-visible:outline-[3px] outline-offset-[3px] outline-accent-600 dark:outline-accent-400;
+}
+
+:is(a,
+button,
+summary,
+pre.astro-code):not(.transition-transform-on-focus) {
+  @apply focus-visible:transition-none;
 }
 
 @layer utilities {
-  .clickable {
-    @apply focus-visible:outline-[3px] outline-offset-[3px] outline-accent-500;
-  }
-
   .media-border {
-    @apply relative after:absolute after:inset-0 after:outline-1 after:-outline-offset-1 after:outline-black/10 after:z-10;
+    @apply relative after:absolute after:inset-0 after:outline-1 after:-outline-offset-1 after:outline-black/10 dark:after:outline-white/10 after:z-10;
   }
 
   .grid-pos-start {
@@ -57,17 +75,6 @@ body {
 
 @theme {
   /* colors */
-  --color-neutral-50: var(--color-gray-50);
-  --color-neutral-100: var(--color-gray-100);
-  --color-neutral-200: var(--color-gray-200);
-  --color-neutral-300: var(--color-gray-300);
-  --color-neutral-400: var(--color-gray-400);
-  --color-neutral-500: var(--color-gray-500);
-  --color-neutral-600: var(--color-gray-600);
-  --color-neutral-700: var(--color-gray-700);
-  --color-neutral-800: var(--color-gray-800);
-  --color-neutral-900: var(--color-gray-900);
-  --color-neutral-950: var(--color-gray-950);
   --color-primary-50: var(--color-blue-50);
   --color-primary-100: var(--color-blue-100);
   --color-primary-200: var(--color-blue-200);
@@ -79,20 +86,26 @@ body {
   --color-primary-800: var(--color-blue-800);
   --color-primary-900: var(--color-blue-900);
   --color-primary-950: var(--color-blue-950);
-  --color-accent-50: var(--color-blue-50);
-  --color-accent-100: var(--color-blue-100);
-  --color-accent-200: var(--color-blue-200);
-  --color-accent-300: var(--color-blue-300);
-  --color-accent-400: var(--color-blue-400);
-  --color-accent-500: var(--color-blue-500);
-  --color-accent-600: var(--color-blue-600);
-  --color-accent-700: var(--color-blue-700);
-  --color-accent-800: var(--color-blue-800);
-  --color-accent-900: var(--color-blue-900);
-  --color-accent-950: var(--color-blue-950);
+  --color-accent-50: var(--color-amber-50);
+  --color-accent-100: var(--color-amber-100);
+  --color-accent-200: var(--color-amber-200);
+  --color-accent-300: var(--color-amber-300);
+  --color-accent-400: var(--color-amber-400);
+  --color-accent-500: var(--color-amber-500);
+  --color-accent-600: var(--color-amber-600);
+  --color-accent-700: var(--color-amber-700);
+  --color-accent-800: var(--color-amber-800);
+  --color-accent-900: var(--color-amber-900);
+  --color-accent-950: var(--color-amber-950);
 
   --color-content-card-bg: var(--color-white);
   --color-body-bg: var(--color-gray-100);
+
+  --color-content-card-bg-dark: var(--color-neutral-950);
+  --color-body-bg-dark: oklch(6.5% 0 0);
+
+  --color-body-item-engaged: rgba(0, 0, 0, 0.075);
+  --color-body-item-engaged-dark: rgba(255, 255, 255, 0.1);
 
   /* breakpoints */
   --breakpoint-sidebar-shown: 40rem; /* sm */

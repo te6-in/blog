@@ -24,7 +24,7 @@ const domain = props.href
 
 <a
   {...props}
-  class="not-prose w-full flex flex-col bg-white shadow-xs rounded-mdx-block overflow-hidden border border-neutral-200 engaged:border-neutral-300 engaged:bg-neutral-50 transition-all group clickable my-mdx-component-margin-y"
+  class="not-prose w-full flex flex-col bg-white dark:bg-neutral-900 shadow-xs rounded-mdx-block overflow-hidden border border-gray-200 dark:border-neutral-800 engaged:border-gray-300 dark:engaged:border-neutral-700 engaged:bg-gray-50 dark:engaged:bg-neutral-800 transition-all group my-mdx-component-margin-y"
   ><div
     class="flex flex-row sidebar-shown:flex-col md:flex-row gap-3 p-4 pb-3.5 items-start"
   >
@@ -38,26 +38,31 @@ const domain = props.href
     <div class="flex justify-between grow gap-2 p-0.5">
       <div class="flex flex-col gap-2">
         <div
-          class="text-xl leading-snug text-neutral-900 font-bold text-balance"
+          class="text-xl leading-snug text-gray-900 dark:text-neutral-100 font-bold text-balance"
         >
           {title}
         </div>
         {
           description && (
-            <div class="text-neutral-500 text-sm leading-snug text-pretty line-clamp-2">
+            <div class="text-gray-500 dark:text-neutral-400 text-sm leading-snug text-pretty line-clamp-2">
               {description}
             </div>
           )
         }
       </div>
-      <ExternalLink class="text-neutral-400 flex-none m-1 me-0" size={18} />
+      <ExternalLink
+        class="text-gray-400 dark:text-neutral-500 flex-none m-1 me-0"
+        size={18}
+      />
     </div>
   </div>
   <div
-    class="px-4 py-2 text-neutral-400 border-t border-neutral-200 group-engaged:border-neutral-300 transition-colors text-xs flex justify-between flex-wrap gap-1"
+    class="px-4 py-2 text-gray-400 dark:text-neutral-500 border-t border-gray-200 dark:border-neutral-800 group-engaged:border-gray-300 dark:group-engaged:border-neutral-700 transition-colors text-xs flex justify-between flex-wrap gap-1"
   >
     <span>
-      <span class="text-neutral-600 font-medium">{siteName ?? domain}</span>
+      <span class="text-gray-600 dark:text-neutral-400 font-medium"
+        >{siteName ?? domain}</span
+      >
       {
         siteName && siteName !== domain && (
           <>

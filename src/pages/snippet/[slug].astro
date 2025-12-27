@@ -111,7 +111,7 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
     ).href,
   }}
 >
-  <MainHeader class="w-full" {...snippet.data}>
+  <MainHeader class="w-full" title={snippet.data.title}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {
         tagsWithCount.map(({ slug, name, count }) => (

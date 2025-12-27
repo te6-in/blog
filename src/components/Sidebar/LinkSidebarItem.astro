@@ -15,8 +15,10 @@ const { isCurrentPage = false, ...props } = Astro.props;
   {...props}
   {...isCurrentPage && { "aria-current": "page" }}
   class:list={[
-    "flex items-center justify-between gap-1 rounded-lg engaged:bg-black/5 -mx-2 p-2 transition-colors z-10",
-    isCurrentPage ? "text-accent-600" : "text-neutral-700",
+    "flex items-center justify-between gap-1 rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark -mx-2 p-2 transition-colors z-10",
+    isCurrentPage
+      ? "text-primary-600 dark:text-primary-400"
+      : "text-gray-700 dark:text-neutral-300",
   ]}
 >
   <div class="flex items-center gap-2">

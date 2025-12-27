@@ -1,8 +1,19 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+}
+---
+
 <div
-  class="sidebar-shown:ps-sidebar-width stretch:mx-sidebar-stretch-x transition-[padding] mt-header-height mb-footer-height z-10"
+  id={Astro.props.id}
+  class:list={[
+    "sidebar-shown:ps-sidebar-width stretch:mx-sidebar-stretch-x transition-[padding] mt-header-height mb-footer-height z-10",
+    Astro.props.class,
+  ]}
 >
   <main
-    class="border-neutral-200 border-t sidebar-shown:border shadow-md bg-content-card-bg rounded-content-card sidebar-shown:mx-2 min-h-[calc(100vh-var(--spacing-header-height)+var(--radius-content-card))] transition-[margin,padding,border-width,border-radius] sidebar-shown:p-4 sidebar-shown:pb-0 flex flex-col"
+    class="border-gray-200 dark:border-neutral-900 border-t dark:border-y sidebar-shown:border shadow-md bg-content-card-bg dark:bg-content-card-bg-dark rounded-content-card sidebar-shown:mx-2 min-h-[calc(100vh-var(--spacing-header-height)+var(--radius-content-card))] transition-[margin,padding,border-width,border-radius] sidebar-shown:p-4 sidebar-shown:pb-0 flex flex-col"
   >
     <slot />
   </main>

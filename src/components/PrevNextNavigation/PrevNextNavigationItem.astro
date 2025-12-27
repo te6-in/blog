@@ -18,14 +18,15 @@ const { direction, title, imageSrc, slug, type } = Astro.props;
 
 const classNames = match(!!imageSrc)
   .with(true, () => ({
-    container: "inset-ring-1 inset-ring-neutral-100/50",
+    container: "inset-ring-1 inset-ring-white/22 dark:inset-ring-white/10",
     title: "text-white/95",
-    indicator: "text-white/75",
+    indicator: "text-white opacity-75",
   }))
   .with(false, () => ({
-    container: "bg-white inset-ring-1 inset-ring-neutral-200",
-    title: "text-neutral-800",
-    indicator: "text-neutral-500",
+    container:
+      "bg-content-card-bg dark:bg-content-card-bg-dark inset-ring-1 inset-ring-black/10 dark:inset-ring-white/10",
+    title: "text-gray-800 dark:text-neutral-200",
+    indicator: "text-gray-500 dark:text-neutral-500",
   }))
   .exhaustive();
 ---
@@ -80,7 +81,7 @@ const classNames = match(!!imageSrc)
       <div class="absolute inset-0">
         <ImageWithInferredAlt
           src={imageSrc}
-          class="size-full object-cover not-noscript:motion-safe:animate-pulse bg-neutral-400 select-none"
+          class="size-full object-cover not-noscript:motion-safe:animate-pulse bg-gray-400 select-none"
           onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         />
         <div class="bg-gradient-to-b from-black/85 to-black/65 inset-0 absolute contrast-more:backdrop-blur-sm transition-[backdrop-filter]" />

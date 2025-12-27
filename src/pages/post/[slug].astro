@@ -36,6 +36,7 @@ import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
 import type { GetStaticPaths } from "astro";
 import { getAlt } from "../../lib/images";
+import SkipContentAnchor from "../../components/SkipContentAnchor.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("post");
@@ -130,7 +131,12 @@ const coverImageAlt = post.data.coverImage
     ).href,
   }}
 >
-  <MainHeader class="w-full" {...post.data}>
+  <MainHeader
+    class="w-full"
+    title={post.data.title}
+    description={post.data.description}
+    coverImage={post.data.coverImage}
+  >
     <ul role="list" class="flex gap-1.5 flex-wrap">
       {
         tagsWithCount.map(({ slug, name, count }) => (
@@ -170,15 +176,18 @@ const coverImageAlt = post.data.coverImage
       class="contents toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-56 flex-none relative"
     >
       <aside
-        class="overflow-hidden sticky top-4 w-full max-h-[calc(100vh-2rem)] hidden toc-shown:block"
+        class="overflow-hidden sticky top-4 w-full max-h-[calc(100vh-1rem)] hidden toc-shown:block"
       >
+        <SkipContentAnchor href="#prose-content"
+          >목차 건너뛰기</SkipContentAnchor
+        >
         <TableOfContents headings={headings} class="h-full pb-50 ps-0.5 pe-5" />
       </aside>
       <div
         class="sticky bottom-0 w-full h-64 pointer-events-none contents toc-shown:flex justify-end items-end"
       >
         <div
-          class="absolute inset-0 bg-gradient-to-b from-transparent to-white h-64 pointer-events-none hidden toc-shown:block rounded-br-content-card"
+          class="absolute inset-0 bg-gradient-to-b from-transparent to-content-card-bg dark:to-content-card-bg-dark h-64 pointer-events-none hidden toc-shown:block rounded-br-xl"
         >
         </div>
         <ActionButtons
@@ -187,6 +196,7 @@ const coverImageAlt = post.data.coverImage
       </div>
     </div>
     <div
+      id="prose-content"
       class="flex flex-col pb-19 sidebar-shown:pb-26 toc-shown:pb-12 overflow-x-hidden gap-1 grid-pos-start transition-[padding]"
     >
       <SeriesNavigation

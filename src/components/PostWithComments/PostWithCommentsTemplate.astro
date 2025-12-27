@@ -7,20 +7,19 @@ interface Props extends HTMLAttributes<"div"> {}
 
 <template {...Astro.props}>
   <a
-    class="flex gap-4 engaged:bg-neutral-100 p-4 rounded-2xl transition-colors group items-start"
+    class="flex gap-4 engaged:bg-gray-100 p-4 rounded-2xl transition-colors group items-start"
   >
     <div
       class="rounded-lg overflow-hidden media-border after:rounded-lg w-2/7 min-w-40"
     >
       <img
-        class="cover-image not-noscript:motion-safe:animate-pulse bg-neutral-400 motion-safe:group-engaged:scale-105 transition-transform"
+        class="cover-image not-noscript:motion-safe:animate-pulse bg-gray-400 motion-safe:group-engaged:scale-105 transition-transform"
         onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
       />
     </div>
     <div class="text-balance flex flex-col gap-1.5 p-0.5">
-      <div class="title text-xl text-neutral-800 leading-snug font-semibold">
-      </div>
-      <p class="description text-sm text-neutral-500 leading-snug"></p>
+      <div class="title text-xl text-gray-800 leading-snug font-semibold"></div>
+      <p class="description text-sm text-gray-500 leading-snug"></p>
       <div class="comments flex flex-col gap-0.5"></div>
     </div>
   </a>

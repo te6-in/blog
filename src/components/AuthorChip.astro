@@ -15,12 +15,12 @@ const { variant = "flat", id, avatar, name, url } = Astro.props;
 
 const classNames = match(variant)
   .with("flat", () => ({
-    base: "engaged:bg-neutral-100 text-neutral-700 engaged:text-neutral-800",
-    image: "bg-neutral-200",
+    base: "engaged:bg-gray-100 dark:engaged:bg-neutral-900 text-gray-700 dark:text-neutral-300 engaged:text-gray-800 dark:engaged:text-neutral-200",
+    image: "bg-gray-200 dark:bg-neutral-700",
   }))
   .with("glass", () => ({
-    base: "engaged:border-neutral-500/30 engaged:bg-neutral-300/30 engaged:backdrop-blur engaged:shadow text-white/80 engaged:text-white",
-    image: "bg-neutral-200/75 backdrop-blur",
+    base: "engaged:border-gray-500/30 engaged:bg-gray-300/30 engaged:backdrop-blur engaged:shadow text-white/80 engaged:text-white",
+    image: "bg-gray-200/75 backdrop-blur",
   }))
   .exhaustive();
 

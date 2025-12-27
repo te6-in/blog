@@ -10,6 +10,7 @@ import { METADATA } from "../lib/metadata";
 import Metadata from "../components/Metadata.astro";
 import Fonts from "../components/Fonts.astro";
 import { $path } from "astro-typesafe-routes/path";
+import SkipContentAnchor from "../components/SkipContentAnchor.astro";
 
 interface Props {
   metadataProps: ComponentProps<typeof Metadata>;
@@ -55,17 +56,19 @@ const { metadataProps, sidebarProps } = Astro.props;
     <!-- <link rel="manifest" href="/manifest.webmanifest" /> -->
     <!-- <meta name="mobile-web-app-capable" content="yes" /> -->
 
-    <!-- TODO: enable after implementing dark mode -->
-    <!-- <meta name="darkreader-lock" /> -->
+    <meta name="darkreader-lock" />
 
     <meta name="generator" content={Astro.generator} />
 
     <ClientRouter />
   </head>
-  <body class="bg-body-bg overflow-x-hidden">
+  <body class="bg-body-bg dark:bg-body-bg-dark overflow-x-hidden">
+    <SkipContentAnchor href="#main-content">
+      주요 내용으로 건너뛰기
+    </SkipContentAnchor>
     <Header />
     <Sidebar {...sidebarProps} />
-    <Main>
+    <Main id="main-content" class="scroll-mt-4">
       <slot />
     </Main>
     <Footer />

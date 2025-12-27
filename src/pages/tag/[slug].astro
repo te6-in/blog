@@ -51,16 +51,16 @@ const tags = await getTags({ sortBy: "count" });
   <Collapsible
     client:load
     classNames={{
-      root: "flex sidebar-shown:hidden flex-col justify-start mx-4 mb-8 border border-neutral-200 p-2 rounded-xl shadow-xs",
+      root: "flex sidebar-shown:hidden flex-col justify-start mx-4 mb-8 border border-gray-200 dark:border-neutral-800 p-2 rounded-xl shadow-xs",
       triggerRoot:
-        "flex items-center justify-between gap-1 rounded p-2 engaged:bg-neutral-100 transition-colors cursor-pointer text-neutral-500",
+        "flex items-center justify-between gap-1 rounded p-2 engaged:bg-gray-100 dark:engaged:bg-neutral-900 transition-colors cursor-pointer text-gray-500 dark:text-neutral-500",
       triggerContent: "flex items-center gap-2",
       triggerChevron: "transition-transform flex-none",
       triggerTitle: "font-semibold",
       panelContent: "mt-2 pt-0",
     }}
   >
-    <TagsIcon slot="triggerIcon" />
+    <TagsIcon slot="triggerIcon" size={22} />
     <Fragment slot="triggerTitle">
       {METADATA.lexicons.tags.label}
     </Fragment>
@@ -84,7 +84,7 @@ const tags = await getTags({ sortBy: "count" });
   {
     posts.length > 0 && (
       <>
-        <span class="text-lg text-neutral-700 px-8">
+        <span class="text-lg text-gray-700 dark:text-neutral-300 px-8">
           <h2 class="font-semibold inline">{METADATA.lexicons.posts.label}</h2>
           <span class="text-current/50 ms-1">{posts.length}</span>
         </span>
@@ -95,7 +95,7 @@ const tags = await getTags({ sortBy: "count" });
   {
     snippets.length > 0 && (
       <>
-        <span class="text-lg text-neutral-700 px-8">
+        <span class="text-lg text-gray-700 dark:text-neutral-300 px-8">
           <h2 class="font-semibold inline">
             {METADATA.lexicons.snippets.label}
           </h2>

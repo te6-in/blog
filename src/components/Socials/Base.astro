@@ -1,11 +1,12 @@
 ---
 interface Props {
+  class?: string;
   href?: string;
   title?: string;
   ariaLabel?: string;
 }
 
-const { href, title, ariaLabel } = Astro.props;
+const { class: className, href, title, ariaLabel } = Astro.props;
 ---
 
 <a
@@ -14,7 +15,10 @@ const { href, title, ariaLabel } = Astro.props;
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  class="flex items-center justify-center rounded-lg engaged:bg-neutral-200 transition-colors text-neutral-500 size-9"
+  class:list={[
+    "flex items-center justify-center rounded-lg engaged:bg-body-item-engaged dark:engaged:bg-body-item-engaged-dark transition-colors text-gray-500 dark:text-neutral-500 size-9",
+    className,
+  ]}
 >
   <slot />
 </a>

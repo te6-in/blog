@@ -35,14 +35,15 @@ const { icon: Icon, ariaLabel } = (() => {
   class:list={[
     "flex flex-col sidebar-shown:flex-row gap-4 sidebar-shown:gap-2 p-5 my-mdx-component-margin-y rounded-mdx-block border",
     {
-      "bg-sky-50 border-sky-300 prose-strong:text-sky-600": variant === "info",
-      "bg-violet-50 border-violet-300 prose-strong:text-violet-600":
+      "bg-sky-50 border-sky-300 prose-strong:text-sky-600 dark:bg-sky-950 dark:border-sky-800 dark:prose-strong-sky-400":
+        variant === "info",
+      "bg-violet-50 border-violet-300 prose-strong:text-violet-600 dark:bg-violet-950 dark:border-violet-800 dark:prose-strong-violet-400":
         variant === "question",
-      "bg-amber-50 border-amber-300 prose-strong:text-amber-600":
+      "bg-amber-50 border-amber-300 prose-strong:text-amber-600 dark:bg-amber-950 dark:border-amber-800 dark:prose-strong-amber-400":
         variant === "warning",
-      "bg-red-50 border-red-300 prose-strong:text-red-600":
+      "bg-red-50 border-red-300 prose-strong:text-red-600 dark:bg-red-950 dark:border-red-800 dark:prose-strong-red-400":
         variant === "danger",
-      "bg-lime-50 border-lime-300 prose-strong:text-lime-600":
+      "bg-lime-50 border-lime-300 prose-strong:text-lime-600 dark:bg-lime-950 dark:border-lime-800 dark:prose-strong-lime-400":
         variant === "success",
     },
   ]}
@@ -51,11 +52,11 @@ const { icon: Icon, ariaLabel } = (() => {
     class:list={[
       "flex-none sidebar-shown:m-0.5",
       {
-        "text-sky-500": variant === "info",
-        "text-violet-500": variant === "question",
-        "text-amber-500": variant === "warning",
-        "text-red-500": variant === "danger",
-        "text-lime-500": variant === "success",
+        "text-sky-500 dark:text-sky-500": variant === "info",
+        "text-violet-500 dark:text-violet-500": variant === "question",
+        "text-amber-500 dark:text-amber-500": variant === "warning",
+        "text-red-500 dark:text-red-500": variant === "danger",
+        "text-lime-500 dark:text-lime-500": variant === "success",
       },
     ]}
     aria-label={ariaLabel}

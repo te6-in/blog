@@ -12,8 +12,8 @@ const { variant = "flat", publishedAt, updatedAt } = Astro.props;
 
 const classNames = match(variant)
   .with("flat", () => ({
-    description: "text-neutral-400",
-    label: "text-neutral-500",
+    description: "text-gray-400 dark:text-neutral-600",
+    label: "text-gray-500 dark:text-neutral-500",
   }))
   .with("glass", () => ({
     description: "text-white/50",

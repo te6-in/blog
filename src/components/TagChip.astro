@@ -21,13 +21,13 @@ if (variant === "glass" && isCurrentPage) {
 const baseClassName = match(variant)
   .with("flat", () =>
     isCurrentPage
-      ? "border-accent-300 bg-accent-100 engaged:bg-accent-200 engaged:text-accent-800 text-accent-700 font-medium"
-      : "border-neutral-300 bg-neutral-200 engaged:bg-neutral-300 engaged:text-neutral-900 text-neutral-800"
+      ? "border-primary-300 dark:border-primary-800 bg-primary-100 dark:bg-primary-950 engaged:bg-primary-200 dark:engaged:bg-primary-900 engaged:text-primary-800 dark:engaged:text-primary-400 text-primary-700 dark:text-primary-500 font-medium"
+      : "border-gray-300 dark:border-neutral-800 bg-gray-200 dark:bg-neutral-900 engaged:bg-gray-300 dark:engaged:bg-neutral-800 engaged:text-gray-900 dark:engaged:text-neutral-200 text-gray-800 dark:text-neutral-300"
   )
   .with(
     "glass",
     () =>
-      "border-neutral-500/30 bg-neutral-400/35 engaged:bg-neutral-300/40 engaged:text-white backdrop-blur shadow-sm text-white/80 engaged:text-white"
+      "border-gray-500/30 bg-gray-400/35 engaged:bg-gray-300/40 engaged:text-white backdrop-blur shadow-sm text-white/80 engaged:text-white"
   )
   .exhaustive();
 ---
@@ -37,7 +37,7 @@ const baseClassName = match(variant)
   params={{ slug }}
   {...isCurrentPage && { "aria-current": "page" }}
   class:list={[
-    "inline-flex items-baseline gap-[0.5ch] transition-colors px-[0.6875rem] py-[0.3125rem] rounded-full border group whitespace-nowrap scroll-mt-36",
+    "inline-flex items-baseline gap-[0.5ch] transition-colors px-[0.6875rem] py-[0.3125rem] rounded-full border group whitespace-nowrap scroll-mt-36 scroll-mb-5",
     baseClassName,
   ]}
 >

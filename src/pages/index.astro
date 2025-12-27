@@ -80,7 +80,7 @@ const blog: WithContext<Blog> = {
   <div class="flex flex-col">
     <div class="flex flex-col gap-6 mb-12">
       <div
-        class="rounded-2xl overflow-hidden ml-8 mt-8 after:rounded-2xl media-border self-start shadow-xl shadow-sky-700/15"
+        class="rounded-2xl overflow-hidden ml-8 mt-8 after:rounded-2xl media-border self-start shadow-xl shadow-sky-700/15 dark:shadow-sky-300/15"
       >
         <Image
           src={METADATA.author.avatar}
@@ -88,17 +88,21 @@ const blog: WithContext<Blog> = {
           width={120}
           height={120}
           onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
-          class="bg-neutral-200 not-noscript:motion-safe:animate-pulse"
+          class="bg-gray-200 dark:bg-neutral-800 not-noscript:motion-safe:animate-pulse"
           aria-hidden
         />
       </div>
-      <h1 class="font-semibold text-3xl leading-11 mx-8 text-neutral-800">
+      <h1
+        class="font-semibold text-3xl leading-11 mx-8 text-gray-800 dark:text-neutral-200"
+      >
         <span class="whitespace-nowrap">안녕하세요.</span>
         <span class="whitespace-nowrap">{METADATA.name}입니다.</span>
       </h1>
     </div>
     <div class="flex flex-col gap-1">
-      <h2 class="font-medium text-lg text-balance ml-8 text-neutral-600">
+      <h2
+        class="font-medium text-lg text-balance ml-8 text-gray-600 dark:text-neutral-400"
+      >
         추천드리는 글
       </h2>
       <PostGrid

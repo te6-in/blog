@@ -16,6 +16,11 @@ export default defineConfig({
     // however, astro requires us to specify this explicitly when we use astro:prefetch
     prefetchAll: true,
   },
+  markdown: {
+    shikiConfig: {
+      theme: "material-theme-darker",
+    },
+  },
   trailingSlash: "never",
   integrations: [mdx(), sitemap(), react(), typesafeRoutes()],
   vite: {
