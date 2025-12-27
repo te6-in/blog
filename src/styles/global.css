@@ -14,7 +14,7 @@
 }
 
 body {
-  @apply break-keep selection:bg-gray-700 selection:text-gray-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
+  @apply break-keep selection:bg-gray-700/85 selection:text-gray-100 dark:selection:bg-zinc-200/85 dark:selection:text-zinc-900;
 }
 
 img {
