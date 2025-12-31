@@ -83,6 +83,8 @@ const blog: WithContext<Blog> = {
         class="rounded-2xl overflow-hidden ml-8 mt-8 after:rounded-2xl media-border self-start shadow-xl shadow-sky-700/15 dark:shadow-sky-300/15"
       >
         <Image
+          loading="eager"
+          fetchpriority="high"
           src={METADATA.author.avatar}
           alt=""
           width={120}
