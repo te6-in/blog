@@ -11,7 +11,7 @@ const { src: __src, alt: __alt } = Astro.props;
 
 if (__alt) {
   throw new Error(
-    "Alt text should not be provided. It must be found in the json file."
+    `Alt text should not be provided. It must be found in the json file. src: ${__src}, alt: ${__alt}`
   );
 }
 
