@@ -42,7 +42,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
   });
 
   const hover = useHover(context, {
-    delay: { open: 250, close: 0 },
+    delay: { open: 200, close: 0 },
   });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
@@ -50,12 +50,14 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
   const role = useRole(context, { role: "tooltip" });
 
   const { isMounted, styles } = useTransitionStyles(context, {
-    // 250 is the default
-    // duration: 250,
+    duration: {
+      open: 250,
+      close: 200,
+    },
     initial: {
       boxShadow: "none",
       opacity: 0,
-      ...(isMotionSafe && { transform: "scale(0.9)" }),
+      ...(isMotionSafe && { transform: "scale(0.95)" }),
     },
     open: ({ side }) => ({
       boxShadow: {
@@ -70,7 +72,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
     close: {
       boxShadow: "none",
       opacity: 0,
-      ...(isMotionSafe && { transform: "scale(0.9)" }),
+      ...(isMotionSafe && { transform: "scale(0.90)" }),
     },
     common: ({ side }) => ({
       transformOrigin: {
@@ -93,7 +95,7 @@ export function Tooltip({ trigger, popup }: TooltipProps) {
         <div
           {...getFloatingProps()}
           style={floatingStyles}
-          className="transition-transform pointer-events-none"
+          className="pointer-events-none"
           ref={refs.setFloating}
         >
           <div
