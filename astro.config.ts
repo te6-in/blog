@@ -11,7 +11,7 @@ import { METADATA } from "./src/lib/metadata";
 export default defineConfig({
   site: METADATA.site,
   prefetch: {
-    defaultStrategy: "viewport",
+    defaultStrategy: import.meta.env.DEV ? "tap" : "viewport",
     // this already is the default behavior when <ClientRouter /> is used
     // however, astro requires us to specify this explicitly when we use astro:prefetch
     prefetchAll: true,
