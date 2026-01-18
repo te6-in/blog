@@ -6,6 +6,7 @@ import typesafeRoutes from "astro-typesafe-routes";
 import type { RouteId } from "astro-typesafe-routes/path";
 import { defineConfig, envField } from "astro/config";
 import { METADATA } from "./src/lib/metadata";
+import remarkObsidianMdx, { type PluginOptions } from "remark-obsidian-mdx";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,9 +21,37 @@ export default defineConfig({
     shikiConfig: {
       theme: "material-theme-darker",
     },
+    remarkPlugins: [
+      [
+        remarkObsidianMdx,
+        {
+          contentRoot: "./",
+          callout: {
+            componentName: "Callout",
+            defaultType: "info",
+            typePropName: "variant",
+            typeMap: {
+              info: "info",
+              question: "question",
+              warning: "warning",
+              danger: "danger",
+              success: "success",
+            },
+          },
+          embedingPathTransform: (context) => {
+            switch (context.kind) {
+              case "image":
+                return `../assets/${context.target.value}`;
+              default:
+                return context.target.value;
+            }
+          },
+        } satisfies PluginOptions,
+      ],
+    ],
   },
   trailingSlash: "never",
-  integrations: [mdx(), sitemap(), react(), typesafeRoutes()],
+  integrations: [mdx({}), sitemap(), react(), typesafeRoutes()],
   vite: {
     plugins: [tailwindcss()],
   },

@@ -2798,6 +2798,7 @@ __metadata:
     lucide-react: "npm:^0.483.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    remark-obsidian-mdx: "patch:remark-obsidian-mdx@npm%3A1.0.1#~/.yarn/patches/remark-obsidian-mdx-npm-1.0.1-9b7bd1b174.patch"
     schema-dts: "npm:^1.1.5"
     tailwindcss: "npm:^4.1.10"
     ts-pattern: "npm:^5.6.2"
@@ -6102,6 +6103,20 @@ __metadata:
     mdast-util-mdx: "npm:^3.0.0"
     micromark-extension-mdxjs: "npm:^3.0.0"
   checksum: 10c0/247800fa8561624bdca5776457c5965d99e5e60080e80262c600fe12ddd573862e029e39349e1e36e4c3bf79c8e571ecf4d3d2d8c13485b758391fb500e24a1a
+  languageName: node
+  linkType: hard
+
+"remark-obsidian-mdx@npm:1.0.1":
+  version: 1.0.1
+  resolution: "remark-obsidian-mdx@npm:1.0.1"
+  checksum: 10c0/7abe272f481cc1582467a6862343f03b59f019fa65e9467fd0a9baabd2125fae25c25a2b5c7e28819a73a2607cea7f4e18808695a13902c9d71301f2413d83ba
+  languageName: node
+  linkType: hard
+
+"remark-obsidian-mdx@patch:remark-obsidian-mdx@npm%3A1.0.1#~/.yarn/patches/remark-obsidian-mdx-npm-1.0.1-9b7bd1b174.patch":
+  version: 1.0.1
+  resolution: "remark-obsidian-mdx@patch:remark-obsidian-mdx@npm%3A1.0.1#~/.yarn/patches/remark-obsidian-mdx-npm-1.0.1-9b7bd1b174.patch::version=1.0.1&hash=135f64"
+  checksum: 10c0/df601f51064830e66bd166cec58c6d76ac2174e94766faf78b7feca901ca5e8eb794dc6a0a381f3f1eeced5e89722938bcb28ad646ccb1a50f201da11344ca45
   languageName: node
   linkType: hard
 
