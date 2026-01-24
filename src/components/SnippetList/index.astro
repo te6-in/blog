@@ -9,17 +9,14 @@ interface Props {
 
 const { snippets } = Astro.props;
 
-const snippetsByYear = groupBy(snippets, ({ data: { publishedAt } }) =>
-  publishedAt.getFullYear()
-);
+const snippetsByYear = groupBy(snippets, ({ data: { publishedAt } }) => publishedAt.getFullYear());
 ---
 
 <ol
   role="list"
   class="divide divide-y divide-gray-300 dark:divide-zinc-700 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5 transition-[padding]"
 >
-  {
-    Object.entries(snippetsByYear)
+  {Object.entries(snippetsByYear)
       .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
       .map(([year, snippets], yearIndex) => (
         <li class="flex gap-2 sidebar-shown:gap-4 items-start flex-col sidebar-shown:flex-row">
@@ -50,6 +47,5 @@ const snippetsByYear = groupBy(snippets, ({ data: { publishedAt } }) =>
             )}
           </ol>
         </li>
-      ))
-  }
+      ))}
 </ol>

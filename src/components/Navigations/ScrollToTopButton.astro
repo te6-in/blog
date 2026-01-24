@@ -13,17 +13,14 @@ import { ArrowUp } from "lucide-astro";
 </button>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    document
-      .getElementById("scroll-to-top-button")
-      ?.addEventListener("click", () =>
-        window.scrollTo({
-          top: 0,
-          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
-            .matches
-            ? "smooth"
-            : "auto",
-        })
-      );
-  });
+document.addEventListener("astro:page-load", () => {
+  document.getElementById("scroll-to-top-button")?.addEventListener("click", () =>
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: no-preference)").matches
+        ? "smooth"
+        : "auto",
+    }),
+  );
+});
 </script>

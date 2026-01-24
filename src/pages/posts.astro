@@ -1,10 +1,10 @@
 ---
+import { $path } from "astro-typesafe-routes/path";
 import MainHeader from "../components/MainHeader.astro";
+import PostList from "../components/PostList";
 import Layout from "../layouts/Layout.astro";
 import { getPosts } from "../lib/contents";
-import PostList from "../components/PostList";
 import { METADATA } from "../lib/metadata";
-import { $path } from "astro-typesafe-routes/path";
 
 const posts = await getPosts({ sortBy: "publishedAt" });
 ---

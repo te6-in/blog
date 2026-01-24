@@ -1,5 +1,5 @@
 ---
-import { Image, getImage } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { removeQueryString } from "@astrojs/internal-helpers/path";
 import type { ComponentProps } from "astro/types";
@@ -11,7 +11,7 @@ const { src: __src, alt: __alt } = Astro.props;
 
 if (__alt) {
   throw new Error(
-    `Alt text should not be provided. It must be found in the json file. src: ${__src}, alt: ${__alt}`
+    `Alt text should not be provided. It must be found in the json file. src: ${__src}, alt: ${__alt}`,
   );
 }
 
@@ -21,9 +21,7 @@ const decodedSrc = decodeURIComponent(src);
 
 const fileName = removeQueryString(decodedSrc).split("/").pop();
 
-const alt = (await getCollection("altText")).find(
-  ({ id }) => id === fileName?.split(".")[0]
-)?.data;
+const alt = (await getCollection("altText")).find(({ id }) => id === fileName?.split(".")[0])?.data;
 
 if (!alt) throw new Error(`Alt text not found or empty. src: ${decodedSrc}`);
 ---

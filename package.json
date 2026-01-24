@@ -40,7 +40,7 @@
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.3.12",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "22.19.7",
     "remark-obsidian-mdx": "^1.1.1",

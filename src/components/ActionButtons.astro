@@ -37,8 +37,7 @@ const { class: className, ...props } = Astro.props;
         <span
           id="reaction-count"
           class="text-current/50 supports-[width:calc-size(auto,size)]:w-0 supports-[width:calc-size(auto,size)]:not-empty:w-[calc-size(auto,size)] transition-[width,opacity,margin] animate-fade-in supports-[width:calc-size(auto,size)]:opacity-0 supports-[width:calc-size(auto,size)]:not-empty:opacity-100 not-empty:ms-[0.5ch]"
-        >
-        </span>
+        > </span>
       </span>
       <a
         href="#comments"
@@ -58,49 +57,48 @@ const { class: className, ...props } = Astro.props;
 </div>
 
 <script>
-  const shareButton = document.getElementById("share-button");
+const shareButton = document.getElementById("share-button");
 
-  if (!navigator.share) {
-    shareButton?.remove();
-  }
+if (!navigator.share) {
+  shareButton?.remove();
+}
 
-  if (navigator.share) {
-    shareButton?.setAttribute("data-share-available", "");
-    shareButton?.addEventListener("click", async () => {
-      await navigator.share({
-        title: document.title,
-        url: window.location.href,
-      });
+if (navigator.share) {
+  shareButton?.setAttribute("data-share-available", "");
+  shareButton?.addEventListener("click", async () => {
+    await navigator.share({
+      title: document.title,
+      url: window.location.href,
     });
-  }
+  });
+}
 </script>
 
 <script>
-  let reactionCountLabel: HTMLElement | null = null;
-  let commentCountLabel: HTMLElement | null = null;
+let reactionCountLabel: HTMLElement | null = null;
+let commentCountLabel: HTMLElement | null = null;
 
-  document.addEventListener("astro:page-load", () => {
-    reactionCountLabel = document.getElementById("reaction-count");
-    commentCountLabel = document.getElementById("comment-count");
-  });
+document.addEventListener("astro:page-load", () => {
+  reactionCountLabel = document.getElementById("reaction-count");
+  commentCountLabel = document.getElementById("comment-count");
+});
 
-  window.addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    if (!(typeof event.data === "object" && event.data.giscus)) return;
+window.addEventListener("message", (event) => {
+  if (event.origin !== "https://giscus.app") return;
+  if (!(typeof event.data === "object" && event.data.giscus)) return;
 
-    const giscusDiscussionData = event.data.giscus.discussion;
+  const giscusDiscussionData = event.data.giscus.discussion;
 
-    const reactionCount = giscusDiscussionData?.reactionCount ?? 0;
-    const commentCount =
-      (giscusDiscussionData?.totalCommentCount ?? 0) +
-      (giscusDiscussionData?.totalReplyCount ?? 0);
+  const reactionCount = giscusDiscussionData?.reactionCount ?? 0;
+  const commentCount =
+    (giscusDiscussionData?.totalCommentCount ?? 0) + (giscusDiscussionData?.totalReplyCount ?? 0);
 
-    if (reactionCount && reactionCountLabel) {
-      reactionCountLabel.innerText = `${reactionCount}`;
-    }
+  if (reactionCount && reactionCountLabel) {
+    reactionCountLabel.innerText = `${reactionCount}`;
+  }
 
-    if (commentCount && commentCountLabel) {
-      commentCountLabel.innerText = `${commentCount}`;
-    }
-  });
+  if (commentCount && commentCountLabel) {
+    commentCountLabel.innerText = `${commentCount}`;
+  }
+});
 </script>

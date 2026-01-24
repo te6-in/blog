@@ -1,9 +1,9 @@
 ---
-import Link from "astro-typesafe-routes/link";
-import { METADATA } from "../lib/metadata";
 import { Image } from "astro:assets";
+import Link from "astro-typesafe-routes/link";
 import icon from "../assets/icon.png";
 import { appendReferrer } from "../lib/href";
+import { METADATA } from "../lib/metadata";
 import { Socials } from "./Socials";
 ---
 
@@ -26,15 +26,16 @@ import { Socials } from "./Socials";
         <Image src={icon} alt="" class="size-6" aria-hidden />
         <div>te6.in</div>
       </a>
-      <div class="w-0.5 rounded-full h-[1.5em] bg-gray-300 dark:bg-zinc-800">
-      </div>
+      <div class="w-0.5 rounded-full h-[1.5em] bg-gray-300 dark:bg-zinc-800"></div>
       <Link
         to="/"
         class:list={[
           "font-bold text-gray-800 py-2 px-2.5 engaged:bg-body-item-engaged transition-colors rounded-lg dark:text-zinc-200 dark:engaged:bg-body-item-engaged-dark",
           "scroll-to-top-on-focus",
-        ]}>Blog</Link
+        ]}
       >
+        Blog
+      </Link>
     </div>
   </div>
   <div
@@ -79,21 +80,18 @@ import { Socials } from "./Socials";
   </div>
 </header>
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const scrollToTopOnFocusElements = [
-      ...document.getElementsByClassName("scroll-to-top-on-focus"),
-    ];
+document.addEventListener("astro:page-load", () => {
+  const scrollToTopOnFocusElements = [...document.getElementsByClassName("scroll-to-top-on-focus")];
 
-    for (const el of scrollToTopOnFocusElements) {
-      el.addEventListener("focus", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
-            .matches
-            ? "smooth"
-            : "auto",
-        });
+  for (const el of scrollToTopOnFocusElements) {
+    el.addEventListener("focus", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia("(prefers-reduced-motion: no-preference)").matches
+          ? "smooth"
+          : "auto",
       });
-    }
-  });
+    });
+  }
+});
 </script>

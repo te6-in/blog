@@ -14,7 +14,9 @@ const { variant, ...props } = Astro.props;
   class="no-underline text-pretty supports-[text-wrap:pretty]:inline-block supports-[text-wrap:pretty]:[baseline-source:first]"
 >
   <!-- <a {...props} class="no-underline"> -->
-  <span class="underline"><slot /></span>
+  <span class="underline"
+    ><slot /></span
+  >
   <span class="inline-block -mb-0.5 text-zinc-500 dark:text-zinc-500 me-0.5">
     <!-- <span class="inline-block -mb-0.5 text-zinc-500 me-0.5 -ms-0.5 select-none"> -->
     {variant === "new-tab" && <ExternalLink class="flex-none" size={15} />}

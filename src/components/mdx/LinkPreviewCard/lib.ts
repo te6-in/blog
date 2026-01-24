@@ -1,5 +1,5 @@
 import { makeSafeGetter } from "@astro-community/astro-embed-utils";
-import { getAttribute, getTextContent, isElementNode, query, type Element } from "@parse5/tools";
+import { type Element, getAttribute, getTextContent, isElementNode, query } from "@parse5/tools";
 import { parse } from "parse5";
 
 /**

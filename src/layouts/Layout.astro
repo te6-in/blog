@@ -1,16 +1,16 @@
 ---
-import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Main from "../components/Main.astro";
+import Sidebar from "../components/Sidebar";
 import "../styles/global.css";
-import type { ComponentProps } from "react";
 import { ClientRouter } from "astro:transitions";
-import { METADATA } from "../lib/metadata";
-import Metadata from "../components/Metadata.astro";
-import Fonts from "../components/Fonts.astro";
 import { $path } from "astro-typesafe-routes/path";
+import type { ComponentProps } from "react";
+import Fonts from "../components/Fonts.astro";
+import Metadata from "../components/Metadata.astro";
 import SkipContentAnchor from "../components/SkipContentAnchor.astro";
+import { METADATA } from "../lib/metadata";
 
 interface Props {
   metadataProps: ComponentProps<typeof Metadata>;
@@ -23,32 +23,26 @@ const { metadataProps, sidebarProps } = Astro.props;
 <!doctype html>
 <html lang="ko" class="motion-safe:scroll-smooth">
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
     <Metadata {...metadataProps} />
 
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico">
 
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content={METADATA.name} />
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content={METADATA.name}>
 
     <link
       rel="alternate"
       type="application/rss+xml"
       href={new URL($path({ to: "/rss.xml" }), Astro.url.origin).href}
-    />
+    >
 
     <!-- <meta name="fediverse:creator" content="@Gargron@mastodon.social" /> -->
-    <meta name="twitter:site:id" content={METADATA.social.twitter.username} />
-    <meta
-      name="twitter:creator:id"
-      content={METADATA.social.twitter.username}
-    />
+    <meta name="twitter:site:id" content={METADATA.social.twitter.username}>
+    <meta name="twitter:creator:id" content={METADATA.social.twitter.username}>
 
     <Fonts />
 
@@ -56,16 +50,14 @@ const { metadataProps, sidebarProps } = Astro.props;
     <!-- <link rel="manifest" href="/manifest.webmanifest" /> -->
     <!-- <meta name="mobile-web-app-capable" content="yes" /> -->
 
-    <meta name="darkreader-lock" />
+    <meta name="darkreader-lock">
 
-    <meta name="generator" content={Astro.generator} />
+    <meta name="generator" content={Astro.generator}>
 
     <ClientRouter />
   </head>
   <body class="bg-body-bg dark:bg-body-bg-dark overflow-x-hidden">
-    <SkipContentAnchor href="#main-content">
-      주요 내용으로 건너뛰기
-    </SkipContentAnchor>
+    <SkipContentAnchor href="#main-content">주요 내용으로 건너뛰기</SkipContentAnchor>
     <Header />
     <Sidebar {...sidebarProps} />
     <Main id="main-content" class="scroll-mt-4">

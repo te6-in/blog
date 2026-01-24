@@ -55,6 +55,9 @@ export async function getTags({ sortBy = "name" }: GetTagsParams) {
         return b.count - a.count;
       }
     }
+
+    // unreachable
+    return 0;
   });
 
   return sortedTags;

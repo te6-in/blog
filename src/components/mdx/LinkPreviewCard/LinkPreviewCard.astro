@@ -7,11 +7,11 @@
 import type { InferEntrySchema } from "astro:content";
 import type { ComponentProps } from "astro/types";
 import { match } from "ts-pattern";
+import { METADATA } from "../../../lib/metadata";
 import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
 import { getAnchor } from "../AnchorWithLinkPreviewTooltip/get-anchor";
-import PreviewCard from "./PreviewCard.astro";
 import { parseOpenGraph } from "./lib";
-import { METADATA } from "../../../lib/metadata";
+import PreviewCard from "./PreviewCard.astro";
 
 export interface Props {
   /** URL to fetch Open Graph data. */
@@ -107,22 +107,17 @@ const { href, metadata, internalImage, externalImage } = await match(type)
 const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
 ---
 
-{
-  type === "post" && (
+{type === "post" && (
     <PreviewCard href={href} metadata={metadata} target="_blank">
       {internalImage && (
         <ImageWithInferredAlt class={IMAGE_CLASS} src={internalImage} />
       )}
     </PreviewCard>
-  )
-}
-{
-  type === "snippet" && (
+  )}
+{type === "snippet" && (
     <PreviewCard href={href} metadata={metadata} target="_blank" />
-  )
-}
-{
-  type === "external" && (
+  )}
+{type === "external" && (
     <PreviewCard href={href} metadata={metadata} target="_blank">
       {externalImage && (
         <img
@@ -135,5 +130,4 @@ const IMAGE_CLASS = "motion-safe:group-engaged:scale-105 transition-transform";
         />
       )}
     </PreviewCard>
-  )
-}
+  )}

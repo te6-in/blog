@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import PrevNextNavigationItem from "./PrevNextNavigationItem.astro";
-import PrevNextNavigationEmptyItem from "./PrevNextNavigationEmptyItem.astro";
 import { Navigations } from "../Navigations";
+import PrevNextNavigationEmptyItem from "./PrevNextNavigationEmptyItem.astro";
+import PrevNextNavigationItem from "./PrevNextNavigationItem.astro";
 
 interface Props {
   navigateIn: "post" | "snippet";
@@ -12,7 +12,7 @@ interface Props {
 const { navigateIn, currentSlug } = Astro.props;
 
 const posts = (await getCollection(navigateIn)).sort(
-  (a, b) => a.data.publishedAt.getTime() - b.data.publishedAt.getTime()
+  (a, b) => a.data.publishedAt.getTime() - b.data.publishedAt.getTime(),
 );
 
 const currentPostIndex = posts.findIndex((post) => post.id === currentSlug);
@@ -22,11 +22,8 @@ const nextPost = posts[currentPostIndex + 1];
 ---
 
 <div class="flex flex-col gap-6 items-center">
-  <nav
-    class="grid grid-rows-2 toc-shown:grid-rows-[unset] toc-shown:grid-cols-2 gap-1.5 w-full"
-  >
-    {
-      previousPost ? (
+  <nav class="grid grid-rows-2 toc-shown:grid-rows-[unset] toc-shown:grid-cols-2 gap-1.5 w-full">
+    {previousPost ? (
         <PrevNextNavigationItem
           type={navigateIn}
           direction="previous"
@@ -40,10 +37,8 @@ const nextPost = posts[currentPostIndex + 1];
         />
       ) : (
         <PrevNextNavigationEmptyItem direction="previous" />
-      )
-    }
-    {
-      nextPost ? (
+      )}
+    {nextPost ? (
         <PrevNextNavigationItem
           type={navigateIn}
           direction="next"
@@ -57,8 +52,7 @@ const nextPost = posts[currentPostIndex + 1];
         />
       ) : (
         <PrevNextNavigationEmptyItem direction="next" />
-      )
-    }
+      )}
   </nav>
   <div class="flex gap-2">
     {navigateIn === "post" && <Navigations.Posts />}

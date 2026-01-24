@@ -1,6 +1,6 @@
-import { join, resolve } from "node:path";
 import { defineCollection, reference, z } from "astro:content";
 import { DEV_ONLY_CONTENTS_PATH } from "astro:env/server";
+import { join, resolve } from "node:path";
 import { file, glob } from "astro/loaders";
 
 const contentsPath =

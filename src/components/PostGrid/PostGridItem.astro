@@ -1,10 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import type { ComponentProps, HTMLAttributes } from "astro/types";
 import Link from "astro-typesafe-routes/link";
 import { shuffle } from "es-toolkit";
 import { Beer, Candy, Pizza, Popcorn, Sandwich } from "lucide-astro";
 import ImageWithInferredAlt from "../ImageWithInferredAlt.astro";
-import type { ComponentProps, HTMLAttributes } from "astro/types";
-import { Image } from "astro:assets";
 
 interface Props extends HTMLAttributes<"a"> {
   slug: string;
@@ -13,14 +13,7 @@ interface Props extends HTMLAttributes<"a"> {
   coverImage?: ComponentProps<typeof Image>["src"];
 }
 
-const {
-  slug,
-  title,
-  description,
-  coverImage,
-  class: className,
-  ...props
-} = Astro.props;
+const { slug, title, description, coverImage, class: className, ...props } = Astro.props;
 ---
 
 <Link
@@ -32,8 +25,7 @@ const {
   ]}
   {...props}
 >
-  {
-    coverImage ? (
+  {coverImage ? (
       <div class="rounded-lg overflow-hidden media-border after:rounded-lg">
         <ImageWithInferredAlt
           src={coverImage}
@@ -56,16 +48,9 @@ const {
           ])[0]
         }
       </div>
-    )
-  }
+    )}
   <div class="text-balance flex flex-col gap-1.5 p-0.5">
-    <div
-      class="text-xl text-gray-800 dark:text-zinc-200 leading-snug font-semibold"
-    >
-      {title}
-    </div>
-    <p class="text-sm text-gray-500 dark:text-zinc-500 leading-snug">
-      {description}
-    </p>
+    <div class="text-xl text-gray-800 dark:text-zinc-200 leading-snug font-semibold">{title}</div>
+    <p class="text-sm text-gray-500 dark:text-zinc-500 leading-snug">{description}</p>
   </div>
 </Link>

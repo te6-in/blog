@@ -2,10 +2,8 @@
 // TODO: add toc toggle
 
 import type { MarkdownHeading } from "astro";
-import NestedHeadingsList, {
-  type NestedHeading,
-} from "./NestedHeadingsList.astro";
 import type { HTMLAttributes } from "astro/types";
+import NestedHeadingsList, { type NestedHeading } from "./NestedHeadingsList.astro";
 
 interface Props extends HTMLAttributes<"nav"> {
   headings: MarkdownHeading[];

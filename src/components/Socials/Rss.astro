@@ -1,7 +1,7 @@
 ---
 import { $path } from "astro-typesafe-routes/path";
-import Base from "./Base.astro";
 import { Rss as RssIcon } from "lucide-astro";
+import Base from "./Base.astro";
 
 interface Props {
   class?: string;
@@ -13,5 +13,6 @@ interface Props {
   aria-label="RSS 피드"
   class={Astro.props.class}
   href={$path({ to: "/rss.xml" })}
-  ><RssIcon size={15} class="flex-none" stroke-width={3} />
+>
+  <RssIcon size={15} class="flex-none" stroke-width={3} />
 </Base>

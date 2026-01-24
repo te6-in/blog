@@ -26,8 +26,7 @@ function getMarginClass(depth: number) {
 ---
 
 <ol role="list">
-  {
-    nestedHeadings.map(({ depth, slug, text, children }) => (
+  {nestedHeadings.map(({ depth, slug, text, children }) => (
       <li>
         <a
           class:list={[
@@ -42,6 +41,5 @@ function getMarginClass(depth: number) {
           <Astro.self nestedHeadings={children} />
         )}
       </li>
-    ))
-  }
+    ))}
 </ol>

@@ -10,6 +10,8 @@
 }
 
 *:not(.rounded-full) {
+  /* biome-ignore lint/correctness/noUnknownFunction: experimental */
+  /* biome-ignore lint/correctness/noUnknownProperty: experimental */
   corner-shape: superellipse(1.1);
 }
 
@@ -18,7 +20,7 @@ body {
 }
 
 img {
-  @apply selection:bg-gray-800/50 dark:selection:bg-zinc-50/50
+  @apply selection:bg-gray-800/50 dark:selection:bg-zinc-50/50;
 }
 
 a,
@@ -28,10 +30,7 @@ pre.astro-code {
   @apply focus-visible:outline-[3px] outline-offset-[3px] outline-accent-600 dark:outline-accent-400;
 }
 
-:is(a,
-button,
-summary,
-pre.astro-code):not(.transition-transform-on-focus) {
+:is(a, button, summary, pre.astro-code):not(.transition-transform-on-focus) {
   @apply focus-visible:transition-none;
 }
 
@@ -71,7 +70,8 @@ pre.astro-code):not(.transition-transform-on-focus) {
   }
 }
 
-@custom-variant prose-del (& :is(:where(del):not(:where([class~='not-prose'],[class~='not-prose'] *))));
+@custom-variant prose-del (&
+  :is(:where(del):not(:where([class~="not-prose"], [class~="not-prose"] *))));
 
 @theme {
   /* colors */
@@ -118,10 +118,12 @@ pre.astro-code):not(.transition-transform-on-focus) {
   --spacing-mdx-component-margin-y: 1.25em;
 
   /* fonts */
-  --font-sans: "Pretendard Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+  --font-sans:
+    "Pretendard Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: "SF Mono", "Google Sans Code Variable", ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono:
+    "SF Mono", "Google Sans Code Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 
   /* layout */
   --spacing-sidebar-hidden-title-width: calc(var(--spacing) * 48);

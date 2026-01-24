@@ -1,8 +1,8 @@
 ---
-import StarCount from "./StarCount.astro";
+import { appendReferrer } from "../lib/href";
 import { METADATA } from "../lib/metadata";
 import { Socials } from "./Socials";
-import { appendReferrer } from "../lib/href";
+import StarCount from "./StarCount.astro";
 
 const formatter = Intl.DateTimeFormat("ko-KR", {
   dateStyle: "long",
@@ -17,10 +17,7 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
   <div class="flex flex-col gap-3">
     <div class="text-gray-500 dark:text-zinc-500 text-sm text-balance">
       <span>블로그 마지막 업데이트</span>
-      <time
-        class="font-semibold ml-0.5"
-        datetime={METADATA.updatedAt.toISOString()}
-      >
+      <time class="font-semibold ml-0.5" datetime={METADATA.updatedAt.toISOString()}>
         {formatter.format(METADATA.updatedAt)}
       </time>
     </div>
@@ -38,9 +35,11 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
         rel="noopener noreferrer"
       >
         microsoft/fluentui-emoji
-      </a>{" "}
-      is licensed under the MIT License.<br />Copyright (c) Microsoft
-      Corporation.
+      </a>
+      {" "}
+      is licensed under the MIT License.
+      <br>
+      Copyright (c) Microsoft Corporation.
     </p>
   </div>
   <div class="flex justify-between sidebar-shown:hidden">
@@ -61,21 +60,20 @@ const formatter = Intl.DateTimeFormat("ko-KR", {
   </div>
 </footer>
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const scrollToBottomOnFocusElements = [
-      ...document.getElementsByClassName("scroll-to-bottom-on-focus"),
-    ];
+document.addEventListener("astro:page-load", () => {
+  const scrollToBottomOnFocusElements = [
+    ...document.getElementsByClassName("scroll-to-bottom-on-focus"),
+  ];
 
-    for (const el of scrollToBottomOnFocusElements) {
-      el.addEventListener("focus", () => {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: window.matchMedia("(prefers-reduced-motion: no-preference)")
-            .matches
-            ? "smooth"
-            : "auto",
-        });
+  for (const el of scrollToBottomOnFocusElements) {
+    el.addEventListener("focus", () => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: window.matchMedia("(prefers-reduced-motion: no-preference)").matches
+          ? "smooth"
+          : "auto",
       });
-    }
-  });
+    });
+  }
+});
 </script>

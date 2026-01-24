@@ -1,12 +1,9 @@
 ---
-import { YouTube as YouTubeEmbed } from "astro-embed";
 import type { ComponentProps } from "astro/types";
+import { YouTube as YouTubeEmbed } from "astro-embed";
 
 interface Props
-  extends Omit<
-    ComponentProps<typeof YouTubeEmbed>,
-    "posterQuality" | "playlabel" | "params"
-  > {
+  extends Omit<ComponentProps<typeof YouTubeEmbed>, "posterQuality" | "playlabel" | "params"> {
   startsAt?: number;
   endsAt?: number;
   isShorts?: boolean;

@@ -11,8 +11,5 @@
   },
   "files.associations": {
     "**/*.css": "tailwindcss"
-  },
-  "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode"
   }
 }

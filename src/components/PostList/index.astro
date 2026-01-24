@@ -9,17 +9,14 @@ interface Props {
 
 const { posts } = Astro.props;
 
-const postsByYear = groupBy(posts, ({ data: { publishedAt } }) =>
-  publishedAt.getFullYear()
-);
+const postsByYear = groupBy(posts, ({ data: { publishedAt } }) => publishedAt.getFullYear());
 ---
 
 <ol
   role="list"
   class="divide divide-y divide-gray-300 dark:divide-zinc-700 px-2.5 sidebar-shown:px-1.5 pb-2.5 sidebar-shown:pb-5.5 transition-[padding]"
 >
-  {
-    Object.entries(postsByYear)
+  {Object.entries(postsByYear)
       .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
       .map(([year, posts], yearIndex) => (
         <li class="flex gap-2 sidebar-shown:gap-4 items-start flex-col sidebar-shown:flex-row">
@@ -55,6 +52,5 @@ const postsByYear = groupBy(posts, ({ data: { publishedAt } }) =>
             )}
           </ol>
         </li>
-      ))
-  }
+      ))}
 </ol>

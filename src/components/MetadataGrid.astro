@@ -22,11 +22,8 @@ const classNames = match(variant)
   .exhaustive();
 ---
 
-<div
-  class="grid grid-cols-[auto_1fr] gap-x-1.5 gap-y-0.5 text-sm ms-auto min-h-11 items-end"
->
-  {
-    publishedAt && (
+<div class="grid grid-cols-[auto_1fr] gap-x-1.5 gap-y-0.5 text-sm ms-auto min-h-11 items-end">
+  {publishedAt && (
       <>
         <span class={classNames.description}>작성</span>
         <time
@@ -36,10 +33,8 @@ const classNames = match(variant)
           {postDateFormatter.format(publishedAt)}
         </time>
       </>
-    )
-  }
-  {
-    updatedAt && (
+    )}
+  {updatedAt && (
       <>
         <span class={classNames.description}>수정</span>
         <time
@@ -49,6 +44,5 @@ const classNames = match(variant)
           {postDateFormatter.format(updatedAt)}
         </time>
       </>
-    )
-  }
+    )}
 </div>

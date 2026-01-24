@@ -1,6 +1,6 @@
 ---
-import { BlueskyPost } from "astro-embed";
 import type { ComponentProps } from "astro/types";
+import { BlueskyPost } from "astro-embed";
 
 interface Props extends Omit<ComponentProps<typeof BlueskyPost>, "id"> {
   url: ComponentProps<typeof BlueskyPost>["id"];

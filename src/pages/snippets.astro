@@ -1,10 +1,10 @@
 ---
+import { $path } from "astro-typesafe-routes/path";
 import MainHeader from "../components/MainHeader.astro";
+import SnippetList from "../components/SnippetList";
 import Layout from "../layouts/Layout.astro";
 import { getSnippets } from "../lib/contents";
-import SnippetList from "../components/SnippetList";
 import { METADATA } from "../lib/metadata";
-import { $path } from "astro-typesafe-routes/path";
 
 const snippets = await getSnippets({ sortBy: "publishedAt" });
 ---

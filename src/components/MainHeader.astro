@@ -1,6 +1,6 @@
 ---
-import type { ComponentProps, HTMLAttributes } from "astro/types";
 import { Image } from "astro:assets";
+import type { ComponentProps, HTMLAttributes } from "astro/types";
 import ImageWithInferredAlt from "./ImageWithInferredAlt.astro";
 
 interface Props extends HTMLAttributes<"div"> {
@@ -10,14 +10,7 @@ interface Props extends HTMLAttributes<"div"> {
   coverImage?: ComponentProps<typeof Image>["src"];
 }
 
-const {
-  title,
-  titleCount,
-  description,
-  coverImage,
-  class: className,
-  ...props
-} = Astro.props;
+const { title, titleCount, description, coverImage, class: className, ...props } = Astro.props;
 
 const variant = coverImage ? "glass" : "flat";
 ---
@@ -39,17 +32,12 @@ const variant = coverImage ? "glass" : "flat";
             : "text-gray-800 dark:text-zinc-200",
         ]}
       >
-        <h1 class:list={["font-semibold inline", titleCount && "me-1.5"]}>
-          {title}
-        </h1>
-        {
-          titleCount && (
+        <h1 class:list={["font-semibold inline", titleCount && "me-1.5"]}>{title}</h1>
+        {titleCount && (
             <span class="text-current/50 font-medium">{titleCount}</span>
-          )
-        }
+          )}
       </span>
-      {
-        description && (
+      {description && (
           <p
             class:list={[
               "text-balance text-lg",
@@ -60,13 +48,11 @@ const variant = coverImage ? "glass" : "flat";
           >
             {description}
           </p>
-        )
-      }
+        )}
     </div>
     <slot />
   </div>
-  {
-    coverImage && (
+  {coverImage && (
       <div class="absolute inset-0 after:absolute after:inset-0 dark:sidebar-shown:after:outline-1 after:-outline-offset-1 after:outline-white/5 after:rounded-t-content-card sidebar-shown:after:rounded-[0.65625rem] after:transition-[border-radius]">
         <ImageWithInferredAlt
           src={coverImage}
@@ -77,6 +63,5 @@ const variant = coverImage ? "glass" : "flat";
         />
         <div class="bg-gradient-to-b from-black/85 to-black/60 inset-0 absolute contrast-more:backdrop-blur-lg transition-[backdrop-filter]" />
       </div>
-    )
-  }
+    )}
 </div>

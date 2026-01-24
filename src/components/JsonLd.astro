@@ -6,8 +6,4 @@ interface Props {
 }
 ---
 
-<script
-  is:inline
-  type="application/ld+json"
-  set:html={JSON.stringify(Astro.props.data)}
-/>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(Astro.props.data)} />

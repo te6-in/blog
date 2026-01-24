@@ -2,11 +2,11 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, envField } from "astro/config";
 import typesafeRoutes from "astro-typesafe-routes";
 import type { RouteId } from "astro-typesafe-routes/path";
-import { defineConfig, envField } from "astro/config";
-import { METADATA } from "./src/lib/metadata";
 import remarkObsidianMdx, { type PluginOptions } from "remark-obsidian-mdx";
+import { METADATA } from "./src/lib/metadata";
 
 // https://astro.build/config
 export default defineConfig({

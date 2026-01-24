@@ -1,12 +1,12 @@
 ---
+import { $path } from "astro-typesafe-routes/path";
 import { FileCode2, Newspaper, Rss, Tags } from "lucide-astro";
 import { getTags } from "../../lib/contents";
-import { Collapsible } from "../Collapsible";
-import LinkSidebarItem from "./LinkSidebarItem.astro";
-import TagChip from "../TagChip.astro";
-import StarCount from "../StarCount.astro";
 import { METADATA } from "../../lib/metadata";
-import { $path } from "astro-typesafe-routes/path";
+import { Collapsible } from "../Collapsible";
+import StarCount from "../StarCount.astro";
+import TagChip from "../TagChip.astro";
+import LinkSidebarItem from "./LinkSidebarItem.astro";
 
 interface Props {
   currentPage?: { type: "posts" | "snippets" } | { type: "tags"; slug: string };
@@ -23,23 +23,16 @@ const tags = await getTags({ sortBy: "count" });
 >
   <div
     class="sticky top-0 inset-x-0 h-22 -mx-2 bg-gradient-to-b from-body-bg dark:from-body-bg-dark to-transparent pointer-events-none z-10 grid-pos-start"
-  >
-  </div>
+  ></div>
   <div
     class="flex flex-col justify-between gap-6 w-[inherit] px-sidebar-padding-x py-4 grid-pos-start"
   >
     <nav class="flex flex-col gap-2">
-      <LinkSidebarItem
-        to="/posts"
-        isCurrentPage={currentPage?.type === "posts"}
-      >
+      <LinkSidebarItem to="/posts" isCurrentPage={currentPage?.type === "posts"}>
         <Newspaper slot="icon" size={22} />
         <Fragment slot="title">{METADATA.lexicons.posts.label}</Fragment>
       </LinkSidebarItem>
-      <LinkSidebarItem
-        to="/snippets"
-        isCurrentPage={currentPage?.type === "snippets"}
-      >
+      <LinkSidebarItem to="/snippets" isCurrentPage={currentPage?.type === "snippets"}>
         <FileCode2 slot="icon" size={22} />
         <Fragment slot="title">{METADATA.lexicons.snippets.label}</Fragment>
       </LinkSidebarItem>
@@ -59,13 +52,9 @@ const tags = await getTags({ sortBy: "count" });
         <Tags slot="triggerIcon" size={22} />
         <Fragment slot="triggerTitle">{METADATA.lexicons.tags.label}</Fragment>
         <Fragment slot="panelContent">
-          <div
-            class="w-0.5 rounded-full bg-gray-200 dark:bg-zinc-800 ms-4.5 flex-none"
-          >
-          </div>
+          <div class="w-0.5 rounded-full bg-gray-200 dark:bg-zinc-800 ms-4.5 flex-none"></div>
           <ul role="list" class="flex flex-wrap gap-1.5 py-1.5">
-            {
-              tags.map(({ slug, name, count }) => (
+            {tags.map(({ slug, name, count }) => (
                 <li>
                   <TagChip
                     slug={slug}
@@ -76,8 +65,7 @@ const tags = await getTags({ sortBy: "count" });
                     }
                   />
                 </li>
-              ))
-            }
+              ))}
           </ul>
         </Fragment>
       </Collapsible>

@@ -14,7 +14,7 @@ const { variant = "flat", slug, name, count, isCurrentPage } = Astro.props;
 
 if (variant === "glass" && isCurrentPage) {
   throw new Error(
-    "Cannot use `isCurrentPage` prop with `glass` variant. Use `flat` variant instead."
+    "Cannot use `isCurrentPage` prop with `glass` variant. Use `flat` variant instead.",
   );
 }
 
@@ -22,12 +22,12 @@ const baseClassName = match(variant)
   .with("flat", () =>
     isCurrentPage
       ? "border-primary-300 dark:border-primary-800 bg-primary-100 dark:bg-primary-950 engaged:bg-primary-200 dark:engaged:bg-primary-900 engaged:text-primary-800 dark:engaged:text-primary-400 text-primary-700 dark:text-primary-500 font-medium"
-      : "border-gray-300 dark:border-zinc-800 bg-gray-200 dark:bg-zinc-900 engaged:bg-gray-300 dark:engaged:bg-zinc-800 engaged:text-gray-900 dark:engaged:text-zinc-200 text-gray-800 dark:text-zinc-300"
+      : "border-gray-300 dark:border-zinc-800 bg-gray-200 dark:bg-zinc-900 engaged:bg-gray-300 dark:engaged:bg-zinc-800 engaged:text-gray-900 dark:engaged:text-zinc-200 text-gray-800 dark:text-zinc-300",
   )
   .with(
     "glass",
     () =>
-      "border-gray-500/30 bg-gray-400/35 engaged:bg-gray-300/40 engaged:text-white backdrop-blur shadow-sm text-white/80 engaged:text-white"
+      "border-gray-500/30 bg-gray-400/35 engaged:bg-gray-300/40 engaged:text-white backdrop-blur shadow-sm text-white/80 engaged:text-white",
   )
   .exhaustive();
 ---
@@ -42,7 +42,5 @@ const baseClassName = match(variant)
   ]}
 >
   <span class="text-sm">{name}</span>
-  <span class="text-xs font-medium select-none text-current/50">
-    {count}
-  </span>
+  <span class="text-xs font-medium select-none text-current/50"> {count} </span>
 </Link>

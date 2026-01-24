@@ -1,11 +1,11 @@
 ---
 import type { ComponentProps, HTMLAttributes } from "astro/types";
 import { ExternalLink } from "lucide-astro";
-import { Tooltip } from "./Tooltip";
-import Anchor from "./Anchor.astro";
-import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
-import { getAnchor } from "./get-anchor";
 import { METADATA } from "../../../lib/metadata";
+import ImageWithInferredAlt from "../../ImageWithInferredAlt.astro";
+import Anchor from "./Anchor.astro";
+import { getAnchor } from "./get-anchor";
+import { Tooltip } from "./Tooltip";
 
 type Props = HTMLAttributes<"a">;
 
@@ -37,8 +37,7 @@ const anchorProps: ComponentProps<typeof Anchor> = {
 };
 ---
 
-{
-  detail && (
+{detail && (
     <Tooltip {...detail} client:load>
       <Anchor slot="trigger" {...anchorProps}>
         <slot />
@@ -79,11 +78,9 @@ const anchorProps: ComponentProps<typeof Anchor> = {
         )}
       </div>
     </Tooltip>
-  )
-}{
-  !detail && (
+  )}
+{!detail && (
     <Anchor {...anchorProps}>
       <slot />
     </Anchor>
-  )
-}
+  )}

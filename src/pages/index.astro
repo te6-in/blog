@@ -1,31 +1,24 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import type { WithContext, Blog, BlogPosting } from "schema-dts";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import JsonLd from "../components/JsonLd.astro";
-import {
-  getBlogAuthorPerson,
-  getPostBlogPostingId,
-  getSnippetBlogPostingId,
-} from "../lib/json-ld";
-import { METADATA } from "../lib/metadata";
 import { $path } from "astro-typesafe-routes/path";
+import type { Blog, BlogPosting, WithContext } from "schema-dts";
+import JsonLd from "../components/JsonLd.astro";
+import { Navigations } from "../components/Navigations";
 import PostGrid from "../components/PostGrid";
 // import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
 // import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
-import { Image } from "astro:assets";
-import { Navigations } from "../components/Navigations";
+import Layout from "../layouts/Layout.astro";
+import { getBlogAuthorPerson, getPostBlogPostingId, getSnippetBlogPostingId } from "../lib/json-ld";
+import { METADATA } from "../lib/metadata";
 
 const posts = await getCollection("post");
 const snippets = await getCollection("snippet");
 
 const featuredPosts = posts
   .filter(({ data: { featured } }) => featured)
-  .sort(
-    ({ data: { publishedAt: a } }, { data: { publishedAt: b } }) =>
-      b.getTime() - a.getTime()
-  )
+  .sort(({ data: { publishedAt: a } }, { data: { publishedAt: b } }) => b.getTime() - a.getTime())
   .slice(0, 6);
 
 const person = getBlogAuthorPerson(Astro.url);
@@ -58,7 +51,7 @@ const blog: WithContext<Blog> = {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "@id": getPostBlogPostingId(post, Astro.url),
-        }) satisfies WithContext<BlogPosting>
+        }) satisfies WithContext<BlogPosting>,
     ),
     ...snippets.map(
       (snippet) =>
@@ -66,7 +59,7 @@ const blog: WithContext<Blog> = {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "@id": getSnippetBlogPostingId(snippet, Astro.url),
-        }) satisfies WithContext<BlogPosting>
+        }) satisfies WithContext<BlogPosting>,
     ),
   ],
 };
@@ -94,24 +87,19 @@ const blog: WithContext<Blog> = {
           aria-hidden
         />
       </div>
-      <h1
-        class="font-semibold text-3xl leading-11 mx-8 text-gray-800 dark:text-zinc-200"
-      >
+      <h1 class="font-semibold text-3xl leading-11 mx-8 text-gray-800 dark:text-zinc-200">
         <span class="whitespace-nowrap">안녕하세요.</span>
         <span class="whitespace-nowrap">{METADATA.name}입니다.</span>
       </h1>
     </div>
     <div class="flex flex-col gap-1">
-      <h2
-        class="font-medium text-lg text-balance ml-8 text-gray-600 dark:text-zinc-400"
-      >
+      <h2 class="font-medium text-lg text-balance ml-8 text-gray-600 dark:text-zinc-400">
         추천드리는 글
       </h2>
       <PostGrid
         class="p-4 sidebar-shown:p-3 grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding]"
       >
-        {
-          featuredPosts.map(
+        {featuredPosts.map(
             ({ data: { title, description, coverImage }, id }) => (
               <PostGridItem
                 class="featured-anchor"
@@ -121,8 +109,7 @@ const blog: WithContext<Blog> = {
                 coverImage={coverImage}
               />
             )
-          )
-        }
+          )}
       </PostGrid>
     </div>
     <!-- <div>최근 반응이 많은 글</div>
@@ -132,9 +119,7 @@ const blog: WithContext<Blog> = {
       </div>
       <PostWithCommentsTemplate id="post-grid-item" />
     </div> -->
-    <div
-      class="flex gap-2 self-center mt-6 mb-12 px-4 flex-wrap justify-center"
-    >
+    <div class="flex gap-2 self-center mt-6 mb-12 px-4 flex-wrap justify-center">
       <Navigations.Posts />
       <Navigations.Snippets />
     </div>

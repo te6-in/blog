@@ -1,15 +1,15 @@
 ---
-import MainHeader from "../../components/MainHeader.astro";
-import Layout from "../../layouts/Layout.astro";
-import { getPosts, getSnippets, getTags } from "../../lib/contents";
-import SnippetList from "../../components/SnippetList";
-import PostList from "../../components/PostList";
-import TagChip from "../../components/TagChip.astro";
+import type { GetStaticPaths } from "astro";
+import { $path } from "astro-typesafe-routes/path";
 import { Tags as TagsIcon } from "lucide-astro";
 import { Collapsible } from "../../components/Collapsible";
+import MainHeader from "../../components/MainHeader.astro";
+import PostList from "../../components/PostList";
+import SnippetList from "../../components/SnippetList";
+import TagChip from "../../components/TagChip.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getPosts, getSnippets, getTags } from "../../lib/contents";
 import { METADATA } from "../../lib/metadata";
-import { $path } from "astro-typesafe-routes/path";
-import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
   const tags = await getTags({});
@@ -22,12 +22,12 @@ export const getStaticPaths = (async () => {
 
 const { name, slug } = Astro.props;
 
-const posts = (await getPosts({ sortBy: "publishedAt" })).filter(
-  ({ data: { tags } }) => tags.includes(name)
+const posts = (await getPosts({ sortBy: "publishedAt" })).filter(({ data: { tags } }) =>
+  tags.includes(name),
 );
 
-const snippets = (await getSnippets({ sortBy: "publishedAt" })).filter(
-  ({ data: { tags } }) => tags.includes(name)
+const snippets = (await getSnippets({ sortBy: "publishedAt" })).filter(({ data: { tags } }) =>
+  tags.includes(name),
 );
 
 const tags = await getTags({ sortBy: "count" });
@@ -61,13 +61,10 @@ const tags = await getTags({ sortBy: "count" });
     }}
   >
     <TagsIcon slot="triggerIcon" size={22} />
-    <Fragment slot="triggerTitle">
-      {METADATA.lexicons.tags.label}
-    </Fragment>
+    <Fragment slot="triggerTitle">{METADATA.lexicons.tags.label}</Fragment>
     <Fragment slot="panelContent">
       <ul role="list" class="flex flex-wrap gap-2 p-1.5">
-        {
-          tags.map(({ count, slug: tagSlug, name }) => (
+        {tags.map(({ count, slug: tagSlug, name }) => (
             <li>
               <TagChip
                 slug={tagSlug}
@@ -76,13 +73,11 @@ const tags = await getTags({ sortBy: "count" });
                 isCurrentPage={tagSlug === slug}
               />
             </li>
-          ))
-        }
+          ))}
       </ul>
     </Fragment>
   </Collapsible>
-  {
-    posts.length > 0 && (
+  {posts.length > 0 && (
       <>
         <span class="text-lg text-gray-700 dark:text-zinc-300 px-8">
           <h2 class="font-semibold inline">{METADATA.lexicons.posts.label}</h2>
@@ -90,10 +85,8 @@ const tags = await getTags({ sortBy: "count" });
         </span>
         <PostList posts={posts} />
       </>
-    )
-  }
-  {
-    snippets.length > 0 && (
+    )}
+  {snippets.length > 0 && (
       <>
         <span class="text-lg text-gray-700 dark:text-zinc-300 px-8">
           <h2 class="font-semibold inline">
@@ -103,6 +96,5 @@ const tags = await getTags({ sortBy: "count" });
         </span>
         <SnippetList snippets={snippets} />
       </>
-    )
-  }
+    )}
 </Layout>

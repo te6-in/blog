@@ -1,38 +1,38 @@
 ---
 import { getCollection, getEntries, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
 import { BaselineStatus } from "astro-embed";
+import { $path } from "astro-typesafe-routes/path";
+import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
+import AuthorChip from "../../components/AuthorChip.astro";
+import Comments from "../../components/Comments.astro";
 import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
-import Prose from "../../components/Prose.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import MainHeader from "../../components/MainHeader.astro";
+import MetadataGrid from "../../components/MetadataGrid.astro";
 import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
+import AppleMusic from "../../components/mdx/AppleMusic.astro";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Hr from "../../components/mdx/Hr.astro";
+import ImageColumns from "../../components/mdx/ImageColumns.astro";
+import ImageGrid from "../../components/mdx/ImageGrid.astro";
+import ImageStack from "../../components/mdx/ImageStack.astro";
 import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
-import Layout from "../../layouts/Layout.astro";
-import ImageGrid from "../../components/mdx/ImageGrid.astro";
-import ImageColumns from "../../components/mdx/ImageColumns.astro";
-import ImageStack from "../../components/mdx/ImageStack.astro";
-import AppleMusic from "../../components/mdx/AppleMusic.astro";
-import MainHeader from "../../components/MainHeader.astro";
-import { getTag } from "../../lib/contents";
-import TagChip from "../../components/TagChip.astro";
-import AuthorChip from "../../components/AuthorChip.astro";
-import MetadataGrid from "../../components/MetadataGrid.astro";
-import Comments from "../../components/Comments.astro";
 import PrevNextNavigation from "../../components/PrevNextNavigation";
+import Prose from "../../components/Prose.astro";
 import SeriesNavigation from "../../components/SeriesNavigation.astro";
-import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
-import { $path } from "astro-typesafe-routes/path";
+import TagChip from "../../components/TagChip.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getTag } from "../../lib/contents";
 import {
   getBreadcrumbListsFromTags,
   getPeopleFromAuthors,
   getSnippetBlogPostingId,
 } from "../../lib/json-ld";
-import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
-import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
   const snippets = await getCollection("snippet");
@@ -88,10 +88,7 @@ const snippetBreadcrumbList: WithContext<BreadcrumbList> = {
   ],
 };
 
-const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
-  tagsWithCount,
-  Astro.url
-);
+const tagsBreadcrumbLists = getBreadcrumbListsFromTags(tagsWithCount, Astro.url);
 ---
 
 <Layout
@@ -113,28 +110,21 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
 >
   <MainHeader class="w-full" title={snippet.data.title}>
     <ul role="list" class="flex gap-1.5 flex-wrap">
-      {
-        tagsWithCount.map(({ slug, name, count }) => (
+      {tagsWithCount.map(({ slug, name, count }) => (
           <li>
             <TagChip slug={slug} name={name} count={count} />
           </li>
-        ))
-      }
+        ))}
     </ul>
     <div class="flex items-end justify-between gap-4 flex-wrap">
       <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
-        {
-          authors.map(({ id, data: { avatar, name, url } }) => (
+        {authors.map(({ id, data: { avatar, name, url } }) => (
             <li>
               <AuthorChip id={id} avatar={avatar} name={name} url={url} />
             </li>
-          ))
-        }
+          ))}
       </ul>
-      <MetadataGrid
-        publishedAt={snippet.data.publishedAt}
-        updatedAt={snippet.data.updatedAt}
-      />
+      <MetadataGrid publishedAt={snippet.data.publishedAt} updatedAt={snippet.data.updatedAt} />
     </div>
   </MainHeader>
   <div
@@ -168,10 +158,7 @@ const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
         />
       </Prose>
       <Comments />
-      <PrevNextNavigation
-        navigateIn={snippet.collection}
-        currentSlug={snippet.id}
-      />
+      <PrevNextNavigation navigateIn={snippet.collection} currentSlug={snippet.id} />
     </div>
   </div>
 </Layout>

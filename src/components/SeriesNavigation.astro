@@ -1,7 +1,7 @@
 ---
-import Link from "astro-typesafe-routes/link";
 import type { InferEntrySchema } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
+import Link from "astro-typesafe-routes/link";
 import { BookMarked } from "lucide-astro";
 
 interface Props {
@@ -23,19 +23,15 @@ const allSeriesWithResolvedEntries = await Promise.all(
   allSeries.map(async (series) => ({
     ...series,
     resolvedEntries: await resolveEntries(series.data.entries),
-  }))
+  })),
 );
 
-const seriesWithin = allSeriesWithResolvedEntries.filter(
-  ({ resolvedEntries }) =>
-    resolvedEntries.find(
-      ({ collection, id }) => collection === currentType && id === currentSlug
-    )
+const seriesWithin = allSeriesWithResolvedEntries.filter(({ resolvedEntries }) =>
+  resolvedEntries.find(({ collection, id }) => collection === currentType && id === currentSlug),
 );
 ---
 
-{
-  seriesWithin.length > 0 && (
+{seriesWithin.length > 0 && (
     <div class:list={["flex flex-col gap-2", Astro.props.class]}>
       {seriesWithin.map(({ data: { title }, resolvedEntries }) => (
         <nav class="rounded-[0.65625rem] flex flex-col gap-3 border border-gray-200 dark:border-zinc-800 shadow-xs">
@@ -76,5 +72,4 @@ const seriesWithin = allSeriesWithResolvedEntries.filter(
         </nav>
       ))}
     </div>
-  )
-}
+  )}

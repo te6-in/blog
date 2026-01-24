@@ -1,6 +1,6 @@
 ---
-import { Tweet } from "astro-embed";
 import type { ComponentProps } from "astro/types";
+import { Tweet } from "astro-embed";
 
 interface Props extends Omit<ComponentProps<typeof Tweet>, "id"> {
   url: ComponentProps<typeof Tweet>["id"];
@@ -10,8 +10,4 @@ const { url, ...props } = Astro.props;
 ---
 
 <Tweet id={url} {...props} />
-<script
-  data-astro-rerun
-  is:inline
-  async
-  src="https://platform.twitter.com/widgets.js"></script>
+<script data-astro-rerun is:inline async src="https://platform.twitter.com/widgets.js"></script>

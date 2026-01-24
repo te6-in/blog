@@ -1,42 +1,42 @@
 ---
 import { getCollection, getEntries, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
 import { BaselineStatus } from "astro-embed";
-import Prose from "../../components/Prose.astro";
+import { $path } from "astro-typesafe-routes/path";
+import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
+import ActionButtons from "../../components/ActionButtons.astro";
+import AuthorChip from "../../components/AuthorChip.astro";
+import Comments from "../../components/Comments.astro";
+import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import MainHeader from "../../components/MainHeader.astro";
+import MetadataGrid from "../../components/MetadataGrid.astro";
 import AnchorWithLinkPreviewTooltip from "../../components/mdx/AnchorWithLinkPreviewTooltip";
+import AppleMusic from "../../components/mdx/AppleMusic.astro";
 import Bluesky from "../../components/mdx/Bluesky.astro";
 import Callout from "../../components/mdx/Callout.astro";
 import Hr from "../../components/mdx/Hr.astro";
+import ImageColumns from "../../components/mdx/ImageColumns.astro";
+import ImageGrid from "../../components/mdx/ImageGrid.astro";
+import ImageStack from "../../components/mdx/ImageStack.astro";
 import LinkPreviewCard from "../../components/mdx/LinkPreviewCard";
 import Twitter from "../../components/mdx/Twitter.astro";
 import YouTube from "../../components/mdx/YouTube.astro";
+import PrevNextNavigation from "../../components/PrevNextNavigation";
+import Prose from "../../components/Prose.astro";
+import SeriesNavigation from "../../components/SeriesNavigation.astro";
+import SkipContentAnchor from "../../components/SkipContentAnchor.astro";
+import TableOfContents from "../../components/TableOfContents";
+import TagChip from "../../components/TagChip.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getTag } from "../../lib/contents";
-import TagChip from "../../components/TagChip.astro";
-import AuthorChip from "../../components/AuthorChip.astro";
-import MetadataGrid from "../../components/MetadataGrid.astro";
-import Comments from "../../components/Comments.astro";
-import PrevNextNavigation from "../../components/PrevNextNavigation";
-import SeriesNavigation from "../../components/SeriesNavigation.astro";
-import ActionButtons from "../../components/ActionButtons.astro";
-import TableOfContents from "../../components/TableOfContents";
-import ImageWithInferredAlt from "../../components/ImageWithInferredAlt.astro";
-import AppleMusic from "../../components/mdx/AppleMusic.astro";
-import MainHeader from "../../components/MainHeader.astro";
-import ImageGrid from "../../components/mdx/ImageGrid.astro";
-import ImageColumns from "../../components/mdx/ImageColumns.astro";
-import ImageStack from "../../components/mdx/ImageStack.astro";
+import { getAlt } from "../../lib/images";
 import {
   getBreadcrumbListsFromTags,
   getPeopleFromAuthors,
   getPostBlogPostingId,
 } from "../../lib/json-ld";
-import type { BlogPosting, BreadcrumbList, WithContext } from "schema-dts";
-import { $path } from "astro-typesafe-routes/path";
-import JsonLd from "../../components/JsonLd.astro";
 import { METADATA } from "../../lib/metadata";
-import type { GetStaticPaths } from "astro";
-import { getAlt } from "../../lib/images";
-import SkipContentAnchor from "../../components/SkipContentAnchor.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("post");
@@ -98,14 +98,9 @@ const postBreadcrumbList: WithContext<BreadcrumbList> = {
   ],
 };
 
-const tagsBreadcrumbLists = getBreadcrumbListsFromTags(
-  tagsWithCount,
-  Astro.url
-);
+const tagsBreadcrumbLists = getBreadcrumbListsFromTags(tagsWithCount, Astro.url);
 
-const coverImageAlt = post.data.coverImage
-  ? await getAlt({ src: post.data.coverImage })
-  : null;
+const coverImageAlt = post.data.coverImage ? await getAlt({ src: post.data.coverImage }) : null;
 ---
 
 <Layout
@@ -138,18 +133,15 @@ const coverImageAlt = post.data.coverImage
     coverImage={post.data.coverImage}
   >
     <ul role="list" class="flex gap-1.5 flex-wrap">
-      {
-        tagsWithCount.map(({ slug, name, count }) => (
+      {tagsWithCount.map(({ slug, name, count }) => (
           <li>
             <TagChip variant={variant} slug={slug} name={name} count={count} />
           </li>
-        ))
-      }
+        ))}
     </ul>
     <div class="flex items-end justify-between gap-4 flex-wrap">
       <ul role="list" class="flex flex-wrap gap-3 translate-y-2.5">
-        {
-          authors.map(({ id, data: { avatar, name, url } }) => (
+        {authors.map(({ id, data: { avatar, name, url } }) => (
             <li>
               <AuthorChip
                 variant={variant}
@@ -159,8 +151,7 @@ const coverImageAlt = post.data.coverImage
                 url={url}
               />
             </li>
-          ))
-        }
+          ))}
       </ul>
       <MetadataGrid
         variant={variant}
@@ -169,18 +160,14 @@ const coverImageAlt = post.data.coverImage
       />
     </div>
   </MainHeader>
-  <div
-    class="toc-shown:flex toc-shown:flex-row-reverse gap-3.5 grid grid-cols-1"
-  >
+  <div class="toc-shown:flex toc-shown:flex-row-reverse gap-3.5 grid grid-cols-1">
     <div
       class="contents toc-shown:flex flex-col justify-between items-end pt-0 toc-shown:w-56 flex-none relative"
     >
       <aside
         class="overflow-hidden sticky top-4 w-full max-h-[calc(100vh-1rem)] hidden toc-shown:block"
       >
-        <SkipContentAnchor href="#prose-content"
-          >목차 건너뛰기</SkipContentAnchor
-        >
+        <SkipContentAnchor href="#prose-content">목차 건너뛰기</SkipContentAnchor>
         <TableOfContents headings={headings} class="h-full pb-50 ps-0.5 pe-5" />
       </aside>
       <div
@@ -188,8 +175,7 @@ const coverImageAlt = post.data.coverImage
       >
         <div
           class="absolute inset-0 bg-gradient-to-b from-transparent to-content-card-bg dark:to-content-card-bg-dark h-64 pointer-events-none hidden toc-shown:block rounded-br-xl"
-        >
-        </div>
+        ></div>
         <ActionButtons
           class="sticky bottom-[max(env(safe-area-inset-bottom),calc(var(--spacing)*4))] m-4 mt-0 pt-4 sidebar-shown:bottom-[max(env(safe-area-inset-bottom),calc(var(--spacing)*8))] sidebar-shown:mb-8 grid-pos-start self-end justify-self-end z-40 transition-[bottom,margin] toc-shown:sticky toc-shown:mb-12 toc-shown:me-8 toc-shown:inset-[unset]"
         />
@@ -227,10 +213,7 @@ const coverImageAlt = post.data.coverImage
           />
         </Prose>
         <Comments />
-        <PrevNextNavigation
-          navigateIn={post.collection}
-          currentSlug={post.id}
-        />
+        <PrevNextNavigation navigateIn={post.collection} currentSlug={post.id} />
       </div>
     </div>
   </div>

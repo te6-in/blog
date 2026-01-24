@@ -1,6 +1,6 @@
 ---
-import { match } from "ts-pattern";
 import { Image } from "astro:assets";
+import { match } from "ts-pattern";
 import { getAnchor } from "./mdx/AnchorWithLinkPreviewTooltip/get-anchor";
 
 interface Props {
@@ -30,36 +30,30 @@ const { url: urlWithSearchParams } = await getAnchor({
 });
 ---
 
-<address>
-  <a
-    class:list={[
+<address><a
+  class:list={[
       "inline-flex items-center gap-2 text-sm transition-all p-2 pe-3.5 not-italic rounded-full -m-2 border border-transparent group",
       classNames.base,
     ]}
-    href={urlWithSearchParams}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <!-- missing alt text is intentional -->
-    <Image
-      src={avatar}
-      alt=""
-      aria-hidden
-      width={28}
-      height={28}
-      class:list={[
+  href={urlWithSearchParams}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <!-- missing alt text is intentional -->
+  <Image
+    src={avatar}
+    alt=""
+    aria-hidden
+    width={28}
+    height={28}
+    class:list={[
         "rounded-full not-noscript:motion-safe:animate-pulse",
         classNames.image,
       ]}
-      onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
-    />
-    <span>
-      <span>
-        {name}
-      </span>
-      <span class="text-xs font-medium text-current/50">
-        {id}
-      </span>
-    </span>
-  </a>
-</address>
+    onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
+  />
+  <span>
+    <span> {name} </span>
+    <span class="text-xs font-medium text-current/50"> {id} </span>
+  </span>
+</a></address>

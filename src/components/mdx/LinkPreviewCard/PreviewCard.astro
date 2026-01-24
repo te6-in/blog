@@ -17,65 +17,46 @@ const {
   ...props
 } = Astro.props;
 
-const domain = props.href
-  ? new URL(props.href).hostname.replace("www.", "")
-  : "";
+const domain = props.href ? new URL(props.href).hostname.replace("www.", "") : "";
 ---
 
 <a
   {...props}
   class="not-prose w-full flex flex-col bg-white dark:bg-zinc-900 shadow-xs rounded-mdx-block overflow-hidden border border-gray-200 dark:border-zinc-800 engaged:border-gray-300 dark:engaged:border-zinc-700 engaged:bg-gray-50 dark:engaged:bg-zinc-800 transition-all group my-mdx-component-margin-y"
-  ><div
-    class="flex flex-row sidebar-shown:flex-col md:flex-row gap-3 p-4 pb-3.5 items-start"
-  >
-    {
-      hasImage && (
+  ><div class="flex flex-row sidebar-shown:flex-col md:flex-row gap-3 p-4 pb-3.5 items-start">
+    {hasImage && (
         <div class="flex-none w-2/5 sidebar-shown:w-full md:grow-0 md:w-2/5 md:max-w-40 rounded overflow-hidden media-border after:rounded">
           <slot />
         </div>
-      )
-    }
+      )}
     <div class="flex justify-between grow gap-2 p-0.5">
       <div class="flex flex-col gap-2">
-        <div
-          class="text-xl leading-snug text-gray-900 dark:text-zinc-100 font-bold text-balance"
-        >
+        <div class="text-xl leading-snug text-gray-900 dark:text-zinc-100 font-bold text-balance">
           {title}
         </div>
-        {
-          description && (
+        {description && (
             <div class="text-gray-500 dark:text-zinc-400 text-sm leading-snug text-pretty line-clamp-2">
               {description}
             </div>
-          )
-        }
+          )}
       </div>
-      <ExternalLink
-        class="text-gray-400 dark:text-zinc-500 flex-none m-1 me-0"
-        size={18}
-      />
+      <ExternalLink class="text-gray-400 dark:text-zinc-500 flex-none m-1 me-0" size={18} />
     </div>
   </div>
   <div
     class="px-4 py-2 text-gray-400 dark:text-zinc-500 border-t border-gray-200 dark:border-zinc-800 group-engaged:border-gray-300 dark:group-engaged:border-zinc-700 transition-colors text-xs flex justify-between flex-wrap gap-1"
   >
     <span>
-      <span class="text-gray-600 dark:text-zinc-400 font-medium"
-        >{siteName ?? domain}</span
-      >
-      {
-        siteName && siteName !== domain && (
+      <span class="text-gray-600 dark:text-zinc-400 font-medium">{siteName ?? domain}</span>
+      {siteName && siteName !== domain && (
           <>
             <span class="w-[0.125em] inline-block"> </span>
             <span>{domain}</span>
           </>
-        )
-      }
+        )}
     </span>
-    {
-      props.target === "_blank" && (
+    {props.target === "_blank" && (
         <span class="ms-auto">새 탭에서 열립니다.</span>
-      )
-    }
+      )}
   </div>
 </a>

@@ -19,74 +19,54 @@ interface Props {
 ---
 
 <title>
-  {
-    Astro.props.title
+  {Astro.props.title
       ? `${Astro.props.title} | ${METADATA.name}`
-      : METADATA.name
-  }
+      : METADATA.name}
 </title>
 
 <!-- suffix 없는 title 사용 -->
-<meta property="og:title" content={Astro.props.title ?? METADATA.name} />
-<meta name="twitter:title" content={Astro.props.title ?? METADATA.name} />
+<meta property="og:title" content={Astro.props.title ?? METADATA.name}>
+<meta name="twitter:title" content={Astro.props.title ?? METADATA.name}>
 
-<meta
-  name="description"
-  content={Astro.props.description ?? METADATA.description}
-/>
-<meta
-  property="og:description"
-  content={Astro.props.description ?? METADATA.description}
-/>
-<meta
-  name="twitter:description"
-  content={Astro.props.description ?? METADATA.description}
-/>
+<meta name="description" content={Astro.props.description ?? METADATA.description}>
+<meta property="og:description" content={Astro.props.description ?? METADATA.description}>
+<meta name="twitter:description" content={Astro.props.description ?? METADATA.description}>
 
 <meta
   name="keywords"
   content={Astro.props.keywords && Astro.props.keywords.length > 0
     ? Astro.props.keywords.join(", ")
     : METADATA.keywords.join(", ")}
-/>
+>
 <meta
   name="author"
   content={Astro.props.authors && Astro.props.authors.length > 0
     ? Astro.props.authors?.map(({ name, id }) => `${name} (${id})`).join(", ")
     : `${METADATA.author.name} (${METADATA.author.id})`}
-/>
+>
 
 <!-- canonical can just be Astro.url.href i guess, but I'm just being futureproof -->
-<meta property="og:url" content={Astro.props.canonicalUrl} />
-<link rel="canonical" href={Astro.props.canonicalUrl} />
+<meta property="og:url" content={Astro.props.canonicalUrl}>
+<link rel="canonical" href={Astro.props.canonicalUrl}>
 
 <meta
   property="og:image"
   content={Astro.props.image?.src ??
     new URL("/images/default-og.png", Astro.url.origin)}
-/>
+>
 <meta
   name="twitter:image"
   content={Astro.props.image?.src ??
     new URL("/images/default-og.png", Astro.url.origin)}
-/>
-<meta
-  property="og:image:alt"
-  content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}
-/>
-<meta
-  name="twitter:image:alt"
-  content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}
-/>
+>
+<meta property="og:image:alt" content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}>
+<meta name="twitter:image:alt" content={Astro.props.image?.alt ?? "상어 모양의 te6.in 로고"}>
 
-{
-  Astro.props.article === undefined && (
+{Astro.props.article === undefined && (
     <meta property="og:type" content="website" />
-  )
-}
+  )}
 
-{
-  Astro.props.article && (
+{Astro.props.article && (
     <>
       <meta property="og:type" content="article" />
       <meta
@@ -111,5 +91,4 @@ interface Props {
         />
       )}
     </>
-  )
-}
+  )}

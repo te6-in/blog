@@ -1,7 +1,7 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import Link from "astro-typesafe-routes/link";
 import type { RouteId, RouteOptions } from "astro-typesafe-routes/path";
-import type { HTMLAttributes } from "astro/types";
 
 type Props<T extends RouteId> = Omit<HTMLAttributes<"a">, "href"> &
   RouteOptions<T> & {
