@@ -2798,7 +2798,7 @@ __metadata:
     lucide-react: "npm:^0.483.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
-    remark-obsidian-mdx: "npm:^1.0.1"
+    remark-obsidian-mdx: "npm:^1.1.1"
     schema-dts: "npm:^1.1.5"
     tailwindcss: "npm:^4.1.10"
     ts-pattern: "npm:^5.6.2"
@@ -6106,10 +6106,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-obsidian-mdx@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "remark-obsidian-mdx@npm:1.0.1"
-  checksum: 10c0/7abe272f481cc1582467a6862343f03b59f019fa65e9467fd0a9baabd2125fae25c25a2b5c7e28819a73a2607cea7f4e18808695a13902c9d71301f2413d83ba
+"remark-obsidian-mdx@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "remark-obsidian-mdx@npm:1.1.1"
+  checksum: 10c0/fbd3e4036cbee0e39e811d54d168aa34ee0adc05545deb4ae35daefdfaf793130cbf8d9356d7982f55a58c3c8c042fc7aac2e5600037a32963c248447218413f
   languageName: node
   linkType: hard
 

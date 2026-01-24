@@ -41,7 +41,7 @@
     "@biomejs/biome": "^1.9.4",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "22",
-    "remark-obsidian-mdx": "^1.0.1",
+    "remark-obsidian-mdx": "^1.1.1",
     "schema-dts": "^1.1.5",
     "typescript": "^5.9.2"
   },

@@ -38,29 +38,13 @@ export default defineConfig({
               success: "success",
             },
           },
-          embedingPathTransform: (context) => {
+          embeddingPathTransform: (context) => {
             switch (context.kind) {
               case "image":
                 return `../assets/${context.target.value}`;
               default:
                 return context.target.value;
             }
-          },
-          embedRendering: {
-            image: ({ resolvedUrl, target, imageWidth, imageHeight }) => {
-              return {
-                type: "image",
-                url: resolvedUrl ?? target.page,
-                alt: "", // this is fine. we infer this from alt text content collection
-                title: undefined,
-                data: {
-                  hProperties: {
-                    width: imageWidth,
-                    height: imageHeight,
-                  },
-                },
-              };
-            },
           },
         } satisfies PluginOptions,
       ],
