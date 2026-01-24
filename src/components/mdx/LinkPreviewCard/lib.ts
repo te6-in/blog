@@ -1,7 +1,37 @@
-import { safeGetDOM } from "@astro-community/astro-embed-utils";
+import { makeSafeGetter } from "@astro-community/astro-embed-utils";
+import { getAttribute, getTextContent, isElementNode, query, type Element } from "@parse5/tools";
+import { parse } from "parse5";
 
-/** Helper to get the `content` attribute of an element. */
-const getContent = (el: Element | null) => el?.getAttribute("content");
+/**
+ * Fetch a URL and parse it as HTML, but catch errors to stop builds erroring.
+ * @param url URL to fetch
+ * @see https://github.com/delucis/astro-embed/blob/2a5599ef98f6ef9794c1b60a1759191c73224a9d/packages/astro-embed-link-preview/dom.ts
+ */
+const safeGetDOM = makeSafeGetter(async (res) => {
+  const document = parse(await res.text());
+
+  return {
+    getElement: (element: string, attributes: Record<string, string> = {}) => {
+      const attrs = Object.entries(attributes);
+      const el = query(
+        document,
+        (node) =>
+          isElementNode(node) &&
+          node.tagName === element &&
+          attrs.every(([name, value]) =>
+            node.attrs.some((attr) => attr.name === name && attr.value === value),
+          ),
+      ) as Element | null;
+      return el
+        ? {
+            getAttribute: (name: string) => getAttribute(el, name),
+            getTextContent: () => getTextContent(el),
+          }
+        : null;
+    },
+  };
+});
+
 /** Helper to filter out insecure or non-absolute URLs. */
 const urlOrNull = (url: string | null | undefined) =>
   url?.slice(0, 8) === "https://" ? url : null;
@@ -9,29 +39,32 @@ const urlOrNull = (url: string | null | undefined) =>
 /**
  * Loads and parses an HTML page to return Open Graph metadata.
  * @param pageUrl URL to parse
+ * @see https://github.com/delucis/astro-embed/blob/2a5599ef98f6ef9794c1b60a1759191c73224a9d/packages/astro-embed-link-preview/lib.ts
  */
 export async function parseOpenGraph(pageUrl: string) {
   const html = await safeGetDOM(pageUrl);
   if (!html) return;
 
-  const getMetaProperty = (prop: string) =>
-    getContent(html.querySelector(`meta[property=${JSON.stringify(prop)}]`));
-  const getMetaName = (name: string) =>
-    getContent(html.querySelector(`meta[name=${JSON.stringify(name)}]`));
+  const getMetaProperty = (property: string) =>
+    html.getElement("meta", { property })?.getAttribute("content");
+  const getMetaName = (name: string) => html.getElement("meta", { name })?.getAttribute("content");
 
-  const title = getMetaProperty("og:title") || html.querySelector("title")?.textContent;
+  const title = getMetaProperty("og:title") || html.getElement("title")?.getTextContent();
   const description = getMetaProperty("og:description") || getMetaName("description");
+
   const image = urlOrNull(
     getMetaProperty("og:image:secure_url") ||
       getMetaProperty("og:image:url") ||
       getMetaProperty("og:image"),
   );
   const imageAlt = getMetaProperty("og:image:alt");
+
   const url =
     urlOrNull(
       getMetaProperty("og:url") ||
-        html.querySelector("link[rel='canonical']")?.getAttribute("href"),
+        html.getElement("link", { rel: "canonical" })?.getAttribute("href"),
     ) || pageUrl;
+
   const siteName = getMetaProperty("og:site_name");
 
   return { title, description, image, imageAlt, url, siteName };
