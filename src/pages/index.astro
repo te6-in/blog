@@ -2,13 +2,14 @@
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { $path } from "astro-typesafe-routes/path";
+import { AlertTriangle } from "lucide-astro";
 import type { Blog, BlogPosting, WithContext } from "schema-dts";
 import JsonLd from "../components/JsonLd.astro";
 import { Navigations } from "../components/Navigations";
 import PostGrid from "../components/PostGrid";
-// import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
-// import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import PostGridItem from "../components/PostGrid/PostGridItem.astro";
+import PostWithCommentsSkeleton from "../components/PostWithComments/PostWithCommentsSkeleton.astro";
+import PostWithCommentsTemplate from "../components/PostWithComments/PostWithCommentsTemplate.astro";
 import Layout from "../layouts/Layout.astro";
 import { getBlogAuthorPerson, getPostBlogPostingId, getSnippetBlogPostingId } from "../lib/json-ld";
 import { METADATA } from "../lib/metadata";
@@ -101,24 +102,57 @@ const blog: WithContext<Blog> = {
       >
         {featuredPosts.map(
             ({ data: { title, description, coverImage }, id }) => (
-              <PostGridItem
-                class="featured-anchor"
-                slug={id}
-                title={title}
-                description={description}
-                coverImage={coverImage}
-              />
+              <li>
+                <PostGridItem
+                  class="featured-anchor"
+                  slug={id}
+                  title={title}
+                  description={description}
+                  coverImage={coverImage}
+                />
+              </li>
             )
           )}
       </PostGrid>
     </div>
-    <!-- <div>최근 반응이 많은 글</div>
-    <div class="p-2 flex flex-col gap-2" id="recently-engaged-posts">
-      <div id="loader" class="contents">
-        {Array.from({ length: 3 }).map(() => <PostWithCommentsSkeleton />)}
-      </div>
-      <PostWithCommentsTemplate id="post-grid-item" />
-    </div> -->
+    <section id="recent-commented-posts-section" class="flex flex-col gap-1">
+      <h2 class="font-medium text-lg text-balance ml-8 text-gray-600 dark:text-zinc-400">
+        최근 댓글이 달린 글
+      </h2>
+      <ol
+        class="relative min-h-[320px] m-0 p-4 sidebar-shown:p-3 grid grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding]"
+        id="recent-commented-posts"
+      >
+        {Array.from({ length: 6 }).map(() => (
+          <PostWithCommentsSkeleton class="recent-commented-loader-item" />
+        ))}
+        <PostWithCommentsTemplate id="post-grid-item" />
+        <li
+          id="recent-commented-posts-error"
+          hidden
+          class="absolute inset-0 z-20 grid place-items-center p-4"
+        >
+          <div class="flex flex-col items-center gap-1 text-center">
+            <span class="rounded-full p-1.5 bg-content-card-bg dark:bg-content-card-bg-dark">
+              <AlertTriangle size={27} class="text-gray-500 dark:text-zinc-400" />
+            </span>
+            <p
+              id="recent-commented-posts-error-message"
+              class="rounded-md px-2 py-1 text-base leading-snug text-gray-600 dark:text-zinc-400 bg-content-card-bg dark:bg-content-card-bg-dark"
+            >
+              최근 댓글을 불러오지 못했어요.
+            </p>
+            <button
+              id="recent-commented-posts-retry"
+              type="button"
+              class="mt-3 px-3.5 py-2 rounded-full bg-content-card-bg dark:bg-content-card-bg-dark border border-gray-200 dark:border-zinc-800 text-sm font-semibold text-gray-800 dark:text-zinc-200 engaged:bg-gray-100 dark:engaged:bg-zinc-900 transition-colors cursor-pointer"
+            >
+              다시 시도
+            </button>
+          </div>
+        </li>
+      </ol>
+    </section>
     <div class="flex gap-2 self-center mt-6 mb-12 px-4 flex-wrap justify-center">
       <Navigations.Posts />
       <Navigations.Snippets />
@@ -128,186 +162,297 @@ const blog: WithContext<Blog> = {
 
 <JsonLd data={[blog, person]} />
 
-<!-- <script>
-  import { Octokit } from "@octokit/core";
-  import { $path } from "astro-typesafe-routes/path";
-  import type { PostsResponse } from "./api/posts";
-  import type {
-    DiscussionsResponse,
-    DiscussionCommentsResponse,
-  } from "../lib/github";
-  import type { DataCollectionKey } from "astro:content";
-  import { METADATA } from "../lib/metadata";
-  import { prefetch } from "astro:prefetch";
+<script>
+import { prefetch } from "astro:prefetch";
+import { Octokit } from "@octokit/core";
+import { $path } from "astro-typesafe-routes/path";
+import type { DiscussionCommentsResponse, DiscussionsResponse } from "../lib/github";
+import { METADATA } from "../lib/metadata";
+import type { PostsResponse } from "./api/posts";
 
-  const octokit = new Octokit();
+const octokit = new Octokit();
+let isLoading = false;
 
-  await main();
+const retryButton = document.getElementById("recent-commented-posts-retry");
+if (retryButton instanceof HTMLButtonElement) {
+  retryButton.addEventListener("click", () => {
+    void main();
+  });
+}
 
-  async function fetchPosts() {
-    return (await fetch($path({ to: "/api/posts" })).then((res) =>
-      res.json()
-    )) as PostsResponse;
+await main();
+
+async function fetchPosts() {
+  const response = await fetch($path({ to: "/api/posts" }));
+  if (!response.ok) throw new Error("Failed to fetch posts.");
+
+  return (await response.json()) as PostsResponse;
+}
+
+async function fetchDiscussions() {
+  const response = await octokit.request("GET /repos/{owner}/{repo}/discussions", {
+    owner: METADATA.discussions.repo.owner,
+    repo: METADATA.discussions.repo.name,
+    per_page: 100,
+  });
+
+  return response.data as DiscussionsResponse;
+}
+
+async function fetchDiscussionComments(discussionNumber: number) {
+  const response = await octokit.request(
+    "GET /repos/{owner}/{repo}/discussions/{discussion_number}/comments",
+    {
+      owner: METADATA.discussions.repo.owner,
+      repo: METADATA.discussions.repo.name,
+      discussion_number: discussionNumber,
+      per_page: 100,
+    },
+  );
+
+  return response.data as DiscussionCommentsResponse;
+}
+
+function toCommentPreview(commentBody: string, maxLength = 180) {
+  const normalized = commentBody.replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+  if (normalized.length <= maxLength) return normalized;
+
+  return `${normalized.slice(0, maxLength - 1)}…`;
+}
+
+function appendCommentPreview(
+  commentsContainer: HTMLElement,
+  comment: DiscussionCommentsResponse[number],
+) {
+  const commentWrapper = document.createElement("div");
+  commentWrapper.className = "flex items-start gap-1.5 text-sm leading-normal";
+
+  const avatarWrapper = document.createElement("span");
+  avatarWrapper.className =
+    "size-[1lh] rounded-full overflow-hidden media-border after:rounded-full bg-gray-200 dark:bg-zinc-700 flex-none shrink-0";
+
+  const avatar = document.createElement("img");
+  avatar.className = "size-full object-cover";
+  avatar.src = comment.user.avatar_url;
+  avatar.alt = "";
+  avatar.width = 19;
+  avatar.height = 19;
+  avatar.loading = "lazy";
+  avatar.decoding = "async";
+  avatar.referrerPolicy = "no-referrer";
+
+  const commentBody = document.createElement("p");
+  commentBody.className = "text-gray-600 dark:text-zinc-400 line-clamp-3 break-words";
+  commentBody.textContent = toCommentPreview(comment.body);
+
+  avatarWrapper.append(avatar);
+  commentWrapper.append(avatarWrapper, commentBody);
+  commentsContainer.append(commentWrapper);
+}
+
+function appendHiddenCommentsCount(commentsContainer: HTMLElement, hiddenCommentsCount: number) {
+  if (hiddenCommentsCount <= 0) return;
+
+  const hiddenCommentsLabel = document.createElement("p");
+  hiddenCommentsLabel.className =
+    "ml-[calc(1lh+var(--spacing)*1.5)] text-[0.6875rem] font-medium leading-normal text-gray-500 dark:text-zinc-500";
+  hiddenCommentsLabel.textContent = `+${hiddenCommentsCount}`;
+  commentsContainer.append(hiddenCommentsLabel);
+}
+
+function getGridItemClone(
+  template: HTMLTemplateElement,
+  item: {
+    coverImage: { src: string; alt: string };
+    title: string;
+    href: string;
+    comments: DiscussionCommentsResponse;
+    hiddenCommentsCount: number;
+  },
+) {
+  const clone = template.content.cloneNode(true) as DocumentFragment;
+
+  const listItem = clone.querySelector("li");
+  const anchor = clone.querySelector("a");
+  const image = clone.querySelector(".cover-image");
+  const title = clone.querySelector(".title");
+  const comments = clone.querySelector(".comments");
+
+  if (!(listItem instanceof HTMLLIElement)) throw new Error("Missing list item in template.");
+  if (!(anchor instanceof HTMLAnchorElement)) throw new Error("Missing anchor in template.");
+  if (!(image instanceof HTMLImageElement)) throw new Error("Missing image in template.");
+  if (!(title instanceof HTMLElement)) throw new Error("Missing title in template.");
+  if (!(comments instanceof HTMLElement))
+    throw new Error("Missing comments container in template.");
+
+  anchor.addEventListener("mouseenter", () => prefetch(anchor.href));
+
+  anchor.href = item.href;
+  listItem.classList.add("recent-commented-post-card");
+  image.src = item.coverImage.src;
+  image.alt = item.coverImage.alt;
+  title.textContent = item.title;
+  for (const comment of item.comments) {
+    appendCommentPreview(comments, comment);
   }
+  appendHiddenCommentsCount(comments, item.hiddenCommentsCount);
 
-  async function fetchDiscussions() {
-    const response = await octokit.request(
-      "GET /repos/{owner}/{repo}/discussions",
-      {
-        owner: METADATA.discussions.repo.owner,
-        repo: METADATA.discussions.repo.name,
-        per_page: 100,
-      }
-    );
+  return clone;
+}
 
-    return response.data as DiscussionsResponse;
+function hideSection(section: HTMLElement | null) {
+  section?.setAttribute("hidden", "true");
+}
+
+function clearRenderedCards(grid: HTMLElement) {
+  for (const card of grid.querySelectorAll(".recent-commented-post-card")) {
+    card.remove();
   }
+}
 
-  async function fetchDiscussionComments(discussionNumber: number) {
-    const response = await octokit.request(
-      "GET /repos/{owner}/{repo}/discussions/{discussion_number}/comments",
-      {
-        owner: METADATA.discussions.repo.owner,
-        repo: METADATA.discussions.repo.name,
-        discussion_number: discussionNumber,
-        per_page: 100,
-      }
-    );
-
-    return response.data as DiscussionCommentsResponse;
+function setLoadingState(
+  grid: HTMLElement,
+  loaderItems: HTMLElement[],
+  errorLayer: HTMLElement | null,
+  retryButtonElement: HTMLButtonElement | null,
+) {
+  for (const loaderItem of loaderItems) {
+    loaderItem.classList.remove("hidden");
   }
+  errorLayer?.setAttribute("hidden", "true");
+  grid.setAttribute("aria-busy", "true");
+  if (retryButtonElement) retryButtonElement.disabled = true;
+}
 
-  function getGridItemClone(
-    template: HTMLTemplateElement,
-    item: {
-      coverImage: { src: string; alt: string };
-      title: string;
-      description: string;
-      href: string;
+function setErrorState(
+  grid: HTMLElement,
+  loaderItems: HTMLElement[],
+  errorLayer: HTMLElement | null,
+  errorMessage: HTMLElement | null,
+  retryButtonElement: HTMLButtonElement | null,
+  reason: string,
+) {
+  for (const loaderItem of loaderItems) {
+    loaderItem.classList.add("hidden");
+  }
+  if (errorMessage) errorMessage.textContent = `최근 댓글을 불러오지 못했어요. ${reason}`;
+  errorLayer?.removeAttribute("hidden");
+  grid.removeAttribute("aria-busy");
+  if (retryButtonElement) retryButtonElement.disabled = false;
+}
+
+function getErrorReason(error: unknown) {
+  if (typeof error === "object" && error !== null) {
+    const maybeError = error as { status?: number };
+
+    if (maybeError.status === 403) {
+      return "GitHub API 요청 한도에 도달했어요.";
     }
-  ) {
-    const clone = template.content.cloneNode(true) as DocumentFragment;
-
-    const anchor = clone.querySelector("a") as HTMLAnchorElement;
-    const image = clone.querySelector(".cover-image") as HTMLImageElement;
-    const title = clone.querySelector(".title") as HTMLElement;
-    const description = clone.querySelector(".description") as HTMLElement;
-
-    anchor.addEventListener("mouseenter", () => prefetch(anchor.href));
-
-    anchor.href = item.href;
-    image.src = item.coverImage.src;
-    image.alt = item.coverImage.alt;
-    title.textContent = item.title;
-    description.textContent = item.description;
-
-    return clone;
   }
 
-  async function main() {
-    const loader = document.getElementById("loader");
+  return "잠시 후 다시 시도해 주세요.";
+}
 
-    const featuredAnchorsHrefs = [
-      ...document.querySelectorAll<HTMLAnchorElement>(".featured-anchor"),
-    ].map((anchor) => anchor.href);
+async function main() {
+  if (isLoading) return;
+  isLoading = true;
 
-    const recentlyCommentedPostsGrid = document.getElementById(
-      "recently-engaged-posts"
+  const section = document.getElementById("recent-commented-posts-section");
+  const grid = document.getElementById("recent-commented-posts");
+  const postGridItem = document.getElementById("post-grid-item");
+  const errorLayer = document.getElementById("recent-commented-posts-error");
+  const errorMessage = document.getElementById("recent-commented-posts-error-message");
+  const retryButtonElement = document.getElementById("recent-commented-posts-retry");
+  const retryButton = retryButtonElement instanceof HTMLButtonElement ? retryButtonElement : null;
+
+  if (!(grid instanceof HTMLElement) || !(postGridItem instanceof HTMLTemplateElement)) {
+    hideSection(section);
+    isLoading = false;
+    return;
+  }
+
+  const loaderItems = Array.from(
+    grid.querySelectorAll<HTMLElement>(".recent-commented-loader-item"),
+  );
+
+  setLoadingState(grid, loaderItems, errorLayer, retryButton);
+  clearRenderedCards(grid);
+
+  try {
+    const featuredPathnames = new Set(
+      [...document.querySelectorAll<HTMLAnchorElement>(".featured-anchor")].map(
+        (anchor) => new URL(anchor.href).pathname,
+      ),
     );
+    const [posts, discussions] = await Promise.all([fetchPosts(), fetchDiscussions()]);
+    const postsById = new Map(posts.map((post) => [post.id, post]));
+    const selectedPosts = new Set<string>();
 
-    const postGridItem = document.getElementById(
-      "post-grid-item"
-    ) as HTMLTemplateElement;
+    const sortedDiscussions = discussions
+      .filter(({ title }) => title.startsWith("post/"))
+      .filter(({ title }) => !featuredPathnames.has(`/${title}`))
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
-    if (!recentlyCommentedPostsGrid || !postGridItem) {
-      console.warn("recentlyCommentedPostsGrid or postGridItem not found");
+    const postCards: {
+      post: PostsResponse[number];
+      comments: DiscussionCommentsResponse;
+      hiddenCommentsCount: number;
+    }[] = [];
 
+    for (const discussion of sortedDiscussions) {
+      if (postCards.length >= 6) break;
+
+      const [, slug] = discussion.title.split("/", 2);
+      if (!slug || selectedPosts.has(slug)) continue;
+
+      const post = postsById.get(slug);
+      if (!post || !post.data.coverImage) continue;
+
+      const allComments = [...(await fetchDiscussionComments(discussion.number))].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
+      const displayableComments = allComments.filter(({ body }) => toCommentPreview(body) !== "");
+      const latestComments = displayableComments.slice(0, 1);
+
+      if (latestComments.length === 0) continue;
+
+      selectedPosts.add(slug);
+      postCards.push({
+        post,
+        comments: latestComments,
+        hiddenCommentsCount: Math.max(allComments.length - latestComments.length, 0),
+      });
+    }
+
+    if (postCards.length === 0) {
+      hideSection(section);
       return;
     }
 
-    const [posts, discussions] = await Promise.all([
-      fetchPosts(),
-      fetchDiscussions(),
-    ]);
-
-    const recentlyEngaged = discussions
-      .filter(({ title }) => {
-        if (title.split("/")[0] !== ("post" satisfies DataCollectionKey)) {
-          return false;
-        }
-
-        // prevent featured posts from being shown
-        if (
-          featuredAnchorsHrefs.some(
-            (href) => new URL(href).pathname === `/${title}`
-          )
-        ) {
-          return false;
-        }
-
-        return true;
-      })
-      .sort(
-        (a, b) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      )
-      .map((discussion) => ({
-        discussion,
-        post: posts.find(({ id }) => id === discussion.title.split("/")[1]),
-      }))
-      .filter(
-        ({ post }) => post && post.data.coverImage // coverImage가 있는 post만 사용
-      )
-      .slice(0, 3);
-
-    const clones = recentlyEngaged.map(({ post }) => {
-      // not happening, just for type safety
-      if (!post) throw new Error("post is undefined");
-      if (!post.data.coverImage)
-        throw new Error("post.data.coverImage is undefined");
+    const clones = postCards.map(({ post, comments, hiddenCommentsCount }) => {
+      if (!post.data.coverImage) throw new Error("Missing cover image.");
 
       return getGridItemClone(postGridItem, {
         coverImage: post.data.coverImage,
         title: post.data.title,
-        description: post.data.description,
         href: $path({ to: "/post/[slug]", params: { slug: post.id } }),
+        comments,
+        hiddenCommentsCount,
       });
     });
 
-    recentlyCommentedPostsGrid.append(...clones);
-    loader?.remove();
-
-    const recentComments = await Promise.all(
-      recentlyEngaged.map(async ({ discussion, post }) => {
-        // not happening, just for type safety
-        if (!post) throw new Error("post is undefined");
-
-        return {
-          post,
-          discussion,
-          comments: await fetchDiscussionComments(discussion.number),
-        };
-      })
-    );
-
-    const recentlyEngagedAnchors =
-      recentlyCommentedPostsGrid.querySelectorAll<HTMLAnchorElement>("a");
-
-    for (const anchor of recentlyEngagedAnchors) {
-      const { comments } =
-        recentComments.find(
-          ({ discussion }) =>
-            new URL(anchor.href).pathname === `/${discussion.title}`
-        ) || {};
-
-      if (!comments) continue;
-
-      console.log(
-        comments.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        )
-      );
+    grid.append(...clones);
+    for (const loaderItem of loaderItems) {
+      loaderItem.remove();
     }
+    errorLayer?.setAttribute("hidden", "true");
+  } catch (error) {
+    setErrorState(grid, loaderItems, errorLayer, errorMessage, retryButton, getErrorReason(error));
+  } finally {
+    grid.removeAttribute("aria-busy");
+    if (retryButton) retryButton.disabled = false;
+    isLoading = false;
   }
-</script> -->
+}
+</script>

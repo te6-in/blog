@@ -1,116 +1,16 @@
-// this type definition is here because octokit does not provide type definitions for discussions yet
+// Octokit still doesn't expose stable endpoint typings for repository discussions.
+// Keep this local schema minimal and focused on fields actually used in the UI.
 
 export type DiscussionsResponse = {
-  repository_url: string;
-  category: {
-    id: number;
-    node_id: string;
-    repository_id: number;
-    emoji: string;
-    name: string;
-    description: string;
-    created_at: string;
-    updated_at: string;
-    slug: string;
-    is_answerable: boolean;
-  };
-  answer_html_url: string | null;
-  answer_chosen_at: string | null;
-  answer_chosen_by: string | null;
-  html_url: string;
-  id: number;
-  node_id: string;
   number: number;
   title: string;
-  user: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    user_view_type: string;
-    site_admin: boolean;
-  };
-  labels: unknown[]; // XXX: might implement later
-  state: string;
-  state_reason: string | null;
-  locked: boolean;
-  comments: number;
-  created_at: string;
   updated_at: string;
-  author_association: string;
-  active_lock_reason: string | null;
-  body: string;
-  reactions: {
-    url: string;
-    total_count: number;
-    "+1": number;
-    "-1": number;
-    laugh: number;
-    hooray: number;
-    confused: number;
-    heart: number;
-    rocket: number;
-    eyes: number;
-  };
-  timeline_url: string;
 }[];
 
 export type DiscussionCommentsResponse = {
-  id: number;
-  node_id: string;
-  html_url: string;
-  parent_id: number | null;
-  child_comment_count: number;
-  repository_url: string;
-  discussion_id: number;
-  author_association: string;
-  user: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    user_view_type: string;
-    site_admin: boolean;
-  };
   created_at: string;
-  updated_at: string;
   body: string;
-  reactions: {
-    url: string;
-    total_count: number;
-    "+1": number;
-    "-1": number;
-    laugh: number;
-    hooray: number;
-    confused: number;
-    heart: number;
-    rocket: number;
-    eyes: number;
+  user: {
+    avatar_url: string;
   };
 }[];
