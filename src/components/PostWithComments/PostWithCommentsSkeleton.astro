@@ -1,7 +1,32 @@
-<div class="flex flex-col gap-4 p-4 rounded-2xl motion-safe:animate-pulse">
-  <div class="bg-gray-200 aspect-16/10 rounded-lg"></div>
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"li"> {}
+
+const { class: className, ...props } = Astro.props;
+---
+
+<li
+  class:list={[
+    "flex flex-col gap-3.5 p-2.5 sidebar-shown:p-3.5 rounded-2xl motion-safe:animate-pulse",
+    className,
+  ]}
+  aria-hidden
+  {...props}
+>
+  <div class="bg-gray-200 dark:bg-zinc-800 aspect-cover-image rounded-lg"></div>
   <div class="flex flex-col gap-1.5 p-0.5">
-    <div class="h-6 bg-gray-200 rounded-md"></div>
-    <div class="h-4.5 bg-gray-200 rounded-md"></div>
+    <div class="flex flex-col">
+      <div class="h-5 bg-gray-200 dark:bg-zinc-800 rounded-md"></div>
+    </div>
+    <div class="h-px my-2 bg-gray-200 dark:bg-zinc-800"></div>
+    <div class="flex items-start gap-1.5 pt-0.5 text-sm leading-normal">
+      <div class="size-[1lh] rounded-full bg-gray-200 dark:bg-zinc-800 flex-none"></div>
+      <div class="flex-1 flex flex-col gap-1 pt-0.5">
+        <div class="h-3 bg-gray-200 dark:bg-zinc-800 rounded-sm"></div>
+        <div class="h-3 w-5/6 bg-gray-200 dark:bg-zinc-800 rounded-sm"></div>
+        <div class="h-3 w-2/3 bg-gray-200 dark:bg-zinc-800 rounded-sm"></div>
+      </div>
+    </div>
   </div>
-</div>
+</li>
