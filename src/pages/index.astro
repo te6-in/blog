@@ -119,39 +119,39 @@ const blog: WithContext<Blog> = {
       <h2 class="font-medium text-lg text-balance ml-8 text-gray-600 dark:text-zinc-400">
         최근 댓글이 달린 글
       </h2>
-      <ol
-        class="relative min-h-[320px] m-0 p-4 sidebar-shown:p-3 grid grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding]"
-        id="recent-commented-posts"
-      >
-        {Array.from({ length: 6 }).map(() => (
-          <PostWithCommentsSkeleton class="recent-commented-loader-item" />
-        ))}
-        <PostWithCommentsTemplate id="post-grid-item" />
-        <li
+      <div class="relative">
+        <ol
+          class="min-h-80 m-0 p-4 sidebar-shown:p-3 grid grid-cols-2 sidebar-shown:grid-cols-1 md:grid-cols-2 toc-shown:grid-cols-3 gap-x-px gap-y-2 sidebar-shown:gap-1 transition-[gap,padding] [&>li]:flex"
+          id="recent-commented-posts"
+        >
+          {Array.from({ length: 6 }).map(() => (
+            <PostWithCommentsSkeleton class="recent-commented-loader-item" />
+          ))}
+          <PostWithCommentsTemplate id="post-grid-item" />
+        </ol>
+        <div
           id="recent-commented-posts-error"
           hidden
           class="absolute inset-0 z-20 grid place-items-center p-4"
         >
           <div class="flex flex-col items-center gap-1 text-center">
-            <span class="rounded-full p-1.5 bg-content-card-bg dark:bg-content-card-bg-dark">
-              <AlertTriangle size={27} class="text-gray-500 dark:text-zinc-400" />
-            </span>
+            <AlertTriangle class="text-gray-500 dark:text-zinc-400" />
             <p
               id="recent-commented-posts-error-message"
-              class="rounded-md px-2 py-1 text-base leading-snug text-gray-600 dark:text-zinc-400 bg-content-card-bg dark:bg-content-card-bg-dark"
+              class="px-2 py-1 text-base leading-snug text-gray-600 dark:text-zinc-400"
             >
               최근 댓글을 불러오지 못했어요.
             </p>
             <button
               id="recent-commented-posts-retry"
               type="button"
-              class="mt-3 px-3.5 py-2 rounded-full bg-content-card-bg dark:bg-content-card-bg-dark border border-gray-200 dark:border-zinc-800 text-sm font-semibold text-gray-800 dark:text-zinc-200 engaged:bg-gray-100 dark:engaged:bg-zinc-900 transition-colors cursor-pointer"
+              class="mt-3 px-3.5 py-2 rounded-full border border-gray-200 dark:border-zinc-800 text-sm font-semibold text-gray-800 dark:text-zinc-200 engaged:bg-gray-100 dark:engaged:bg-zinc-900 transition-colors cursor-pointer"
             >
               다시 시도
             </button>
           </div>
-        </li>
-      </ol>
+        </div>
+      </div>
     </section>
     <div class="flex gap-2 self-center mt-6 mb-12 px-4 flex-wrap justify-center">
       <Navigations.Posts />
@@ -236,8 +236,6 @@ function appendCommentPreview(
   avatar.className = "size-full object-cover";
   avatar.src = comment.user.avatar_url;
   avatar.alt = "";
-  avatar.width = 19;
-  avatar.height = 19;
   avatar.loading = "lazy";
   avatar.decoding = "async";
   avatar.referrerPolicy = "no-referrer";
@@ -254,10 +252,10 @@ function appendCommentPreview(
 function appendHiddenCommentsCount(commentsContainer: HTMLElement, hiddenCommentsCount: number) {
   if (hiddenCommentsCount <= 0) return;
 
-  const hiddenCommentsLabel = document.createElement("p");
+  const hiddenCommentsLabel = document.createElement("span");
   hiddenCommentsLabel.className =
-    "ml-[calc(1lh+var(--spacing)*1.5)] text-[0.6875rem] font-medium leading-normal text-gray-500 dark:text-zinc-500";
-  hiddenCommentsLabel.textContent = `+${hiddenCommentsCount}`;
+    "ml-[26px] text-xs font-medium leading-normal text-gray-400 dark:text-zinc-600";
+  hiddenCommentsLabel.textContent = `외 ${hiddenCommentsCount}개`;
   commentsContainer.append(hiddenCommentsLabel);
 }
 
@@ -318,7 +316,7 @@ function setLoadingState(
   retryButtonElement: HTMLButtonElement | null,
 ) {
   for (const loaderItem of loaderItems) {
-    loaderItem.classList.remove("hidden");
+    loaderItem.removeAttribute("hidden");
   }
   errorLayer?.setAttribute("hidden", "true");
   grid.setAttribute("aria-busy", "true");
@@ -334,7 +332,7 @@ function setErrorState(
   reason: string,
 ) {
   for (const loaderItem of loaderItems) {
-    loaderItem.classList.add("hidden");
+    loaderItem.setAttribute("hidden", "true");
   }
   if (errorMessage) errorMessage.textContent = `최근 댓글을 불러오지 못했어요. ${reason}`;
   errorLayer?.removeAttribute("hidden");

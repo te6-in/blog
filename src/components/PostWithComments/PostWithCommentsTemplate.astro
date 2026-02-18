@@ -8,16 +8,16 @@ interface Props extends HTMLAttributes<"div"> {}
 <template {...Astro.props}>
   <li>
     <a
-      class="flex flex-col gap-3.5 engaged:bg-gray-100 p-2.5 sidebar-shown:p-3.5 rounded-2xl transition-all group dark:engaged:bg-zinc-900"
+      class="grow flex flex-col gap-3.5 engaged:bg-gray-100 p-2.5 sidebar-shown:p-3.5 rounded-2xl transition-all group dark:engaged:bg-zinc-900"
     >
-      <div class="rounded-lg overflow-hidden media-border after:rounded-lg">
+      <div class="rounded-lg overflow-hidden media-border after:rounded-lg aspect-cover-image">
         <img
-          class="cover-image not-noscript:motion-safe:animate-pulse bg-gray-400 dark:bg-zinc-600 motion-safe:group-engaged:scale-105 transition-transform"
+          class="cover-image size-full object-cover not-noscript:motion-safe:animate-pulse bg-gray-400 dark:bg-zinc-600 motion-safe:group-engaged:scale-105 transition-transform"
           onload="this.classList.remove('not-noscript:motion-safe:animate-pulse')"
         >
       </div>
-      <div class="text-balance flex flex-col grow gap-1.5 p-0.5">
-        <div class="flex flex-col grow">
+      <div class="text-balance flex flex-col gap-1.5 p-0.5">
+        <div class="flex flex-col">
           <div
             class="title text-base text-gray-800 dark:text-zinc-200 leading-snug font-semibold"
           ></div>

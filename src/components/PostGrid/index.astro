@@ -6,6 +6,6 @@ interface Props extends HTMLAttributes<"ul"> {}
 const { class: className, ...props } = Astro.props;
 ---
 
-<ul class:list={["grid gap-0.5 m-0", className]} {...props}>
+<ul class:list={["grid gap-0.5 m-0 [&>li]:flex", className]} {...props}>
   <slot />
 </ul>
