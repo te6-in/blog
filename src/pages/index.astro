@@ -175,14 +175,19 @@ import type { PostsResponse } from "./api/posts";
 const octokit = new Octokit();
 let isLoading = false;
 
-const retryButton = document.getElementById("recent-commented-posts-retry");
-if (retryButton instanceof HTMLButtonElement) {
+function setupRetryButton() {
+  const retryButton = document.getElementById("recent-commented-posts-retry");
+  if (!(retryButton instanceof HTMLButtonElement)) return;
+
   retryButton.addEventListener("click", () => {
     void main();
   });
 }
 
-await main();
+document.addEventListener("astro:page-load", () => {
+  setupRetryButton();
+  void main();
+});
 
 async function fetchPosts() {
   const response = await fetch($path({ to: "/api/posts" }));
